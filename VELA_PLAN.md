@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **9 — Cinematic frontend**. Started 2026-11-05 (Asia/Manila); continuing 2026-11-06.
+Current phase: **10 — Quality, performance and security**. Started 2026-11-05 (Asia/Manila); continuing 2026-11-06.
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Initial runtime was Node 22.16/npm 10.9; the host later changed to Node 24.22.2/npm 11.19.1 and checks continue to pass. Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -29,8 +29,8 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 | 6 Payments | 5 | Persistent cart, authoritative totals, orders/reservations, test-only checkout/webhooks/recovery; concurrency/idempotency/signature tests | complete locally; external Stripe pending |
 | 7 Operations | 6 | Customer order history, admin fulfillment/customers/content/analytics; ownership and separate payment state checks | complete |
 | 8 Personalization | 7 | Deterministic quiz/routine-to-cart, support/policy pages, contact/newsletter persistence; functional links/forms | complete |
-| 9 Cinematic | 8 | GSAP scroll story, lazy R3F/Drei procedural or GLB scene, Motion UI; static/reduced-motion/mobile fallbacks | in progress |
-| 10 Quality | 9 | Typecheck/lint/unit/integration/Playwright/rules/webhook/build; accessibility/security/responsive review and fixes | pending |
+| 9 Cinematic | 8 | GSAP scroll story, lazy R3F/Drei procedural or GLB scene, Motion UI; static/reduced-motion/mobile fallbacks | complete |
+| 10 Quality | 9 | Typecheck/lint/unit/integration/Playwright/rules/webhook/build; accessibility/security/responsive review and fixes | in progress |
 | 11 Finalization | 10 | Complete env examples, setup/deployment/runbook, final report and clean incremental history; explicitly list external verification gaps | pending |
 
 ## Completed tasks and validation
@@ -56,6 +56,7 @@ The requested Next.js/Vercel target takes precedence over Sites hosting. Paralle
 - Phase 7: stable owner-checked pagination, customer fulfillment progress, audited admin fulfillment, indexed customer search, content/promotions editing, and scoped analytics are complete. All 215 unit tests and 20 emulator tests passed; the desktop/mobile operations journeys passed with zero browser errors. Those journeys exercised actual local test records, verified analytics deltas, enforced customer isolation and payment/fulfillment separation, and restored edited content. Screenshots were reviewed. TypeScript and focused lint passed. Seed/backfill created the missing promotion record and indexed 13 existing local profiles without replacing user data.
 - Local development: Windows Turbopack began serving stale server modules and repeatedly reloading with source edits paused. Switching the dev command to supported Webpack mode resolved this and passed both browser journeys. The project root is explicit; production build remains a Phase 10 check.
 - Phase 8: five-step deterministic routine finder, explained matches and atomic routine-to-cart are complete. About, contact, FAQ, shipping, returns, privacy, terms and newsletter preferences resolve. Contact retries persist once; private newsletter capabilities protect opt-out; admin support status changes are audited. All 259 unit tests passed (including 17 routine and 27 support cases), all 21 rules tests passed, and TypeScript/scoped lint passed. Four desktop/mobile personalization/support journeys passed; the two support journeys passed again after a submit-handler lint correction. Tests exercise stored-record retries, actual catalog exclusions, consent, private-key ownership, client read denial, customer 403s and administrator review. Final mobile and desktop captures were visually reviewed; sticky-header screenshot artifacts were resolved by capturing at scroll zero. No email delivery is implemented or claimed; subscriptions remain pending.
+- Phase 9: scoped GSAP hero/editorial motion, Motion navigation/search and the lazy First Light Serum story are complete. The procedural bottle matches the supplied reference; local GLB loading is supported but no authored GLB is supplied. All 317 unit tests, TypeScript/scoped lint, four storefront journeys and six applicable cinematic browser journeys passed (four project-specific skips). Tests verify actual software WebGL draws and changing raster output, mobile/reduced-motion/short-window/no-WebGL fallbacks, navigation/context disposal and preference changes. The 1440×912 canvas produced zero extra draws over 45 idle browser frames and 30 offscreen frames. Local measured layout-shift sum was 0.00259, unchanged after story entry; section geometry was identical before/after readiness. Desktop front/back and static layout captures were reviewed. These are local Chromium SwiftShader observations, not hardware FPS or field Core Web Vitals. Evidence is in ignored `.local/phase9-browser-report` and `.local/phase9-desktop-report`.
 
 ## Commits grouped by phase
 
@@ -70,6 +71,7 @@ The requested Next.js/Vercel target takes precedence over Sites hosting. Paralle
 | 6 | de9741a Stripe gateway/signatures; ce01cf0 payments/inventory/recovery; 4be22b5 checkout/confirmation |
 | 7 | 2b9a74c owned order pagination; 00e705f operations services; dbf04c9 customer history; c04cb14 admin operations UI; 6706abb development compilation fix |
 | 8 | 6911474 support privacy rules; aae9b8f routine matching/cart; 98f1d4f support persistence; 8aa55a1 quiz UI; 708920b customer care/forms; 240d69c support inbox; ca008cb browser journeys |
+| 9 | df79e7c editorial/navigation motion; b5a325e deterministic poses; d537177 lazy product story/fallbacks; 984c6fd rendering/browser tests |
 
 Git history is the authoritative complete commit list. Each phase's final commit is recorded by the following ledger update.
 
@@ -78,8 +80,8 @@ Git history is the authoritative complete commit list. Each phase's final commit
 - No external Firebase, Cloudinary, Stripe or Vercel credentials supplied. Hosted authentication/Google/email delivery, real Cloudinary uploads/deletion, actual Stripe test payments/webhooks and deployment remain unverified. Local Firebase emulators are actually exercised.
 - Supplied labels sometimes differ from catalog names. Accurate HTML names are used; Clear Day Milk uses a neutral illustration because its source photo has unsupported SPF claims.
 - Production npm audit is clean at the last check. Development-only Firebase CLI/lint transitive advisories remain for the final security review.
-- Cinematic work and the final full quality gate remain open; a successful scoped check does not close those phases.
+- The final full quality gate remains open; scoped phase checks do not replace production-build, accessibility and complete regression acceptance.
 
 ## Next steps
 
-Enhance the working storefront with restrained GSAP editorial motion and a lazy Three.js product story matching First Light Serum. Keep real HTML content/links, demand rendering, mobile/static/reduced-motion fallbacks and cleanup. Verify scroll behavior and shopping interactions before the full quality gate. Payment state remains exclusively webhook-controlled.
+Complete the quality gate: review accessibility and security, remediate compatible development dependencies, add public crawl metadata, run the production build and full customer/admin regression suite, and document actual local performance observations. Then finalize environment examples and the external-service/deployment runbook.
