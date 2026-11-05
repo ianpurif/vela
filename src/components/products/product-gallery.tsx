@@ -5,6 +5,7 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { ProductImage } from "@/types/commerce";
+import { cloudinaryDeliveryUrl } from "@/lib/cloudinary/delivery";
 
 export function ProductGallery({ images, name }: { images: ProductImage[]; name: string }) {
   const [selected, setSelected] = useState(0);
@@ -22,7 +23,7 @@ export function ProductGallery({ images, name }: { images: ProductImage[]; name:
             className="absolute inset-0"
           >
             <Image
-              src={image.src}
+              src={cloudinaryDeliveryUrl(image.src, 1600)}
               alt={image.alt}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -56,7 +57,13 @@ export function ProductGallery({ images, name }: { images: ProductImage[]; name:
                   : "border-transparent opacity-65 hover:opacity-100",
               )}
             >
-              <Image src={photo.src} alt={photo.alt} fill sizes="96px" className="object-cover" />
+              <Image
+                src={cloudinaryDeliveryUrl(photo.src, 200)}
+                alt={photo.alt}
+                fill
+                sizes="96px"
+                className="object-cover"
+              />
             </button>
           ))}
         </div>

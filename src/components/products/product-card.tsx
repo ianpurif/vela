@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AddToCart } from "@/components/products/add-to-cart";
 import { money, cn } from "@/lib/utils";
 import type { Product } from "@/types/commerce";
+import { cloudinaryDeliveryUrl } from "@/lib/cloudinary/delivery";
 
 export function ProductCard({ product, className }: { product: Product; className?: string }) {
   const image = product.images[0];
@@ -16,7 +17,7 @@ export function ProductCard({ product, className }: { product: Product; classNam
       >
         {image ? (
           <Image
-            src={image.src}
+            src={cloudinaryDeliveryUrl(image.src, 1000)}
             alt={image.alt}
             fill
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 45vw, 30vw"
