@@ -1,6 +1,6 @@
 # Dependency verification
 
-Verified on 2026-11-06. The project declares Node `>=22.16.0`; this verification ran with Node `24.22.2` and npm `11.19.1`. All packages added or selected below also accept Node 22.16 according to their published engines. No system runtime was changed as part of this work.
+Verified on 2026-11-06 with Node `24.22.2` and npm `11.19.1`. The project now declares Node `24.x`, matching the release-tested major. Vercel gives `package.json` engines precedence over project settings; the former open-ended `>=22.16.0` range could select an untested newer major. [Vercel runtime selection](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions). All packages added or selected below also accept Node 22.16 according to their published engines, but Node 24 is the supported setup/deployment target. No system runtime was changed as part of this work.
 
 ## Audit result
 
