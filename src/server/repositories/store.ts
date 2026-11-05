@@ -3,7 +3,12 @@ export type Filter = {
   op: "==" | "<=" | ">=" | "in" | "array-contains";
   value: unknown;
 };
-export type QueryOptions = { orderBy?: string; direction?: "asc" | "desc"; limit?: number };
+export type QueryOptions = {
+  orderBy?: string;
+  direction?: "asc" | "desc";
+  limit?: number;
+  startAfter?: { value: number | string; id: string };
+};
 export interface TransactionStore {
   get<T>(collection: string, id: string): Promise<T | null>;
   set(collection: string, id: string, value: object): void;

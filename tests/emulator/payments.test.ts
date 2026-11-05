@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { deleteApp, getApps } from "firebase-admin/app";
 import { getAdminDb } from "@/lib/firebase/admin";
 import { firestoreStore } from "@/server/repositories/firestore-store";
-import { reserveOrder } from "@/server/services/orders";
+import { reserveOrder, listCustomerOrderPage } from "@/server/services/orders";
 import { processVerifiedPaymentEvent } from "@/server/services/payments";
 import { demoProducts } from "@/features/catalog/fixtures";
 import type { Order, Product } from "@/types/commerce";
@@ -105,4 +105,11 @@ it("deduplicates simultaneous payment deliveries and commits inventory with the 
   expect(await firestoreStore.get("inventoryReservations", order.id)).toMatchObject({
     status: "confirmed",
   });
+});
+
+it("uses a Firestore document-ID cursor for owned history without repeating the boundary order", async () => {
+  const first = await listCustomerOrderPage(order.userId);
+  expect(first.orders.map((row) => row.id)).toContain(order.id);
+  const second = await listCustomerOrderPage(order.userId, order.id);
+  expect(second.orders).toEqual([]);
 });

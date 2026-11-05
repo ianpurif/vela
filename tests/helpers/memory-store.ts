@@ -94,13 +94,23 @@ export class MemoryStore implements CommerceStore {
       return filters.every((filter) => matches(value, filter));
     });
     const direction = options.direction === "desc" ? -1 : 1;
+    if (options.startAfter && !options.orderBy)
+      throw new Error("A cursor requires an ordered query.");
     rows.sort(([leftId, left], [rightId, right]) => {
       const comparison = options.orderBy
         ? compare(fieldValue(left, options.orderBy), fieldValue(right, options.orderBy))
         : 0;
       return (comparison || compare(leftId, rightId)) * direction;
     });
-    return rows.slice(0, options.limit).map(([, value]) => structuredClone(value) as T);
+    const cursor = options.startAfter;
+    const page = cursor
+      ? rows.filter(([id, value]) => {
+          const comparison =
+            compare(fieldValue(value, options.orderBy!), cursor.value) || compare(id, cursor.id);
+          return comparison * direction > 0;
+        })
+      : rows;
+    return page.slice(0, options.limit).map(([, value]) => structuredClone(value) as T);
   }
 
   async set(collection: string, id: string, value: object): Promise<void> {

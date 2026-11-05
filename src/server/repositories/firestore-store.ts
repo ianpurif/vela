@@ -1,5 +1,5 @@
 import "server-only";
-import type { Query, DocumentData } from "firebase-admin/firestore";
+import { FieldPath, type Query, type DocumentData } from "firebase-admin/firestore";
 import { getAdminDb } from "@/lib/firebase/admin";
 import type { CommerceStore, Filter, QueryOptions } from "./store";
 
@@ -16,7 +16,15 @@ export const firestoreStore: CommerceStore = {
   async list<T>(collection: string, filters: Filter[] = [], options: QueryOptions = {}) {
     let query: Query<DocumentData> = getAdminDb().collection(collection);
     for (const filter of filters) query = query.where(filter.field, filter.op, filter.value);
-    if (options.orderBy) query = query.orderBy(options.orderBy, options.direction || "asc");
+    if (options.orderBy) {
+      query = query
+        .orderBy(options.orderBy, options.direction || "asc")
+        .orderBy(FieldPath.documentId(), options.direction || "asc");
+    }
+    if (options.startAfter) {
+      if (!options.orderBy) throw new Error("A cursor requires an ordered query.");
+      query = query.startAfter(options.startAfter.value, options.startAfter.id);
+    }
     query = query.limit(Math.min(options.limit || 200, 1000));
     const result = await query.get();
     return result.docs.map((snap) => snap.data() as T);

@@ -162,3 +162,19 @@ export async function listCustomerOrders(uid: string, store: CommerceStore = fir
     limit: 100,
   });
 }
+
+export async function listCustomerOrderPage(
+  uid: string,
+  afterId?: string,
+  store: CommerceStore = firestoreStore,
+) {
+  const after = afterId ? await getCustomerOrder(afterId, uid, store) : null;
+  const rows = await store.list<Order>("orders", [{ field: "userId", op: "==", value: uid }], {
+    orderBy: "createdAt",
+    direction: "desc",
+    limit: 21,
+    ...(after ? { startAfter: { value: after.createdAt, id: after.id } } : {}),
+  });
+  const orders = rows.slice(0, 20);
+  return { orders, next: rows.length > 20 ? orders.at(-1)!.id : null };
+}

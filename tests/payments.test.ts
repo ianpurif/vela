@@ -1,7 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { randomUUID } from "node:crypto";
 import { demoProducts } from "@/features/catalog/fixtures";
-import { reserveOrder, getCustomerOrder, listCustomerOrders } from "@/server/services/orders";
+import {
+  reserveOrder,
+  getCustomerOrder,
+  listCustomerOrders,
+  listCustomerOrderPage,
+} from "@/server/services/orders";
 import {
   cancelCheckout,
   processVerifiedPaymentEvent,
@@ -165,6 +170,29 @@ describe("authoritative orders and stock reservations", () => {
     await expect(getCustomerOrder(order.id, "other", store)).rejects.toMatchObject({ status: 404 });
     expect(await listCustomerOrders("other", store)).toEqual([]);
     expect(await listCustomerOrders(user.uid, store)).toHaveLength(1);
+  });
+  it("paginates complete customer history with equal timestamps and rejects foreign cursors", async () => {
+    const store = makeStore();
+    const order = await reserveOrder(input(), user, store);
+    for (let index = 0; index < 24; index++)
+      await store.set("orders", `history_${index.toString().padStart(2, "0")}`, {
+        ...order,
+        id: `history_${index.toString().padStart(2, "0")}`,
+      });
+    await store.set("orders", "foreign_cursor", {
+      ...order,
+      id: "foreign_cursor",
+      userId: "other",
+    });
+    const first = await listCustomerOrderPage(user.uid, undefined, store);
+    const second = await listCustomerOrderPage(user.uid, first.next!, store);
+    expect(first.orders).toHaveLength(20);
+    expect(second.orders).toHaveLength(5);
+    expect(second.next).toBeNull();
+    expect(new Set([...first.orders, ...second.orders].map((row) => row.id)).size).toBe(25);
+    await expect(listCustomerOrderPage(user.uid, "foreign_cursor", store)).rejects.toMatchObject({
+      status: 404,
+    });
   });
 });
 

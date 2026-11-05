@@ -188,4 +188,30 @@ describe("test CommerceStore data isolation and queries", () => {
     await expect(store.list("products", [], { limit: 0 })).rejects.toThrow("positive integer");
     await expect(store.list("products", [], { limit: 1.5 })).rejects.toThrow("positive integer");
   });
+  it("uses the document ID to paginate equal timestamps without repeats", async () => {
+    const store = new MemoryStore({
+      orders: {
+        a: { id: "a", createdAt: 1 },
+        b: { id: "b", createdAt: 2 },
+        c: { id: "c", createdAt: 2 },
+        d: { id: "d", createdAt: 3 },
+      },
+    });
+    const first = await store.list<{ id: string; createdAt: number }>("orders", [], {
+      orderBy: "createdAt",
+      direction: "desc",
+      limit: 2,
+    });
+    expect(first.map((row) => row.id)).toEqual(["d", "c"]);
+    const second = await store.list<{ id: string }>("orders", [], {
+      orderBy: "createdAt",
+      direction: "desc",
+      limit: 2,
+      startAfter: { value: 2, id: "c" },
+    });
+    expect(second.map((row) => row.id)).toEqual(["b", "a"]);
+    await expect(store.list("orders", [], { startAfter: { value: 2, id: "b" } })).rejects.toThrow(
+      "ordered query",
+    );
+  });
 });
