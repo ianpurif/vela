@@ -71,6 +71,7 @@ export type Order = {
   total: number;
   currency: "usd";
   paymentStatus: PaymentStatus;
+  paidAt: number | null;
   fulfillmentStatus: FulfillmentStatus;
   testMode: true;
   sessionId: string | null;
@@ -88,6 +89,7 @@ export type InventoryReservation = {
   items: CartItem[];
   status: "active" | "confirmed" | "released";
   expiresAt: number;
+  reconcileAfter: number;
   createdAt: number;
   updatedAt: number;
 };
