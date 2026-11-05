@@ -50,6 +50,15 @@ beforeAll(async () => {
       setDoc(doc(db, "rateLimits/example"), { count: 1 }),
       setDoc(doc(db, "media/example"), { publicId: "vela/products/example" }),
       setDoc(doc(db, "promotions/example"), { internal: true }),
+      setDoc(doc(db, "contactMessages/example"), {
+        email: "private@example.test",
+        message: "Private note",
+      }),
+      setDoc(doc(db, "newsletterSubscribers/example"), {
+        email: "private@example.test",
+        status: "pending",
+        preferenceKeyHash: "private-hash",
+      }),
     ]);
   });
 });
@@ -158,6 +167,8 @@ describe("administrator boundaries", () => {
     "rateLimits",
     "media",
     "promotions",
+    "contactMessages",
+    "newsletterSubscribers",
     "unlistedCollection",
   ])("denies client access to %s even for administrators", async (name) => {
     const db = environment.authenticatedContext("admin", { admin: true }).firestore();
@@ -165,6 +176,21 @@ describe("administrator boundaries", () => {
     await assertFails(getDocs(collection(db, name)));
     await assertFails(setDoc(doc(db, `${name}/example`), { forged: true }));
   });
+
+  it.each(["contactMessages", "newsletterSubscribers"])(
+    "keeps %s private from anonymous visitors and customers",
+    async (name) => {
+      for (const context of [
+        environment.unauthenticatedContext(),
+        environment.authenticatedContext("alice"),
+      ]) {
+        const db = context.firestore();
+        await assertFails(getDoc(doc(db, `${name}/example`)));
+        await assertFails(getDocs(collection(db, name)));
+        await assertFails(setDoc(doc(db, `${name}/example`), { email: "alice@example.test" }));
+      }
+    },
+  );
 
   it("hides audit logs from customers", async () => {
     const db = environment.authenticatedContext("alice").firestore();

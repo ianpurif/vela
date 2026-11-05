@@ -49,7 +49,8 @@ service cloud.firestore {
     }
 
     // Includes inventoryReservations, stripeWebhookEvents, rateLimits, media,
-    // promotions, and any future private collections. They are server-only.
+    // promotions, contactMessages, newsletterSubscribers, and future private
+    // collections. They are server-only, including for administrators.
     match /{document=**} {
       allow read, write: if false;
     }
