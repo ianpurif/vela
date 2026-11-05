@@ -1,8 +1,0 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-export default function Home() {
-  return <><header className="wrap flex h-24 items-center justify-between"><Link href="/" className="font-display text-5xl tracking-[.18em]" aria-label="VELA home">VELA</Link><a className="text-link" href="#ritual">Our philosophy <ArrowUpRight size={14}/></a></header><main id="main"><section className="wrap grid items-center gap-12 py-12 md:grid-cols-2"><div><p className="eyebrow mb-8">Considered skincare. Everyday rituals.</p><h1 className="display">Good skin.<br/><em>A softer pace.</em></h1><p className="my-8 max-w-sm leading-7 text-olive/80">A better ritual for everyday skin. Thoughtfully made essentials, for the moments that are just yours.</p><Button asChild><a href="#ritual">Discover VELA <ArrowUpRight size={15}/></a></Button></div><Image src="/images/hero-ritual.webp" alt="Sunlit skincare portrait with botanical shadows" width={1672} height={941} priority className="aspect-[4/5] w-full object-cover object-[65%]"/></section><section id="ritual" className="wrap section-space max-w-3xl text-center"><p className="eyebrow">A little less. A little better.</p><h2 className="section-title mt-6">Skincare that makes room<br/>for you.</h2><p className="mx-auto mt-8 max-w-lg leading-7 text-olive/80">We believe a daily ritual should feel as good as it looks. Simple textures, considered ingredients, and a moment to slow down.</p></section></main><footer className="wrap border-t border-olive/15 py-8 text-xs">© 2026 VELA. A better ritual for everyday skin.</footer></>;
-}

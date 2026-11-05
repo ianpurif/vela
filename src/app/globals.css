@@ -17,27 +17,139 @@
   --font-display: "Cormorant Garamond", Georgia, serif;
 }
 
-:root { color-scheme: light; --background: #f7f3ed; --foreground: #242823; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 96px; }
-body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: 14px; -webkit-font-smoothing: antialiased; }
-::selection { background: #d6be9c; color: #242823; }
-button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
-button:not(:disabled), summary { cursor: pointer; }
-a, button, input, select, textarea, summary { outline-offset: 5px; }
-:focus-visible { outline: 2px solid #343d31; }
-h1,h2,h3,p { margin-top: 0; }
-h1,h2 { font-family: var(--font-display); font-weight: 400; line-height: 1; letter-spacing: -.035em; }
-input, textarea, select { border-radius: 0; }
-.wrap { width: min(100% - 96px, 1440px); margin-inline: auto; }
-.eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
-.display { font-size: clamp(54px, 6.3vw, 104px); }
-.section-title { font-size: clamp(42px, 4.2vw, 64px); }
-.section-space { padding-block: 100px; }
-.text-link { display: inline-flex; align-items: center; gap: 15px; padding-block: 8px; border-bottom: 1px solid currentColor; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
-.field { display: block; width: 100%; border: 1px solid #343d3133; background: transparent; padding: 14px 16px; font: inherit; }
-.label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 600; }
-.prose-vela p { line-height: 1.9; color: #5d6258; }
-.prose-vela h2 { margin-top: 36px; font-size: 36px; }
-@media(max-width: 767px) { .wrap { width: calc(100% - 40px); } .section-space { padding-block: 64px; } }
-@media(prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+:root {
+  color-scheme: light;
+  --background: #f7f3ed;
+  --foreground: #242823;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: #d6be9c;
+  color: #242823;
+}
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+button:not(:disabled),
+summary {
+  cursor: pointer;
+}
+a,
+button,
+input,
+select,
+textarea,
+summary {
+  outline-offset: 5px;
+}
+:focus-visible {
+  outline: 2px solid #343d31;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+input,
+textarea,
+select {
+  border-radius: 0;
+}
+.wrap {
+  width: min(100% - 96px, 1440px);
+  margin-inline: auto;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.display {
+  font-size: clamp(54px, 6.3vw, 104px);
+}
+.section-title {
+  font-size: clamp(42px, 4.2vw, 64px);
+}
+.section-space {
+  padding-block: 100px;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  padding-block: 8px;
+  border-bottom: 1px solid currentColor;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.field {
+  display: block;
+  width: 100%;
+  border: 1px solid #343d3133;
+  background: transparent;
+  padding: 14px 16px;
+  font: inherit;
+}
+.label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.prose-vela p {
+  line-height: 1.9;
+  color: #5d6258;
+}
+.prose-vela h2 {
+  margin-top: 36px;
+  font-size: 36px;
+}
+@media (max-width: 767px) {
+  .wrap {
+    width: calc(100% - 40px);
+  }
+  .section-space {
+    padding-block: 64px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

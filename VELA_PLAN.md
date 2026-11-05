@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **1 — foundation and design system**. Started 2026-11-05 (Asia/Manila).
+Current phase: **3 — Firebase and customer authentication**. Started 2026-11-05 (Asia/Manila).
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Node 22.16, npm 10.9, Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -21,9 +21,9 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 | Phase | Dependencies | Objectives / acceptance | State |
 | --- | --- | --- | --- |
 | 0 Discovery | none | Inspect every image, define architecture, create instructions and phase ledger; separate architecture commit | complete |
-| 1 Foundation | 0 | Compatible stack, design tokens, reusable primitives, responsive navigation/layout/errors; server starts, typecheck/lint | in progress |
-| 2 Storefront | 1 | Supplied imagery, home/catalog/search/filter/sort/details/cart; catalog and persistence checks, mobile QA | pending |
-| 3 Firebase/auth | 2 | Repository-backed Firestore, secure sessions, registration/Google/reset/verification/profile/addresses, seed/rules/indexes; emulator isolation checks | pending |
+| 1 Foundation | 0 | Compatible stack, design tokens, reusable primitives, responsive navigation/layout/errors; server starts, typecheck/lint | complete |
+| 2 Storefront | 1 | Supplied imagery, home/catalog/search/filter/sort/details/cart; catalog and persistence checks, mobile QA | complete |
+| 3 Firebase/auth | 2 | Repository-backed Firestore, secure sessions, registration/Google/reset/verification/profile/addresses, seed/rules/indexes; emulator isolation checks | in progress |
 | 4 Admin | 3 | Claim-gated dashboard, product CRUD/categories/inventory, bootstrap CLI/audits; persistence and unauthorized-access checks | pending |
 | 5 Media | 4 | Signed Cloudinary uploads/gallery/remove/import; authorization, validation and reference protection tests | pending |
 | 6 Payments | 5 | Persistent cart, authoritative totals, orders/reservations, test-only checkout/webhooks/recovery; concurrency/idempotency/signature tests | pending |
@@ -55,3 +55,7 @@ Finish asset audit and dependency verification, commit discovery, initialize the
 - Phase 0: f64af38 architecture/instructions; 43f146c complete image audit and optimized copies (92% smaller). All 20 images decoded and visually reviewed.
 - Package compatibility verified against npm metadata and official documentation; React 19 / Fiber 9, Next 16 / Tailwind 4, Firebase 12 / rules testing 5 fit Node 22.16 and Java 21.
 
+- Phase 1: babf523 typed framework/design foundation. TypeScript and ESLint passed; dev server ready and homepage returned HTTP 200. Brand fonts are self-hosted. Catalog and responsive shopping shell now build on these contracts.
+
+- Phase 2: a7c366d catalog contracts/fixtures; 3a92085 catalog, galleries, filters and persistent cart. Twelve Vitest checks and four desktop/mobile Playwright checks passed; typecheck and lint clean. Desktop/mobile homepage screenshots visually reviewed. Fixed development-toolbar focus interference before final browser checks.
+- Security dependency maintenance: da6f65a targeted transport/tool patches; production npm audit reports zero vulnerabilities. Development-only Firebase CLI and lint transitive advisories remain under review.
