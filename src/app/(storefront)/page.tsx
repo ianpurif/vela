@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Droplets, Leaf, Sun } from "lucide
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/products/product-card";
 import { NewsletterForm } from "@/components/support/newsletter-form";
+import { HomeMotion } from "@/components/animation/home-motion";
 import { getCatalogRepository } from "@/server/repositories/catalog";
 
 export default async function Home() {
@@ -20,19 +21,31 @@ export default async function Home() {
     .slice(0, 3);
   const categoryImages = ["cleanser-texture", "serum-texture", "cream-texture", "evening-tide-oil"];
   return (
-    <main id="main">
+    <HomeMotion>
       <section className="hero-section relative grid min-h-[660px] grid-cols-[44%_56%] overflow-hidden max-md:grid-cols-1">
         <div className="relative z-10 flex flex-col justify-center py-16 pl-[max(48px,calc((100vw-1440px)/2))] pr-8 max-md:px-6 max-md:pb-12 max-md:pt-14">
-          <p className="eyebrow mb-8 text-olive/80">{content.heroEyebrow}</p>
+          <p data-hero-detail className="eyebrow mb-8 text-olive/80">
+            {content.heroEyebrow}
+          </p>
           <h1 className="display max-w-xl">
-            {content.heroTitle}
-            <br />
-            <em className="font-normal text-olive">{content.heroItalic}</em>
+            <span className="block overflow-hidden pb-1">
+              <span data-hero-line className="block">
+                {content.heroTitle}
+              </span>
+            </span>
+            <span className="block overflow-hidden pb-2">
+              <em data-hero-line className="block font-normal text-olive">
+                {content.heroItalic}
+              </em>
+            </span>
           </h1>
-          <p className="mb-8 mt-7 max-w-[330px] text-[13px] leading-[1.9] text-olive/80">
+          <p
+            data-hero-detail
+            className="mb-8 mt-7 max-w-[330px] text-[13px] leading-[1.9] text-olive/80"
+          >
             {content.heroDescription}
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div data-hero-detail className="flex flex-wrap gap-4">
             <Button asChild>
               <Link href="/shop">
                 Explore the collection <ArrowUpRight size={15} />
@@ -49,8 +62,9 @@ export default async function Home() {
             Less, but better.
           </a>
         </div>
-        <div className="relative min-h-[660px] max-md:min-h-[430px]">
+        <div className="relative min-h-[660px] overflow-hidden max-md:min-h-[430px]">
           <Image
+            data-hero-image
             src="/images/hero-ritual.webp"
             alt="Warm sunlight, botanical shadows, and a quiet skincare moment"
             fill
@@ -89,7 +103,7 @@ export default async function Home() {
       </section>
       <section id="essentials" className="wrap section-space">
         <div className="mb-10 flex items-end justify-between gap-6">
-          <div>
+          <div data-reveal>
             <p className="eyebrow mb-4 text-olive/70">Your daily essentials</p>
             <h2 className="section-title mb-0">
               The art of <em>less.</em>
@@ -115,7 +129,7 @@ export default async function Home() {
       </section>
       <section className="bg-sand/50">
         <div className="wrap grid items-center gap-14 py-20 md:grid-cols-2 md:gap-24">
-          <div className="relative aspect-[4/4.6]">
+          <div data-parallax className="relative aspect-[4/4.6] overflow-hidden">
             <Image
               src="/images/cream-ritual.webp"
               alt="Taking a quiet moment to gently apply face cream"
@@ -127,7 +141,7 @@ export default async function Home() {
               The beauty of taking your time.
             </span>
           </div>
-          <div className="max-w-lg">
+          <div data-reveal className="max-w-lg">
             <p className="eyebrow mb-6 text-olive/70">Our philosophy</p>
             <h2 className="section-title">
               More than skincare.
@@ -152,7 +166,7 @@ export default async function Home() {
       </section>
       <section className="wrap section-space">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-          <div>
+          <div data-reveal>
             <p className="eyebrow mb-4 text-olive/70">Meet your next ritual</p>
             <h2 className="section-title mb-0">
               A little care, <em>every step.</em>
@@ -185,7 +199,7 @@ export default async function Home() {
       </section>
       <section className="relative isolate overflow-hidden bg-[#d9d7c9]">
         <div className="wrap grid min-h-[430px] items-center gap-12 py-16 md:grid-cols-[1.1fr_1fr]">
-          <div className="relative z-10">
+          <div data-reveal className="relative z-10">
             <p className="eyebrow mb-5 text-olive/70">The VELA ritual finder</p>
             <h2 className="section-title">{content.promotionTitle}</h2>
             <p className="my-6 max-w-sm text-[13px] leading-7 text-olive/80">
@@ -198,7 +212,7 @@ export default async function Home() {
             </Button>
             <p className="mt-4 text-[10px] text-olive/65">Two minutes, a little self-discovery.</p>
           </div>
-          <div className="relative aspect-[1.4] overflow-hidden">
+          <div data-parallax className="relative aspect-[1.4] overflow-hidden">
             <Image
               src="/images/collection-travertine.webp"
               alt="A considered collection of VELA skincare on warm stone"
@@ -209,7 +223,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="wrap py-20 text-center">
+      <section data-reveal className="wrap py-20 text-center">
         <p className="eyebrow mb-5 text-olive/70">A softer kind of beauty</p>
         <h2 className="mx-auto max-w-3xl font-display text-[clamp(36px,4vw,58px)] leading-[1.1]">
           Not another thing to do.
@@ -222,7 +236,7 @@ export default async function Home() {
       </section>
       <section className="border-t border-olive/15 bg-sand/35">
         <div className="wrap grid items-start gap-10 py-16 md:grid-cols-2 md:gap-24 md:py-20">
-          <div>
+          <div data-reveal>
             <p className="eyebrow mb-5 text-olive/80">A little letter, now and then</p>
             <h2 className="section-title mb-6">
               Stay a little
@@ -239,6 +253,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </HomeMotion>
   );
 }
