@@ -17,69 +17,70 @@
   --font-display: "Cormorant Garamond", Georgia, serif;
 }
 
-:root {
-  color-scheme: light;
-  --background: #f7f3ed;
-  --foreground: #242823;
-}
-* {
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 96px;
-}
-body {
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-}
-::selection {
-  background: #d6be9c;
-  color: #242823;
-}
-button,
-a,
-input,
-select,
-textarea {
-  -webkit-tap-highlight-color: transparent;
-}
-button:not(:disabled),
-summary {
-  cursor: pointer;
-}
-a,
-button,
-input,
-select,
-textarea,
-summary {
-  outline-offset: 5px;
-}
-:focus-visible {
-  outline: 2px solid #343d31;
-}
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
-}
-h1,
-h2 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.035em;
-}
-input,
-textarea,
-select {
-  border-radius: 0;
+@layer base {
+  :root {
+    color-scheme: light;
+    --background: #f7f3ed;
+    --foreground: #242823;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-padding-top: 96px;
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: #d6be9c;
+    color: #242823;
+  }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary {
+    outline-offset: 5px;
+  }
+  :focus-visible {
+    outline: 2px solid #343d31;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  input,
+  textarea,
+  select {
+    border-radius: 0;
+  }
 }
 .wrap {
   width: min(100% - 96px, 1440px);
