@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/products/product-card";
 import { NewsletterForm } from "@/components/support/newsletter-form";
 import { HomeMotion } from "@/components/animation/home-motion";
+import { ProductStory } from "@/components/animation/product-story";
 import { getCatalogRepository } from "@/server/repositories/catalog";
 
 export default async function Home() {
@@ -20,6 +21,9 @@ export default async function Home() {
     )
     .slice(0, 3);
   const categoryImages = ["cleanser-texture", "serum-texture", "cream-texture", "evening-tide-oil"];
+  const storyProduct = products.find(
+    (product) => product.id === "first-light-serum" && product.status === "published",
+  );
   return (
     <HomeMotion>
       <section className="hero-section relative grid min-h-[660px] grid-cols-[44%_56%] overflow-hidden max-md:grid-cols-1">
@@ -127,6 +131,7 @@ export default async function Home() {
           </p>
         )}
       </section>
+      {storyProduct && <ProductStory product={storyProduct} />}
       <section className="bg-sand/50">
         <div className="wrap grid items-center gap-14 py-20 md:grid-cols-2 md:gap-24">
           <div data-parallax className="relative aspect-[4/4.6] overflow-hidden">
