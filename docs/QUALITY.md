@@ -55,4 +55,4 @@ Ignored local evidence is available at:
 
 ## Verification still requiring external setup
 
-Hosted Firebase/Google/email behavior and deployed rules/indexes, real Cloudinary uploads/deletions, Stripe test Checkout plus delivered webhooks/recovery, and Vercel deployment/scheduling remain unverified because credentials were not supplied. Newsletter email delivery is intentionally not implemented: signups remain pending and support messages are stored for administrator review. See the setup runbook before external verification.
+Hosted Firebase/Google/email behavior and deployed rules/indexes, real Cloudinary uploads/deletions, Stripe test Checkout plus delivered webhooks/recovery, and Vercel deployment/scheduling remain unverified because credentials were not supplied. Newsletter email delivery is intentionally not implemented: signups remain pending and support messages are stored for administrator review. See [the setup runbook](DEPLOYMENT.md) before external verification.

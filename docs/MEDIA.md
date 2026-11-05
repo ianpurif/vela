@@ -4,7 +4,7 @@ Cloudinary is the product media provider. The storefront initially uses optimize
 
 ## Configuration
 
-Set `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in ignored `.env.local` and in the intended Vercel environment. Only the cloud name is public. The server passes credentials directly to the Cloudinary v2 SDK and never returns its API secret. The integration uses the default `res.cloudinary.com` delivery host and an image upload endpoint. An unsigned upload preset is unnecessary.
+Set `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` in ignored `.env.local` and in the intended Vercel environment. The cloud name is public. The API key is configured server-side but is also returned as a public identifier in signed upload fields. The server passes credentials directly to the Cloudinary v2 SDK and never returns its API secret. The integration uses the default `res.cloudinary.com` delivery host and an image upload endpoint. An unsigned upload preset is unnecessary.
 
 Missing configuration returns HTTP 503. Existing local image galleries continue to render and administrators can still reorder or detach them. Authentication, same-origin checks, and a durable per-admin rate limit protect every media mutation endpoint. Firestore client access to `media` and `mediaUploads` remains denied by default.
 
@@ -47,7 +47,7 @@ The `media` document ID is SHA-256 of the public ID. Each record stores Cloudina
 
 ## Local asset import and cleanup
 
-Run the repository's import utility in its dry-run mode before enabling uploads; inspect the exact current gallery sources and product IDs it plans to migrate. It should process only current local image paths, preserve existing Cloudinary images and edited product data, enforce the shared metadata validator, and maintain reference lists transactionally. Explicitly target the intended Firebase project. Follow the script's documented command/flags in the main setup instructions; never treat an import report as proof of a completed provider upload.
+Run the repository's import utility in its dry-run mode before enabling uploads; inspect the exact current gallery sources and product IDs it plans to migrate. It processes only current local image paths, preserves existing Cloudinary images and edited product data, enforces the shared metadata validator, and maintains reference lists transactionally. Explicitly target the intended Firebase project. Follow the commands in [DEPLOYMENT.md](DEPLOYMENT.md#3-cloudinary-media); never treat a dry-run report as proof of a completed provider upload.
 
 Interrupted uploads or expired/rejected tickets can leave an orphan asset in Cloudinary. They never become customer-visible without successful completion. To clean up, inspect the ticket, Cloudinary public ID, and Firestore reference records first. Complete valid pending tickets or remove truly unreferenced resources through an operator process. Do not bulk-delete the entire `vela/products/` prefix: assets may still be used by published or archived products. Untracked orphan resources are deliberately not deletable through the public admin API; reconcile and inspect them in the Cloudinary console.
 

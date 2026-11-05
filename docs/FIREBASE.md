@@ -4,9 +4,9 @@ VELA stores products, categories, user profiles, orders, reservations, and opera
 
 ## Local emulators
 
-Use Node 22.16 or newer and Java 21. The repository's default Firebase project is the isolated `demo-vela` project. All emulator listeners bind to `127.0.0.1`: Authentication 9099, Firestore 8080, UI 4000, and emulator hub 4400. `singleProjectMode: false` permits the separate `demo-vela-rules` test namespace; it does not expose listeners publicly.
+Use Node 24.x and Java 21. The repository's default Firebase project is the isolated `demo-vela` project. All emulator listeners bind to `127.0.0.1`: Authentication 9099, Firestore 8080, UI 4000, and emulator hub 4400. `singleProjectMode: false` permits the separate `demo-vela-rules` test namespace; it does not expose listeners publicly.
 
-Use the repository's emulator environment example when available. The CLI scripts require these values:
+Copy [`.env.emulator.example`](../.env.emulator.example) to ignored `.env.local` for a fresh local setup, as described in [README.md](../README.md). The CLI scripts require these values:
 
 ```dotenv
 FIREBASE_PROJECT_ID=demo-vela
@@ -26,7 +26,7 @@ With matching values in ignored `.env.local`, seed in a second terminal:
 npm run seed -- --project demo-vela
 ```
 
-Seeding creates six products, four categories, and `settings/home` only if each document does not exist. Each check/create is transactional. Re-running the script preserves edited product descriptions, prices, inventory, categories, and homepage content. Timestamps use server-generated Unix milliseconds, matching the shared domain contract. Seed does not fabricate orders or revenue.
+Seeding creates six products, four categories, `settings/home`, and `promotions/home` (12 catalog/content documents) only if each document does not exist. Each check/create is transactional. Re-running the script preserves edited product descriptions, prices, inventory, categories, and homepage content. Timestamps use server-generated Unix milliseconds, matching the shared domain contract. Seed does not fabricate orders or revenue.
 
 The strict emulator configuration additionally creates these **local-only** users:
 
@@ -50,11 +50,11 @@ The rules suite clears only `demo-vela-rules`, not the application's emulator da
 1. Create a Firebase project and a web application. Enable Cloud Firestore in the intended region.
 2. Enable Email/Password and Google sign-in in Authentication. Configure the Google provider support email and authorized domains for your local host and Vercel domain. Configure verification/password-reset email templates and their allowed continuation URLs.
 3. Put the web application's Firebase configuration in the documented `NEXT_PUBLIC_FIREBASE_*` variables. Put the Admin service account project ID, client email, and private key in server-only variables. Do not expose a service account JSON file or private key through a public variable.
-4. Remove all emulator host variables for external service testing and Vercel. Set `FIREBASE_PROJECT_ID` to the intended real project. Keep `.env.local` ignored and copy the same server variables into Vercel's environment settings.
+4. Set `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=false` and remove all emulator host variables for external service testing and Vercel. Set `FIREBASE_PROJECT_ID` and the public project ID to the intended real project. Keep `.env.local` ignored and copy the same server variables into Vercel's environment settings. [DEPLOYMENT.md](DEPLOYMENT.md) covers the complete environment and hosted acceptance steps.
 5. Authenticate the Firebase CLI as an operator with permission to deploy rules. Explicitly name the target project:
 
 ```powershell
-npx firebase deploy --only firestore:rules,firestore:indexes --project YOUR_PROJECT_ID
+npx firebase deploy --only "firestore:rules,firestore:indexes" --project YOUR_PROJECT_ID
 npm run seed -- --project YOUR_PROJECT_ID
 ```
 
