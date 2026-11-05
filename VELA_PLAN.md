@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **6 — Cart, orders & Stripe**. Started 2026-11-05 (Asia/Manila); continuing 2026-11-06.
+Current phase: **7 — Customer and admin operations**. Started 2026-11-05 (Asia/Manila); continuing 2026-11-06.
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Node 22.16, npm 10.9, Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -26,8 +26,8 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 | 3 Firebase/auth | 2 | Repository-backed Firestore, secure sessions, registration/Google/reset/verification/profile/addresses, seed/rules/indexes; emulator isolation checks | complete |
 | 4 Admin | 3 | Claim-gated dashboard, product CRUD/categories/inventory, bootstrap CLI/audits; persistence and unauthorized-access checks | complete |
 | 5 Media | 4 | Signed Cloudinary uploads/gallery/remove/import; authorization, validation and reference protection tests | complete locally; external upload pending |
-| 6 Payments | 5 | Persistent cart, authoritative totals, orders/reservations, test-only checkout/webhooks/recovery; concurrency/idempotency/signature tests | in progress |
-| 7 Operations | 6 | Customer order history, admin fulfillment/customers/content/analytics; ownership and separate payment state checks | pending |
+| 6 Payments | 5 | Persistent cart, authoritative totals, orders/reservations, test-only checkout/webhooks/recovery; concurrency/idempotency/signature tests | complete locally; external Stripe pending |
+| 7 Operations | 6 | Customer order history, admin fulfillment/customers/content/analytics; ownership and separate payment state checks | in progress |
 | 8 Personalization | 7 | Deterministic quiz/routine-to-cart, support/policy pages, contact/newsletter persistence; functional links/forms | pending |
 | 9 Cinematic | 8 | GSAP scroll story, lazy R3F/Drei procedural or GLB scene, Motion UI; static/reduced-motion/mobile fallbacks | pending |
 | 10 Quality | 9 | Typecheck/lint/unit/integration/Playwright/rules/webhook/build; accessibility/security/responsive review and fixes | pending |
@@ -50,7 +50,7 @@ Commit hashes are recorded after each logical unit in subsequent ledger updates.
 
 ## Next steps
 
-Implement test-only checkout, transactional reservations, verified webhook reconciliation and customer confirmation, then validate concurrency and failure recovery before operations work.
+Build customer order history and admin fulfillment, customer search, content and analytics on the existing order records. Keep payment state exclusively webhook-controlled.
 
 - Phase 0: f64af38 architecture/instructions; 43f146c complete image audit and optimized copies (92% smaller). All 20 images decoded and visually reviewed.
 - Package compatibility verified against npm metadata and official documentation; React 19 / Fiber 9, Next 16 / Tailwind 4, Firebase 12 / rules testing 5 fit Node 22.16 and Java 21.
@@ -66,3 +66,5 @@ Implement test-only checkout, transactional reservations, verified webhook recon
 - Additional auth validation: e7b7980 exercises actual emulator verification/reset codes and Google popup sign-in; all three scenarios passed. 7c59364 fixes CSS layer precedence and removes global smooth scrolling.
 - Phase 4 UI: 6b88a9a protected product/category/inventory screens and responsive admin shell.
 - Phase 5: 23f5794 signed media services and verified metadata/reference protection. Twenty-nine service tests, typecheck, scoped ESLint and the emulator/browser media authorization/gallery/error journey passed. Import dry-run covered all 12 local product-image references; missing credentials block apply before upload. Admin gallery supports replacement, ordering, removal and retry, with detached cloud assets requiring explicit deletion. Real Cloudinary uploads/deletions remain pending credentials.
+- Phase 5 UI/import: ed4bf11 integrates the secure gallery, transformations and source-image import.
+- Phase 6: de9741a test-only Stripe gateway/raw signature verification; ce01cf0 transactional orders, reservations, cancellation and recovery. Sixty-six gateway/signature tests, 33 payment service tests, nine checkout UI tests, six auth UI tests and two actual Firestore transaction tests passed. Desktop/mobile checkout journeys passed (retry identity, safe missing-config response, stored pending confirmation, ownership, retained bag). Typecheck and scoped ESLint clean; responsive screenshots reviewed. Read-only security review found and resolved recovery queue starvation and unrelated webhook handling. No real Stripe API call or payment occurred. See docs/PAYMENTS.md for recovery and external verification.

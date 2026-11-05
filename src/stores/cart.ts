@@ -134,6 +134,11 @@ const subscribeHydration = (callback: () => void) => {
 export function useCartReady() {
   useEffect(() => {
     if (!useCart.persist.hasHydrated()) void useCart.persist.rehydrate();
+    const syncBag = (event: StorageEvent) => {
+      if (event.key === "vela-bag-v1" || event.key === null) void useCart.persist.rehydrate();
+    };
+    window.addEventListener("storage", syncBag);
+    return () => window.removeEventListener("storage", syncBag);
   }, []);
   return useSyncExternalStore(subscribeHydration, useCart.persist.hasHydrated, () => false);
 }

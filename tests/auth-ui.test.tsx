@@ -28,6 +28,7 @@ afterEach(() => {
 describe("safe authentication navigation", () => {
   it("allows intended local routes and rejects open redirects", () => {
     expect(safeReturnTo("/checkout")).toBe("/checkout");
+    expect(safeReturnTo("/checkout/success?order=v_123")).toBe("/checkout/success?order=v_123");
     expect(safeReturnTo("/account/orders/order-123")).toBe("/account/orders/order-123");
     expect(safeReturnTo("/admin/products")).toBe("/admin/products");
     for (const input of [

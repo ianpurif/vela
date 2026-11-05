@@ -11,7 +11,7 @@ export function safeReturnTo(value: unknown): string {
   try {
     const url = new URL(value, "https://vela.invalid");
     const allowed =
-      /^(?:\/account(?:\/orders(?:\/[a-zA-Z0-9_-]+)?)?|\/checkout|\/cart|\/shop|\/routine|\/admin(?:\/[a-zA-Z0-9_-]+)*)\/?$/;
+      /^(?:\/account(?:\/orders(?:\/[a-zA-Z0-9_-]+)?)?|\/checkout(?:\/success)?|\/cart|\/shop|\/routine|\/admin(?:\/[a-zA-Z0-9_-]+)*)\/?$/;
     if (url.origin !== "https://vela.invalid" || !allowed.test(url.pathname)) return "/account";
     return `${url.pathname}${url.search}`;
   } catch {
