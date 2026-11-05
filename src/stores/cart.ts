@@ -4,6 +4,7 @@ import { useEffect, useSyncExternalStore } from "react";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { calculateTotals } from "@/features/cart/pricing";
+import { prepareRoutineCart, type RoutineCartResult } from "@/features/routine/cart";
 import type { CartItem, Product } from "@/types/commerce";
 
 const validId = /^[a-zA-Z0-9_-]{1,120}$/;
@@ -56,6 +57,7 @@ type CartState = {
   items: CartItem[];
   open: boolean;
   add: (productId: string, quantity?: number) => void;
+  addRoutine: (products: readonly Product[]) => RoutineCartResult;
   setQuantity: (productId: string, quantity: number) => void;
   remove: (productId: string) => void;
   clear: () => void;
@@ -64,9 +66,14 @@ type CartState = {
 
 export const useCart = create<CartState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
       open: false,
+      addRoutine: (products) => {
+        const result = prepareRoutineCart(get().items, products);
+        if (result.ok) set({ items: result.items });
+        return result;
+      },
       add: (productId, quantity = 1) => {
         if (
           !validId.test(productId) ||
