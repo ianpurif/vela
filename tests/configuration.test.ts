@@ -24,20 +24,39 @@ describe("explicit service configuration", () => {
   });
   it("does not reuse a privileged app after switching to read-only demo mode", async () => {
     const app = initializeApp({ projectId: "demo-vela" }, "vela-admin");
-    try { vi.stubEnv("VELA_DATA_MODE", "demo"); expect(() => getAdminAuth()).toThrow(/unavailable/); }
-    finally { await deleteApp(app); }
+    try {
+      vi.stubEnv("VELA_DATA_MODE", "demo");
+      expect(() => getAdminAuth()).toThrow(/unavailable/);
+    } finally {
+      await deleteApp(app);
+    }
   });
   it("stops reading an oversized stream without a content-length header", async () => {
     let cancelled = false;
-    const stream = new ReadableStream({ pull(controller) { controller.enqueue(new Uint8Array(40000)); }, cancel() { cancelled = true; } });
-    const request = new Request("http://localhost", { method: "POST", body: stream, duplex: "half" } as RequestInit);
+    const stream = new ReadableStream({
+      pull(controller) {
+        controller.enqueue(new Uint8Array(40000));
+      },
+      cancel() {
+        cancelled = true;
+      },
+    });
+    const request = new Request("http://localhost", {
+      method: "POST",
+      body: stream,
+      duplex: "half",
+    } as RequestInit);
     await expect(readBody(request)).rejects.toMatchObject({ status: 413 });
     expect(cancelled).toBe(true);
   });
   it("rejects missing and foreign origins", () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://vela.example");
     expect(() => assertSameOrigin(new Request("https://vela.example"))).toThrow(/VELA website/);
-    expect(() => assertSameOrigin(new Request("https://vela.example", { headers: { Origin: "https://evil.example" } }))).toThrow(/VELA website/);
+    expect(() =>
+      assertSameOrigin(
+        new Request("https://vela.example", { headers: { Origin: "https://evil.example" } }),
+      ),
+    ).toThrow(/VELA website/);
   });
   it("returns no product for an invalid document slug", async () => {
     vi.stubEnv("VELA_DATA_MODE", "firebase");

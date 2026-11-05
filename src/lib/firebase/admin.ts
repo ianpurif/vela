@@ -14,7 +14,8 @@ function adminApp() {
     );
   const emulator = process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true";
   const existing = getApps().find((app) => app.name === "vela-admin");
-  if (existing && existing.options.projectId !== projectId) throw new AppError(503, "Restart the server after changing the Firebase project.");
+  if (existing && existing.options.projectId !== projectId)
+    throw new AppError(503, "Restart the server after changing the Firebase project.");
   if (emulator) {
     if (
       process.env.VERCEL ||
@@ -38,9 +39,12 @@ function adminApp() {
       "Firebase Admin credentials are not configured.",
       "CONFIGURATION_REQUIRED",
     );
-  return existing || initializeApp(
-    { credential: cert({ projectId, clientEmail, privateKey }), projectId },
-    "vela-admin",
+  return (
+    existing ||
+    initializeApp(
+      { credential: cert({ projectId, clientEmail, privateKey }), projectId },
+      "vela-admin",
+    )
   );
 }
 export function getAdminAuth() {

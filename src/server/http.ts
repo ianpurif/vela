@@ -10,7 +10,8 @@ export function assertSameOrigin(request: Request) {
     throw new AppError(403, "This request must come from the VELA website.", "ORIGIN_REJECTED");
 }
 export async function readBody(request: Request, maxBytes = 64000): Promise<string> {
-  if (Number(request.headers.get("content-length")) > maxBytes) throw new AppError(413, "Request is too large.");
+  if (Number(request.headers.get("content-length")) > maxBytes)
+    throw new AppError(413, "Request is too large.");
   if (!request.body) return "";
   const reader = request.body.getReader();
   const decoder = new TextDecoder("utf-8", { fatal: true });
@@ -21,11 +22,16 @@ export async function readBody(request: Request, maxBytes = 64000): Promise<stri
       const { done, value } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > maxBytes) { await reader.cancel(); throw new AppError(413, "Request is too large."); }
+      if (size > maxBytes) {
+        await reader.cancel();
+        throw new AppError(413, "Request is too large.");
+      }
       body += decoder.decode(value, { stream: true });
     }
     return body + decoder.decode();
-  } finally { reader.releaseLock(); }
+  } finally {
+    reader.releaseLock();
+  }
 }
 export async function readJson<T>(request: Request, schema: z.ZodType<T>): Promise<T> {
   if (!request.headers.get("content-type")?.includes("application/json"))
