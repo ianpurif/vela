@@ -13,8 +13,8 @@ export default async function Home() {
     repo.categories(),
   ]);
   const featured = products
-    .filter(
-      (p) => p.featured && (!content.featuredCategory || p.category === content.featuredCategory),
+    .filter((p) =>
+      content.featuredCategory ? p.category === content.featuredCategory : p.featured,
     )
     .slice(0, 3);
   const categoryImages = ["cleanser-texture", "serum-texture", "cream-texture", "evening-tide-oil"];
@@ -103,6 +103,14 @@ export default async function Home() {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+        {!featured.length && (
+          <p className="text-sm text-olive/75">
+            A new edit is taking shape.{" "}
+            <Link className="underline underline-offset-4" href="/shop">
+              Explore the full collection.
+            </Link>
+          </p>
+        )}
       </section>
       <section className="bg-sand/50">
         <div className="wrap grid items-center gap-14 py-20 md:grid-cols-2 md:gap-24">

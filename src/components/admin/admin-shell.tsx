@@ -12,7 +12,11 @@ import {
   LogOut,
   Menu,
   Package,
+  ChartNoAxesCombined,
+  FilePenLine,
+  ShoppingBag,
   UserRound,
+  UsersRound,
   X,
 } from "lucide-react";
 import { signOutCustomer } from "@/features/auth/client";
@@ -24,6 +28,10 @@ const links = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/inventory", label: "Inventory", icon: Boxes },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
+  { href: "/admin/orders", label: "Orders", icon: ShoppingBag },
+  { href: "/admin/customers", label: "Customers", icon: UsersRound },
+  { href: "/admin/content", label: "Content", icon: FilePenLine },
+  { href: "/admin/analytics", label: "Analytics", icon: ChartNoAxesCombined },
 ];
 
 function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
@@ -83,7 +91,7 @@ export function AdminShell({
   }
   return (
     <div className="min-h-screen bg-[#f4f1eb]">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[236px] flex-col bg-olive px-5 py-8 text-ivory lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[236px] flex-col overflow-y-auto bg-olive px-5 py-8 text-ivory lg:flex">
         <Link
           href="/admin"
           aria-label="VELA administration"
@@ -91,7 +99,7 @@ export function AdminShell({
         >
           VELA
         </Link>
-        <p className="mb-12 px-4 text-[9px] tracking-[.2em] text-ivory/45 uppercase">
+        <p className="mb-8 px-4 text-[9px] tracking-[.2em] text-ivory/45 uppercase">
           Store administration
         </p>
         <AdminNav />
@@ -129,7 +137,7 @@ export function AdminShell({
               </Dialog.Trigger>
               <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 z-[70] bg-charcoal/40" />
-                <Dialog.Content className="fixed inset-y-0 left-0 z-[71] flex w-[min(88vw,300px)] flex-col bg-olive px-5 py-9 text-ivory">
+                <Dialog.Content className="fixed inset-y-0 left-0 z-[71] flex w-[min(88vw,300px)] flex-col overflow-y-auto bg-olive px-5 py-9 text-ivory">
                   <Dialog.Title className="mb-2 px-4 font-display text-4xl tracking-[.2em]">
                     VELA
                   </Dialog.Title>
