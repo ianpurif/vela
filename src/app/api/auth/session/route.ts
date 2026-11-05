@@ -6,6 +6,7 @@ import { getSession, SESSION_COOKIE, SESSION_DURATION, toSessionUser } from "@/s
 import { AppError } from "@/lib/errors";
 import { getProfile } from "@/server/services/accounts";
 import { rateLimit } from "@/server/services/rate-limit";
+import { getApplicationUrl } from "@/server/application-url";
 
 export const POST = api(async (request) => {
   assertSameOrigin(request);
@@ -29,7 +30,7 @@ export const POST = api(async (request) => {
   (await cookies()).set(SESSION_COOKIE, session, {
     maxAge: SESSION_DURATION / 1000,
     httpOnly: true,
-    secure: new URL(process.env.NEXT_PUBLIC_APP_URL!).protocol === "https:",
+    secure: getApplicationUrl().protocol === "https:",
     sameSite: "lax",
     path: "/",
   });

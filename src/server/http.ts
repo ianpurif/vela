@@ -1,12 +1,12 @@
 import "server-only";
 import { z } from "zod";
 import { AppError } from "@/lib/errors";
+import { getApplicationUrl } from "@/server/application-url";
 
 export function assertSameOrigin(request: Request) {
-  const configured = process.env.NEXT_PUBLIC_APP_URL;
-  if (!configured) throw new AppError(503, "The application URL is not configured.");
+  const configured = getApplicationUrl();
   const origin = request.headers.get("origin");
-  if (!origin || origin !== new URL(configured).origin)
+  if (!origin || origin !== configured.origin)
     throw new AppError(403, "This request must come from the VELA website.", "ORIGIN_REJECTED");
 }
 export async function readBody(request: Request, maxBytes = 64000): Promise<string> {
@@ -15,6 +15,13 @@ export async function readBody(request: Request, maxBytes = 64000): Promise<stri
   if (!request.body) return "";
   const reader = request.body.getReader();
   const decoder = new TextDecoder("utf-8", { fatal: true });
+  const decode = (bytes?: Uint8Array, stream = false) => {
+    try {
+      return decoder.decode(bytes, { stream });
+    } catch {
+      throw new AppError(400, "Request body must contain valid UTF-8.", "INVALID_BODY_ENCODING");
+    }
+  };
   let size = 0;
   let body = "";
   try {
@@ -23,12 +30,17 @@ export async function readBody(request: Request, maxBytes = 64000): Promise<stri
       if (done) break;
       size += value.byteLength;
       if (size > maxBytes) {
-        await reader.cancel();
         throw new AppError(413, "Request is too large.");
       }
-      body += decoder.decode(value, { stream: true });
+      body += decode(value, true);
     }
-    return body + decoder.decode();
+    return body + decode();
+  } catch (error) {
+    if (error instanceof AppError) {
+      // Stop consuming rejected input; a stream cancellation failure must not mask its status.
+      await reader.cancel().catch(() => undefined);
+    }
+    throw error;
   } finally {
     reader.releaseLock();
   }
