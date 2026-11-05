@@ -255,11 +255,11 @@ export function ProductMedia({ product }: { product: Product }) {
         >
           Product gallery
         </h2>
-        <span className="text-[10px] text-olive/55">
+        <span className="text-[10px] text-olive/80">
           {images.length}/{MAX_GALLERY_IMAGES}
         </span>
       </div>
-      <p className="mb-5 text-[11px] leading-6 text-olive/65">
+      <p className="mb-5 text-[11px] leading-6 text-olive/80">
         The first image is the cover. Gallery changes save immediately.
       </p>
       {images.length ? (
@@ -277,7 +277,7 @@ export function ProductMedia({ product }: { product: Product }) {
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="mb-1 text-[9px] font-medium tracking-wider text-olive/55 uppercase">
+                  <p className="mb-1 text-[9px] font-medium tracking-wider text-olive/80 uppercase">
                     {index === 0 ? "Cover image" : `Image ${index + 1}`}
                   </p>
                   <p className="mb-3 line-clamp-3 break-words text-[10px] leading-5">{image.alt}</p>
@@ -300,7 +300,7 @@ export function ProductMedia({ product }: { product: Product }) {
                       disabled={busy}
                       onClick={() => removeImage(image)}
                       aria-label={`Remove image ${index + 1} from gallery`}
-                      className="inline-flex items-center gap-1 py-1 text-[9px] text-olive/65 underline underline-offset-4 disabled:opacity-40"
+                      className="inline-flex items-center gap-1 py-1 text-[9px] text-olive/80 underline underline-offset-4 disabled:opacity-40"
                     >
                       <X size={10} />
                       Remove
@@ -309,7 +309,7 @@ export function ProductMedia({ product }: { product: Product }) {
                 </div>
               </div>
               <div className="mt-2 flex items-center justify-between gap-2">
-                <span className="text-[9px] text-olive/45">
+                <span className="text-[9px] text-olive/80">
                   {image.publicId ? "Cloudinary" : "Supplied image"}
                 </span>
                 <div className="flex gap-1">
@@ -346,7 +346,7 @@ export function ProductMedia({ product }: { product: Product }) {
           ))}
         </ol>
       ) : (
-        <p className="mb-0 border border-dashed border-olive/20 p-6 text-center text-xs leading-6 text-olive/55">
+        <p className="mb-0 border border-dashed border-olive/20 p-6 text-center text-xs leading-6 text-olive/80">
           Add a product image to introduce this essential.
         </p>
       )}
@@ -379,7 +379,7 @@ export function ProductMedia({ product }: { product: Product }) {
         <ImagePlus size={14} />
         Choose images
       </Button>
-      <p className="mt-3 mb-0 text-[9px] leading-5 text-olive/55">
+      <p className="mt-3 mb-0 text-[9px] leading-5 text-olive/80">
         JPG, PNG, WebP or AVIF. Up to 8 MB per image and 8,000 pixels per side.
       </p>
       {queue.length > 0 && (
@@ -391,7 +391,7 @@ export function ProductMedia({ product }: { product: Product }) {
                 <div className="mb-3 flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <p className="mb-1 break-all text-[10px] font-medium">{item.file.name}</p>
-                    <p className="mb-0 text-[9px] text-olive/55">
+                    <p className="mb-0 text-[9px] text-olive/80">
                       {(item.file.size / 1024 / 1024).toFixed(2)} MB
                       {item.replacement ? " · Replaces an existing image" : " · New image"}
                     </p>
@@ -423,7 +423,7 @@ export function ProductMedia({ product }: { product: Product }) {
                   onChange={(event) => updateQueue(item.id, { alt: event.target.value })}
                   className="field px-3 py-2 text-[11px] disabled:opacity-65"
                 />
-                <p className="mt-2 mb-0 text-[9px] leading-5 text-olive/50">
+                <p className="mt-2 mb-0 text-[9px] leading-5 text-olive/80">
                   Describe what’s shown for people using screen readers.
                 </p>
                 {item.status === "uploading" || item.status === "verifying" ? (
@@ -469,14 +469,14 @@ export function ProductMedia({ product }: { product: Product }) {
       {detached.length > 0 && (
         <div className="mt-5 border-t border-olive/15 pt-5">
           <h3 className="mb-2 text-[11px] font-semibold">Detached cloud images</h3>
-          <p className="mb-3 text-[10px] leading-5 text-olive/60">
+          <p className="mb-3 text-[10px] leading-5 text-olive/80">
             These images were removed from this product. Deletion is blocked if another product
             still uses them.
           </p>
           <ul className="m-0 list-none space-y-3 p-0">
             {detached.map((image) => (
               <li key={image.publicId} className="min-w-0">
-                <p className="mb-1 truncate text-[10px] text-olive/65">{image.alt}</p>
+                <p className="mb-1 truncate text-[10px] text-olive/80">{image.alt}</p>
                 <button
                   type="button"
                   disabled={busy}
@@ -527,7 +527,7 @@ export function ProductMedia({ product }: { product: Product }) {
             {deleteTarget && (
               <div className="mb-5 border border-olive/15 p-4">
                 <p className="mb-2 text-xs">{deleteTarget.alt}</p>
-                <p className="mb-0 break-all font-mono text-[9px] text-olive/60">
+                <p className="mb-0 break-all font-mono text-[9px] text-olive/80">
                   {deleteTarget.publicId}
                 </p>
               </div>

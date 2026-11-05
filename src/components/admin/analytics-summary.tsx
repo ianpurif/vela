@@ -36,7 +36,7 @@ export function AnalyticsMetrics({ analytics }: { analytics: AdminAnalytics }) {
       {cards.map(({ label, value, detail, icon: Icon }) => (
         <section key={label} className="min-w-0 border border-olive/10 bg-ivory p-4 sm:p-6">
           <div className="mb-5 flex items-center justify-between gap-2">
-            <h2 className="mb-0 font-sans text-[10px] font-medium tracking-normal text-olive/70">
+            <h2 className="mb-0 font-sans text-[10px] font-medium tracking-normal text-olive/80">
               {label}
             </h2>
             <Icon size={16} strokeWidth={1.3} className="shrink-0 text-sage" />
@@ -44,7 +44,7 @@ export function AnalyticsMetrics({ analytics }: { analytics: AdminAnalytics }) {
           <p className="mb-2 break-words text-[26px] font-medium leading-tight tracking-[-.04em] tabular-nums xl:text-[30px]">
             {value}
           </p>
-          <p className="mb-0 text-[9px] leading-5 text-olive/55">{detail}</p>
+          <p className="mb-0 text-[9px] leading-5 text-olive/80">{detail}</p>
         </section>
       ))}
     </div>
@@ -55,7 +55,7 @@ export function AnalyticsScope({ analytics }: { analytics: AdminAnalytics }) {
   const { window, scope } = analytics;
   return (
     <div className="mb-7 space-y-3">
-      <p className="mb-0 text-[10px] leading-6 text-olive/60">
+      <p className="mb-0 text-[10px] leading-6 text-olive/80">
         {operationDate(window.startAt)} – {operationDate(window.endAt)} UTC. Test-mode orders only.
         Revenue follows payment verification dates; orders created follows checkout creation dates.
       </p>
@@ -64,11 +64,11 @@ export function AnalyticsScope({ analytics }: { analytics: AdminAnalytics }) {
           role="status"
           className="mb-0 border-l-2 border-champagne bg-champagne/15 p-4 text-[11px] leading-6 text-olive/75"
         >
-          This report reached a query limit. Totals and rankings may be incomplete. Shorter
-          periods can reduce order truncation; the catalog remains limited to 1,000 products.
+          This report reached a query limit. Totals and rankings may be incomplete. Shorter periods
+          can reduce order truncation; the catalog remains limited to 1,000 products.
         </p>
       )}
-      <details className="text-[10px] leading-6 text-olive/55">
+      <details className="text-[10px] leading-6 text-olive/80">
         <summary className="w-fit cursor-pointer underline underline-offset-4">
           Report scope and limits
         </summary>

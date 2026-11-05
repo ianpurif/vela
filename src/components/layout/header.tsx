@@ -31,7 +31,7 @@ export function Header({ products, announcement }: { products: Product[]; announ
                 key={link.href}
                 href={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
-                className="text-[10px] font-semibold tracking-[.09em] transition-opacity hover:opacity-60"
+                className="text-[10px] font-semibold tracking-[.09em] transition-colors hover:text-olive/80"
               >
                 {link.label}
               </Link>
@@ -150,7 +150,7 @@ export function Header({ products, announcement }: { products: Product[]; announ
                           <Dialog.Title className="font-display text-4xl">
                             A little something for your skin.
                           </Dialog.Title>
-                          <Dialog.Description className="my-4 text-sm text-olive/70">
+                          <Dialog.Description className="my-4 text-sm text-olive/80">
                             Find a product, ingredient, or moment of care.
                           </Dialog.Description>
                           <form
@@ -162,7 +162,7 @@ export function Header({ products, announcement }: { products: Product[]; announ
                               name="q"
                               aria-label="Search the collection"
                               placeholder="Search the collection"
-                              className="min-w-0 flex-1 bg-transparent py-4 outline-none"
+                              className="min-w-0 flex-1 bg-transparent py-4"
                               autoFocus
                             />
                             <button aria-label="Submit search" className="p-4">

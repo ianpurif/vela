@@ -73,11 +73,16 @@ export function CategoryManager({
       <section className="min-w-0 border border-olive/10 bg-ivory">
         <div className="flex items-center justify-between gap-4 border-b border-olive/10 p-5">
           <h2 className="mb-0 font-sans text-sm font-medium tracking-normal">Product categories</h2>
-          <span className="text-[10px] text-olive/55">{categories.length} categories</span>
+          <span className="text-[10px] text-olive/80">{categories.length} categories</span>
         </div>
-        <div className="relative overflow-x-auto" role="region" aria-label="Product categories" tabIndex={0}>
+        <div
+          className="relative overflow-x-auto"
+          role="region"
+          aria-label="Product categories"
+          tabIndex={0}
+        >
           <table className="w-full min-w-[450px] border-collapse text-left text-xs">
-            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/55 uppercase">
+            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/80 uppercase">
               <tr>
                 <th className="px-5 py-3.5 font-medium">Category</th>
                 <th className="px-4 py-3.5 text-right font-medium">Products</th>
@@ -97,14 +102,14 @@ export function CategoryManager({
                   >
                     <td className="px-5 py-5">
                       <p className="mb-1 font-medium">{category.name}</p>
-                      <p className="mb-0 max-w-xs text-[10px] leading-5 text-olive/55">
+                      <p className="mb-0 max-w-xs text-[10px] leading-5 text-olive/80">
                         {category.description || category.id}
                       </p>
                     </td>
                     <td className="px-4 py-5 text-right tabular-nums">
                       {counts.get(category.id) || 0}
                     </td>
-                    <td className="px-4 py-5 text-right tabular-nums text-olive/60">
+                    <td className="px-4 py-5 text-right tabular-nums text-olive/80">
                       {category.rank}
                     </td>
                     <td className="px-5 py-5 text-right">
@@ -122,7 +127,7 @@ export function CategoryManager({
             </tbody>
           </table>
           {categories.length === 0 && (
-            <p className="mb-0 px-5 py-12 text-center text-xs text-olive/60">
+            <p className="mb-0 px-5 py-12 text-center text-xs text-olive/80">
               Create a category to start organizing your collection.
             </p>
           )}
@@ -207,7 +212,7 @@ export function CategoryManager({
               </button>
             )}
             {editing && (
-              <p className="mt-2 mb-0 text-[10px] leading-5 text-olive/55">
+              <p className="mt-2 mb-0 text-[10px] leading-5 text-olive/80">
                 The handle stays fixed so existing product links keep working.
               </p>
             )}
@@ -242,7 +247,7 @@ export function CategoryManager({
               className="field text-xs"
               {...register("rank", { valueAsNumber: true })}
             />
-            <p className="mt-2 mb-0 text-[10px] text-olive/55">Lower numbers appear first.</p>
+            <p className="mt-2 mb-0 text-[10px] text-olive/80">Lower numbers appear first.</p>
             {errors.rank && (
               <p role="alert" className="mt-2 mb-0 text-xs text-[#8c4b32]">
                 Use a whole number from 0 to 99.

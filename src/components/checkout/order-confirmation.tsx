@@ -240,7 +240,7 @@ export function OrderConfirmation({
           {order.paymentStatus === "paid" ? (
             <CircleCheck size={27} strokeWidth={1.2} className="text-sage" />
           ) : (
-            <Clock3 size={26} strokeWidth={1.2} className="text-olive/65" />
+            <Clock3 size={26} strokeWidth={1.2} className="text-olive/80" />
           )}
         </div>
         <p className="eyebrow mb-5" role="status">
@@ -258,22 +258,22 @@ export function OrderConfirmation({
         </p>
         <dl className="mb-8 grid gap-4 border-y border-olive/20 py-6 text-xs">
           <div className="flex flex-wrap justify-between gap-3">
-            <dt className="text-olive/60">Order reference</dt>
+            <dt className="text-olive/80">Order reference</dt>
             <dd className="m-0 break-all font-mono text-[10px]">{order.id}</dd>
           </div>
           <div className="flex flex-wrap justify-between gap-3">
-            <dt className="text-olive/60">Order email</dt>
+            <dt className="text-olive/80">Order email</dt>
             <dd className="m-0 break-all">{order.email}</dd>
           </div>
           <div className="flex justify-between gap-3">
-            <dt className="text-olive/60">Payment status</dt>
+            <dt className="text-olive/80">Payment status</dt>
             <dd className="m-0 font-medium capitalize">
               {order.paymentStatus === "paid" ? "Verified test payment" : order.paymentStatus}
             </dd>
           </div>
           {order.paymentStatus === "paid" && (
             <div className="flex justify-between gap-3">
-              <dt className="text-olive/60">Fulfillment</dt>
+              <dt className="text-olive/80">Fulfillment</dt>
               <dd className="m-0 capitalize">
                 {order.fulfillmentStatus === "unfulfilled"
                   ? "Awaiting preparation"
@@ -283,14 +283,14 @@ export function OrderConfirmation({
           )}
           {order.trackingNumber && (
             <div className="flex flex-wrap justify-between gap-3">
-              <dt className="text-olive/60">Tracking reference</dt>
+              <dt className="text-olive/80">Tracking reference</dt>
               <dd className="m-0 break-all text-right">{order.trackingNumber}</dd>
             </div>
           )}
         </dl>
         {order.paymentStatus === "pending" && (
           <div className="mb-7">
-            <p className="mb-5 flex items-start gap-2 text-[11px] leading-6 text-olive/65">
+            <p className="mb-5 flex items-start gap-2 text-[11px] leading-6 text-olive/80">
               {!pollStopped && <LoaderCircle size={13} className="mt-1 shrink-0 animate-spin" />}
               {pollStopped
                 ? "Automatic checking has paused. Use Check payment status to refresh the latest confirmation."
@@ -314,7 +314,7 @@ export function OrderConfirmation({
               type="button"
               disabled={!!busy}
               onClick={cancelCheckout}
-              className="mt-5 py-2 text-[10px] text-olive/65 underline underline-offset-4 disabled:opacity-40"
+              className="mt-5 py-2 text-[10px] text-olive/80 underline underline-offset-4 disabled:opacity-40"
             >
               {busy === "cancel" ? "Cancelling…" : "Cancel this checkout"}
             </button>
@@ -346,7 +346,7 @@ export function OrderConfirmation({
         )}
         {order.paymentStatus === "paid" && (
           <>
-            <p className="mb-6 flex items-start gap-2 text-[11px] leading-6 text-olive/65">
+            <p className="mb-6 flex items-start gap-2 text-[11px] leading-6 text-olive/80">
               <Check size={14} className="mt-1 shrink-0 text-sage" />
               {bagNotice || "Your verified test order is safely recorded in your account."}
             </p>
@@ -363,7 +363,7 @@ export function OrderConfirmation({
             </div>
           </>
         )}
-        <p className="mb-0 text-[11px] leading-6 text-olive/65">
+        <p className="mb-0 text-[11px] leading-6 text-olive/80">
           Need a little help?{" "}
           <Link href="/contact" className="text-olive underline underline-offset-4">
             Contact VELA
@@ -374,7 +374,7 @@ export function OrderConfirmation({
       <aside className="bg-sand/35 p-6 sm:p-8">
         <div className="mb-7 border-b border-olive/15 pb-5">
           <p className="eyebrow mb-2">Test order</p>
-          <p className="mb-0 text-[10px] leading-6 text-olive/65">
+          <p className="mb-0 text-[10px] leading-6 text-olive/80">
             This is a demonstration purchase. No real charge or delivery is created.
           </p>
         </div>

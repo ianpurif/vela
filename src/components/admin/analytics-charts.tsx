@@ -44,13 +44,13 @@ export function RevenueChart({ trend }: { trend: AnalyticsDay[] }) {
     <section className="min-w-0 border border-olive/10 bg-ivory p-5 sm:p-6">
       <div className="mb-6">
         <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">Revenue over time</h2>
-        <p className="mb-0 text-[10px] leading-6 text-olive/60">
+        <p className="mb-0 text-[10px] leading-6 text-olive/80">
           {money(revenue)} across {paid} verified paid {paid === 1 ? "order" : "orders"}. Daily USD
           revenue includes shipping.
         </p>
       </div>
       {!paid && (
-        <p className="mb-4 text-[11px] text-olive/60">
+        <p className="mb-4 text-[11px] text-olive/80">
           No verified payments in this reporting period.
         </p>
       )}
@@ -70,7 +70,7 @@ export function RevenueChart({ trend }: { trend: AnalyticsDay[] }) {
             <XAxis
               dataKey="date"
               tickFormatter={dayLabel}
-              tick={{ fontSize: 10, fill: "#343d3190" }}
+              tick={{ fontSize: 10, fill: "#343d31cc" }}
               axisLine={false}
               tickLine={false}
               minTickGap={32}
@@ -78,7 +78,7 @@ export function RevenueChart({ trend }: { trend: AnalyticsDay[] }) {
             />
             <YAxis
               tickFormatter={compactMoney}
-              tick={{ fontSize: 9, fill: "#343d3190" }}
+              tick={{ fontSize: 9, fill: "#343d31cc" }}
               axisLine={false}
               tickLine={false}
               width={50}
@@ -116,7 +116,7 @@ export function RevenueChart({ trend }: { trend: AnalyticsDay[] }) {
             <caption className="sr-only">
               Daily created orders, verified paid orders and revenue in UTC
             </caption>
-            <thead className="border-b border-olive/10 text-olive/55">
+            <thead className="border-b border-olive/10 text-olive/80">
               <tr>
                 <th className="py-3 pr-3 font-medium">Date (UTC)</th>
                 <th className="px-3 py-3 text-right font-medium">Created</th>
@@ -145,7 +145,7 @@ export function BestsellersChart({ products }: { products: Bestseller[] }) {
   return (
     <section className="min-w-0 border border-olive/10 bg-ivory p-5 sm:p-6">
       <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">Bestsellers</h2>
-      <p className="mb-5 text-[10px] leading-6 text-olive/60">
+      <p className="mb-5 text-[10px] leading-6 text-olive/80">
         Up to ten products ranked by units in verified payments during this period. Product revenue
         excludes shipping.
       </p>
@@ -172,7 +172,7 @@ export function BestsellersChart({ products }: { products: Bestseller[] }) {
                 <XAxis
                   type="number"
                   allowDecimals={false}
-                  tick={{ fontSize: 9, fill: "#343d3190" }}
+                  tick={{ fontSize: 9, fill: "#343d31cc" }}
                   axisLine={false}
                   tickLine={false}
                 />
@@ -206,7 +206,7 @@ export function BestsellersChart({ products }: { products: Bestseller[] }) {
               <caption className="sr-only">
                 Bestselling products by units, with product revenue
               </caption>
-              <thead className="border-y border-olive/10 text-olive/55">
+              <thead className="border-y border-olive/10 text-olive/80">
                 <tr>
                   <th className="py-3 pr-3 font-medium">Product</th>
                   <th className="px-3 py-3 text-right font-medium">Units</th>
@@ -227,7 +227,7 @@ export function BestsellersChart({ products }: { products: Bestseller[] }) {
         </>
       ) : (
         <div className="flex min-h-[220px] items-center justify-center border-t border-olive/10 text-center">
-          <p className="mb-0 max-w-xs text-xs leading-7 text-olive/60">
+          <p className="mb-0 max-w-xs text-xs leading-7 text-olive/80">
             Bestsellers will appear after a verified payment contains products in this reporting
             period.
           </p>

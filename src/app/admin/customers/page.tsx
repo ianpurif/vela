@@ -27,7 +27,7 @@ export default async function CustomersPage({
       <LimitNotice truncated={result.truncated} limit={result.limit} kind="customers" />
       <section className="min-w-0 border border-olive/10 bg-ivory">
         <div className="border-b border-olive/10 px-5 py-4">
-          <p className="mb-0 text-[10px] text-olive/60">
+          <p className="mb-0 text-[10px] text-olive/80">
             {result.customers.length} {result.customers.length === 1 ? "customer" : "customers"}
             {query ? ` matching “${query}”` : " in this view"}
           </p>
@@ -39,7 +39,7 @@ export default async function CustomersPage({
           tabIndex={0}
         >
           <table className="w-full min-w-[650px] border-collapse text-left text-xs">
-            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/55 uppercase">
+            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/80 uppercase">
               <tr>
                 <th className="px-5 py-3.5 font-medium">Customer</th>
                 <th className="px-4 py-3.5 font-medium">Email</th>
@@ -58,8 +58,8 @@ export default async function CustomersPage({
                       {customer.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-5 text-olive/65">{customer.email}</td>
-                  <td className="whitespace-nowrap px-4 py-5 text-[10px] text-olive/65">
+                  <td className="px-4 py-5 text-olive/80">{customer.email}</td>
+                  <td className="whitespace-nowrap px-4 py-5 text-[10px] text-olive/80">
                     {operationDate(customer.createdAt)}
                   </td>
                   <td className="px-4 py-5 text-right tabular-nums">{customer.addresses.length}</td>
@@ -77,7 +77,7 @@ export default async function CustomersPage({
             </tbody>
           </table>
           {result.customers.length === 0 && (
-            <p className="mb-0 px-5 py-14 text-center text-xs text-olive/60">
+            <p className="mb-0 px-5 py-14 text-center text-xs text-olive/80">
               {query
                 ? "No customers match that name or email prefix."
                 : "Customer profiles will appear after the first account is created."}

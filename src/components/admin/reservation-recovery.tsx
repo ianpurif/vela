@@ -34,7 +34,7 @@ export function ReservationRecovery() {
   return (
     <section className="border border-olive/10 bg-ivory p-6">
       <h2 className="mb-3 font-sans text-sm font-medium tracking-normal">Checkout recovery</h2>
-      <p className="mb-5 text-[11px] leading-6 text-olive/65">
+      <p className="mb-5 text-[11px] leading-6 text-olive/80">
         Check overdue reservations against Stripe before releasing stock. Pending confirmations
         remain protected.
       </p>

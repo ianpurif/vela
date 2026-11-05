@@ -57,7 +57,7 @@ export function EmailVerification({ emailVerified, uid }: { emailVerified: boole
   const [error, setError] = useState("");
   if (emailVerified)
     return (
-      <p className="mb-8 flex items-center gap-2 text-xs text-olive/70">
+      <p className="mb-8 flex items-center gap-2 text-xs text-olive/80">
         <Check size={14} className="text-sage" />
         Email verified
       </p>

@@ -118,7 +118,7 @@ export function ContentForm({
             <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">
               The first impression
             </h2>
-            <p className="mb-0 text-[11px] leading-6 text-olive/60">
+            <p className="mb-0 text-[11px] leading-6 text-olive/80">
               The opening text over the homepage image. Keep the two title lines short for smaller
               screens.
             </p>
@@ -169,7 +169,7 @@ export function ContentForm({
             ) : (
               <p
                 id="featured-category-hint"
-                className="mt-2 mb-0 text-[10px] leading-6 text-olive/55"
+                className="mt-2 mb-0 text-[10px] leading-6 text-olive/80"
               >
                 Show products marked featured, or up to three published products from one
                 collection.
@@ -180,7 +180,7 @@ export function ContentForm({
         <section className="space-y-5 border border-olive/10 bg-ivory p-5 sm:p-7">
           <div>
             <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">Promotion</h2>
-            <p className="mb-0 text-[11px] leading-6 text-olive/60">
+            <p className="mb-0 text-[11px] leading-6 text-olive/80">
               Editorial copy for the homepage promotion. Prices and checkout rules are managed
               separately.
             </p>
@@ -200,7 +200,7 @@ export function ContentForm({
           <h2 className="mb-0 font-sans text-sm font-medium tracking-normal">
             Publish your changes
           </h2>
-          <p className="mb-0 text-[11px] leading-6 text-olive/65">
+          <p className="mb-0 text-[11px] leading-6 text-olive/80">
             Saving updates the storefront homepage. Open the storefront to review the published
             result.
           </p>
@@ -210,7 +210,7 @@ export function ContentForm({
             <Save size={14} />
             {isSubmitting ? "Saving content…" : "Save content"}
           </Button>
-          <p className="mb-0 text-[10px] leading-6 text-olive/55">
+          <p className="mb-0 text-[10px] leading-6 text-olive/80">
             {savedAt
               ? `Last saved ${operationDate(savedAt)} UTC`
               : "Showing the initial homepage content."}

@@ -62,7 +62,7 @@ export function CartDrawer({ products }: { products: Product[] }) {
                   <div className="flex items-center justify-between gap-4">
                     <Dialog.Title className="mb-0 font-display text-4xl">
                       Your bag{" "}
-                      <span className="font-sans text-xs text-olive/60">({cart.count})</span>
+                      <span className="font-sans text-xs text-olive/80">({cart.count})</span>
                     </Dialog.Title>
                     <Dialog.Close asChild>
                       <button
@@ -74,7 +74,7 @@ export function CartDrawer({ products }: { products: Product[] }) {
                       </button>
                     </Dialog.Close>
                   </div>
-                  <Dialog.Description className="mt-2 mb-0 text-[11px] text-olive/65">
+                  <Dialog.Description className="mt-2 mb-0 text-[11px] text-olive/80">
                     A better ritual is taking shape.
                   </Dialog.Description>
                 </div>
@@ -91,7 +91,7 @@ export function CartDrawer({ products }: { products: Product[] }) {
                       <span className="text-xs">Subtotal</span>
                       <span className="font-display text-3xl">{money(cart.subtotal)}</span>
                     </div>
-                    <p className="mb-5 text-[10px] leading-5 text-olive/60">
+                    <p className="mb-5 text-[10px] leading-5 text-olive/80">
                       Shipping and final availability are confirmed at checkout.
                     </p>
                     {cart.unavailable ? (

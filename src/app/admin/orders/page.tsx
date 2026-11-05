@@ -72,7 +72,7 @@ export default async function AdminOrdersPage({
             </Link>
           )}
         </div>
-        <p className="mb-0 text-[10px] text-olive/55">
+        <p className="mb-0 text-[10px] text-olive/80">
           Up to {result.limit} orders per page{result.next ? " · More orders available" : ""}
         </p>
         {result.next ? (

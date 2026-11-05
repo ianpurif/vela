@@ -27,7 +27,7 @@ export default async function CheckoutSuccessPage({
       <main id="main" className="wrap py-20 text-center">
         <p className="eyebrow mb-5">Your order</p>
         <h1 className="mb-6 text-6xl">Let’s find your ritual.</h1>
-        <p className="mb-8 text-xs leading-7 text-olive/70">
+        <p className="mb-8 text-xs leading-7 text-olive/80">
           No order reference was provided. Open your order history to check a purchase.
         </p>
         <Button asChild>

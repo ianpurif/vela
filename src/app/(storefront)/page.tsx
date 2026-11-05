@@ -61,7 +61,7 @@ export default async function Home() {
           </div>
           <a
             href="#essentials"
-            className="mt-16 flex w-fit items-center gap-3 text-[9px] font-semibold uppercase tracking-[.18em] text-olive/65 max-md:mt-9"
+            className="mt-16 flex w-fit items-center gap-3 text-[9px] font-semibold uppercase tracking-[.18em] text-olive/80 max-md:mt-9"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-full border border-olive/20">
               <ArrowDown size={13} />
@@ -79,7 +79,7 @@ export default async function Home() {
             sizes="(max-width: 768px) 100vw, 60vw"
             className="object-cover object-[62%_center]"
           />
-          <div className="absolute bottom-7 left-7 right-7 flex justify-between border-t border-ivory/45 pt-4 text-[9px] uppercase tracking-[.18em] text-white">
+          <div className="absolute bottom-7 left-7 right-7 flex flex-wrap justify-between gap-3 bg-olive/85 px-4 py-3 text-[10px] uppercase tracking-[.18em] text-ivory">
             <span>The everyday collection</span>
             <span>Made for your moments</span>
           </div>
@@ -111,7 +111,7 @@ export default async function Home() {
       <section id="essentials" className="wrap section-space">
         <div className="mb-10 flex items-end justify-between gap-6">
           <div data-reveal>
-            <p className="eyebrow mb-4 text-olive/70">Your daily essentials</p>
+            <p className="eyebrow mb-4 text-olive/80">Your daily essentials</p>
             <h2 className="section-title mb-0">
               The art of <em>less.</em>
             </h2>
@@ -145,12 +145,12 @@ export default async function Home() {
               sizes="(max-width:768px) 100vw, 45vw"
               className="object-cover"
             />
-            <span className="absolute bottom-5 left-5 text-[9px] uppercase tracking-[.16em] text-white">
+            <span className="absolute bottom-5 left-5 right-5 w-fit bg-olive/85 px-3 py-2 text-[10px] uppercase tracking-[.16em] text-ivory">
               The beauty of taking your time.
             </span>
           </div>
           <div data-reveal className="max-w-lg">
-            <p className="eyebrow mb-6 text-olive/70">Our philosophy</p>
+            <p className="eyebrow mb-6 text-olive/80">Our philosophy</p>
             <h2 className="section-title">
               More than skincare.
               <br />
@@ -175,12 +175,12 @@ export default async function Home() {
       <section className="wrap section-space">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
           <div data-reveal>
-            <p className="eyebrow mb-4 text-olive/70">Meet your next ritual</p>
+            <p className="eyebrow mb-4 text-olive/80">Meet your next ritual</p>
             <h2 className="section-title mb-0">
               A little care, <em>every step.</em>
             </h2>
           </div>
-          <p className="max-w-[240px] text-xs leading-6 text-olive/70">
+          <p className="max-w-[240px] text-xs leading-6 text-olive/80">
             From a fresh beginning to your evening exhale. Find what feels right.
           </p>
         </div>
@@ -195,7 +195,9 @@ export default async function Home() {
                   sizes="(max-width:1024px) 45vw, 23vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <span className="absolute left-4 top-4 text-[9px] tracking-widest">0{i + 1}</span>
+                <span className="absolute left-4 top-4 bg-ivory/95 px-2 py-1 text-[10px] tracking-widest text-olive">
+                  0{i + 1}
+                </span>
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <h3 className="font-display text-2xl">{category.name}</h3>
@@ -208,7 +210,7 @@ export default async function Home() {
       <section className="relative isolate overflow-hidden bg-[#d9d7c9]">
         <div className="wrap grid min-h-[430px] items-center gap-12 py-16 md:grid-cols-[1.1fr_1fr]">
           <div data-reveal className="relative z-10">
-            <p className="eyebrow mb-5 text-olive/70">The VELA ritual finder</p>
+            <p className="eyebrow mb-5 text-olive/80">The VELA ritual finder</p>
             <h2 className="section-title">{content.promotionTitle}</h2>
             <p className="my-6 max-w-sm text-[13px] leading-7 text-olive/80">
               {content.promotionText}
@@ -218,7 +220,7 @@ export default async function Home() {
                 Find my ritual <ArrowRight size={15} />
               </Link>
             </Button>
-            <p className="mt-4 text-[10px] text-olive/65">Two minutes, a little self-discovery.</p>
+            <p className="mt-4 text-[10px] text-olive/80">Two minutes, a little self-discovery.</p>
           </div>
           <div data-parallax className="relative aspect-[1.4] overflow-hidden">
             <Image
@@ -232,7 +234,7 @@ export default async function Home() {
         </div>
       </section>
       <section data-reveal className="wrap py-20 text-center">
-        <p className="eyebrow mb-5 text-olive/70">A softer kind of beauty</p>
+        <p className="eyebrow mb-5 text-olive/80">A softer kind of beauty</p>
         <h2 className="mx-auto max-w-3xl font-display text-[clamp(36px,4vw,58px)] leading-[1.1]">
           Not another thing to do.
           <br />

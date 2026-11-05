@@ -4,7 +4,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const styles = cva(
-  "inline-flex min-h-12 items-center justify-center gap-3 px-7 py-3 text-[11px] font-semibold tracking-[.14em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-olive disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex min-h-12 items-center justify-center gap-3 px-7 py-3 text-[11px] font-semibold tracking-[.14em] uppercase transition-colors disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {

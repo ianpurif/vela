@@ -32,7 +32,7 @@ export function ProductTable({
           <label htmlFor="admin-product-search" className="sr-only">
             Search products
           </label>
-          <Search size={15} className="absolute left-3 top-3.5 text-olive/50" />
+          <Search size={15} className="absolute left-3 top-3.5 text-olive/80" />
           <input
             id="admin-product-search"
             type="search"
@@ -43,7 +43,7 @@ export function ProductTable({
           />
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-olive/55" aria-live="polite">
+          <span className="text-[10px] text-olive/80" aria-live="polite">
             {filtered.length} products
           </span>
           <label htmlFor="admin-product-status" className="sr-only">
@@ -64,7 +64,7 @@ export function ProductTable({
       </div>
       <div className="relative overflow-x-auto" role="region" aria-label="Products" tabIndex={0}>
         <table className="w-full min-w-[710px] border-collapse text-left text-xs">
-          <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/55 uppercase">
+          <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/80 uppercase">
             <tr>
               <th className="px-5 py-3.5 font-medium">Product</th>
               <th className="px-4 py-3.5 font-medium">Category</th>
@@ -103,10 +103,10 @@ export function ProductTable({
                       >
                         {product.name}
                       </Link>
-                      <p className="mt-1.5 mb-0 text-[9px] text-olive/55">
+                      <p className="mt-1.5 mb-0 text-[9px] text-olive/80">
                         {product.size}
                         {product.featured && (
-                          <span className="ml-2 inline-flex items-center gap-1 text-[#8d704b]">
+                          <span className="ml-2 inline-flex items-center gap-1 text-[#715739]">
                             <Star size={9} />
                             Featured
                           </span>
@@ -115,7 +115,7 @@ export function ProductTable({
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-4 text-olive/65">
+                <td className="px-4 py-4 text-olive/80">
                   {categoryNames.get(product.category) || product.category}
                 </td>
                 <td className="px-4 py-4">
@@ -141,7 +141,7 @@ export function ProductTable({
         {filtered.length === 0 && (
           <div className="px-6 py-16 text-center">
             <p className="mb-2 text-sm">No products match.</p>
-            <p className="mb-0 text-xs text-olive/60">
+            <p className="mb-0 text-xs text-olive/80">
               Change the search or status filter to see more.
             </p>
           </div>

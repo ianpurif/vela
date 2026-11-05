@@ -40,13 +40,13 @@ export default async function AdminOverviewPage() {
                 <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">
                   Recent orders
                 </h2>
-                <p className="mb-0 text-[10px] text-olive/55">
+                <p className="mb-0 text-[10px] text-olive/80">
                   The ten most recent orders created in this period.
                 </p>
               </div>
               <Link
                 href="/admin/orders"
-                className="inline-flex shrink-0 items-center gap-2 text-[10px] text-olive/65"
+                className="inline-flex shrink-0 items-center gap-2 text-[10px] text-olive/80"
               >
                 View all
                 <ArrowUpRight size={13} />
@@ -61,7 +61,7 @@ export default async function AdminOverviewPage() {
               <TriangleAlert size={16} strokeWidth={1.4} className="text-sage" />
               <h2 className="mb-0 font-sans text-sm font-medium tracking-normal">Stock to watch</h2>
             </div>
-            <p className="mb-4 text-[10px] leading-6 text-olive/55">
+            <p className="mb-4 text-[10px] leading-6 text-olive/80">
               Up to ten published products with five or fewer units available.{" "}
               {analytics.metrics.products.toLocaleString("en-US")} catalog products included.
             </p>
@@ -82,7 +82,7 @@ export default async function AdminOverviewPage() {
                 ))}
               </ul>
             ) : (
-              <p className="mb-0 text-xs leading-6 text-olive/65">
+              <p className="mb-0 text-xs leading-6 text-olive/80">
                 No low-stock published products in this catalog view.
               </p>
             )}
@@ -96,9 +96,9 @@ export default async function AdminOverviewPage() {
           </section>
           <ReservationRecovery />
           <section className="bg-olive p-6 text-ivory">
-            <p className="eyebrow mb-4 text-ivory/55">A closer look</p>
+            <p className="eyebrow mb-4 text-ivory/80">A closer look</p>
             <h2 className="mb-4 text-4xl">Follow the details.</h2>
-            <p className="mb-5 text-xs leading-6 text-ivory/70">
+            <p className="mb-5 text-xs leading-6 text-ivory/80">
               Compare reporting periods, review daily sales, and see which essentials customers
               choose.
             </p>

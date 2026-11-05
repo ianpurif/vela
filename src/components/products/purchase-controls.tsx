@@ -19,7 +19,7 @@ export function PurchaseControls({ product }: { product: Product }) {
         />
         <AddToCart product={product} quantity={quantity} />
       </div>
-      <p className="mt-4 mb-0 flex items-center gap-2 text-[11px] text-olive/70">
+      <p className="mt-4 mb-0 flex items-center gap-2 text-[11px] text-olive/80">
         <span className={`h-1.5 w-1.5 rounded-full ${available > 0 ? "bg-sage" : "bg-olive/30"}`} />
         {available > 0
           ? available < 6

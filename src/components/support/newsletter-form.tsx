@@ -188,7 +188,7 @@ export function NewsletterForm({
               className={cn(
                 "field",
                 dark &&
-                  "border-ivory/35 bg-transparent text-ivory placeholder:text-ivory/80 focus:border-ivory focus-visible:outline-ivory",
+                  "[--field-border:#f7f3ed99] bg-transparent text-ivory placeholder:text-ivory/80",
               )}
               aria-invalid={!!emailError}
               aria-describedby={emailError ? `${id}-email-error` : undefined}
@@ -221,7 +221,7 @@ export function NewsletterForm({
                 type="checkbox"
                 checked={consent}
                 onChange={(event) => setConsent(event.target.checked)}
-                className="mt-1 h-4 w-4 shrink-0 accent-sage"
+                className="mt-1 h-4 w-4 shrink-0 accent-olive"
                 aria-invalid={!!consentError}
                 aria-describedby={consentError ? `${id}-consent-error` : undefined}
               />

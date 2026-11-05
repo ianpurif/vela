@@ -50,7 +50,7 @@ export default async function ProductPage({ params }: Props) {
       <section className="wrap pb-16 pt-7 md:pb-24 md:pt-9">
         <Link
           href="/shop"
-          className="mb-7 inline-flex items-center gap-2 text-[10px] tracking-[.12em] text-olive/70 uppercase"
+          className="mb-7 inline-flex items-center gap-2 text-[10px] tracking-[.12em] text-olive/80 uppercase"
         >
           <ArrowLeft size={13} />
           Back to the essentials
@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="grid items-start gap-9 md:grid-cols-2 md:gap-12 lg:gap-20">
           <ProductGallery images={product.images} name={product.name} />
           <div className="md:py-6 lg:py-10">
-            <p className="eyebrow mb-5 text-olive/65">
+            <p className="eyebrow mb-5 text-olive/80">
               {product.category.replaceAll("-", " ")} <span className="mx-2">/</span> The daily
               ritual
             </p>
@@ -69,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
             <p className="mb-7 flex items-center gap-4 text-sm">
               <span className="font-medium">{money(product.price)}</span>
               <span className="h-3 border-l border-olive/25" />
-              <span className="text-xs text-olive/60">{product.size}</span>
+              <span className="text-xs text-olive/80">{product.size}</span>
             </p>
             <p className="mb-6 max-w-lg text-[13px] leading-7 text-olive/75">
               {product.description}
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: Props) {
                 </p>
               </details>
             </div>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-[10px] tracking-[.05em] text-olive/65">
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-[10px] tracking-[.05em] text-olive/80">
               <Link href="/shipping" className="underline underline-offset-4">
                 Shipping details
               </Link>

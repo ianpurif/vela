@@ -15,7 +15,7 @@ export function OrderSummary({
         <h2 className="mb-0 font-sans text-[11px] font-semibold tracking-[.1em] uppercase">
           Your essentials
         </h2>
-        <span className="text-[10px] text-olive/55">USD</span>
+        <span className="text-[10px] text-olive/80">USD</span>
       </div>
       <ul className="m-0 list-none divide-y divide-olive/15 p-0">
         {order.lines.map((line) => (
@@ -31,7 +31,7 @@ export function OrderSummary({
             </div>
             <div className="min-w-0 flex-1">
               <p className="mb-2 font-display text-[23px] leading-tight">{line.name}</p>
-              <p className="mb-0 text-[10px] text-olive/65">
+              <p className="mb-0 text-[10px] text-olive/80">
                 Quantity {line.quantity} <span className="mx-1">·</span> {money(line.unitPrice)}{" "}
                 each
               </p>
@@ -41,9 +41,9 @@ export function OrderSummary({
         ))}
       </ul>
       <dl className="mt-5 mb-0 grid grid-cols-2 gap-y-4 border-t border-olive/20 pt-6 text-xs">
-        <dt className="text-olive/70">Subtotal</dt>
+        <dt className="text-olive/80">Subtotal</dt>
         <dd className="m-0 text-right tabular-nums">{money(order.subtotal)}</dd>
-        <dt className="text-olive/70">US shipping</dt>
+        <dt className="text-olive/80">US shipping</dt>
         <dd className="m-0 text-right">
           {order.shipping ? money(order.shipping) : "Complimentary"}
         </dd>
@@ -75,7 +75,7 @@ export function OrderSummary({
               {order.shippingAddress.country}
             </address>
           ) : (
-            <p className="mb-0 text-xs leading-6 text-olive/65">
+            <p className="mb-0 text-xs leading-6 text-olive/80">
               {order.paymentStatus === "paid"
                 ? "No delivery address is attached to this test order."
                 : "Enter your delivery address securely at Stripe checkout."}

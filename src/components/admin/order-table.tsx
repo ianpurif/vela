@@ -28,7 +28,7 @@ export function OrderTable({
             <label htmlFor="order-search" className="sr-only">
               Search these orders
             </label>
-            <Search size={15} className="absolute left-3 top-3.5 text-olive/50" />
+            <Search size={15} className="absolute left-3 top-3.5 text-olive/80" />
             <input
               id="order-search"
               type="search"
@@ -38,7 +38,7 @@ export function OrderTable({
               className="field py-3 pl-9 text-xs"
             />
           </div>
-          <p aria-live="polite" className="mb-0 text-[10px] text-olive/55">
+          <p aria-live="polite" className="mb-0 text-[10px] text-olive/80">
             {filtered.length} of {orders.length} loaded orders
           </p>
         </div>
@@ -50,7 +50,7 @@ export function OrderTable({
         tabIndex={0}
       >
         <table className="w-full min-w-[760px] border-collapse text-left text-xs">
-          <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/55 uppercase">
+          <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/80 uppercase">
             <tr>
               <th className="px-5 py-3.5 font-medium">Order</th>
               {showCustomer && <th className="px-4 py-3.5 font-medium">Customer</th>}
@@ -73,7 +73,7 @@ export function OrderTable({
                   >
                     #{order.id.slice(-10)}
                   </Link>
-                  <p className="mt-1.5 mb-0 whitespace-nowrap text-[9px] text-olive/55">
+                  <p className="mt-1.5 mb-0 whitespace-nowrap text-[9px] text-olive/80">
                     {operationDate(order.createdAt)} UTC
                   </p>
                 </td>
@@ -110,7 +110,7 @@ export function OrderTable({
         {filtered.length === 0 && (
           <div className="px-6 py-14 text-center">
             <p className="mb-2 text-sm">No orders to show.</p>
-            <p className="mb-0 text-xs leading-6 text-olive/60">
+            <p className="mb-0 text-xs leading-6 text-olive/80">
               {query
                 ? "Try another reference or email in these loaded results."
                 : "Orders will appear here after a customer starts a test checkout."}

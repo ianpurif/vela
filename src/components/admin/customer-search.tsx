@@ -40,7 +40,7 @@ export function CustomerSearch({ query }: { query: string }) {
           placeholder="Start of a name or email address"
           className="field text-xs"
         />
-        <p className="mt-2 mb-0 text-[10px] text-olive/55">
+        <p className="mt-2 mb-0 text-[10px] text-olive/80">
           Search is case-insensitive and matches the beginning of a name or email.
         </p>
       </div>

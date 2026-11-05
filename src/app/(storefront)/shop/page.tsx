@@ -62,7 +62,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
           <div className="border-y border-olive/15 px-5 py-20 text-center">
             <p className="eyebrow mb-4">A fresh start</p>
             <h2 className="mb-4 text-5xl">No essentials found.</h2>
-            <p className="mb-7 text-sm text-olive/70">
+            <p className="mb-7 text-sm text-olive/80">
               Try a different ingredient or give your filters a little room.
             </p>
             <Button asChild>

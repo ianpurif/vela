@@ -54,7 +54,7 @@ export function CatalogFilterBar({
               "-mb-px border-b-2 py-4 text-[11px] tracking-[.06em] transition-colors",
               filters.category === category.id
                 ? "border-olive text-olive"
-                : "border-transparent text-olive/65 hover:border-olive/30 hover:text-olive",
+                : "border-transparent text-olive/80 hover:border-olive/30 hover:text-olive",
             )}
           >
             {category.name}
@@ -146,7 +146,7 @@ export function CatalogFilterBar({
           In stock only
         </label>
       </form>
-      <div className="mt-6 flex min-h-6 items-center justify-between gap-4 text-xs text-olive/65">
+      <div className="mt-6 flex min-h-6 items-center justify-between gap-4 text-xs text-olive/80">
         <p className="mb-0" aria-live="polite" aria-atomic="true">
           {pending
             ? "Finding your essentials…"

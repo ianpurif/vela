@@ -8,7 +8,7 @@ export function EmptyCart({ onNavigate }: { onNavigate?: () => void }) {
       <ShoppingBag size={35} strokeWidth={1} className="mb-8 text-sage" />
       <p className="eyebrow mb-4">A little space for self-care</p>
       <h2 className="mb-4 text-5xl">Your ritual starts here.</h2>
-      <p className="mb-8 max-w-xs text-xs leading-7 text-olive/70">
+      <p className="mb-8 max-w-xs text-xs leading-7 text-olive/80">
         Your bag is waiting for something good. Discover a few everyday essentials.
       </p>
       <Button asChild>

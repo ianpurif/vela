@@ -83,7 +83,7 @@ export function OrderFilters({
         </Link>
       )}
       {pending && (
-        <p role="status" className="mb-0 py-3 text-[10px] text-olive/55">
+        <p role="status" className="mb-0 py-3 text-[10px] text-olive/80">
           Loading orders…
         </p>
       )}

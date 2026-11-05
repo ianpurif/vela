@@ -19,7 +19,7 @@ export function FulfillmentProgress({ status }: { status: FulfillmentStatus }) {
           <li
             key={step.status}
             aria-current={index === current ? "step" : undefined}
-            className={`border-t-2 pt-4 text-xs ${index <= current ? "border-olive text-olive" : "border-olive/15 text-olive/70"}`}
+            className={`border-t-2 pt-4 text-xs ${index <= current ? "border-olive text-olive" : "border-olive/15 text-olive/80"}`}
           >
             <span className="mb-3 flex items-center gap-2">
               {index < current ? (

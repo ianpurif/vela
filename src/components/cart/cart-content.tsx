@@ -15,7 +15,7 @@ export function CartContent({ products }: { products: Product[] }) {
   const cart = resolveCart(items, products);
   if (!ready)
     return (
-      <div className="min-h-80 py-20 text-center text-xs text-olive/60" role="status">
+      <div className="min-h-80 py-20 text-center text-xs text-olive/80" role="status">
         Opening your bag…
       </div>
     );
@@ -23,7 +23,7 @@ export function CartContent({ products }: { products: Product[] }) {
   return (
     <div className="grid items-start gap-10 lg:grid-cols-[1fr_370px] lg:gap-16">
       <div>
-        <div className="flex justify-between border-b border-olive/20 pb-4 text-[10px] tracking-[.15em] text-olive/65 uppercase">
+        <div className="flex justify-between border-b border-olive/20 pb-4 text-[10px] tracking-[.15em] text-olive/80 uppercase">
           <span>Your essentials</span>
           <span>
             {cart.count} {cart.count === 1 ? "item" : "items"}
@@ -45,7 +45,7 @@ export function CartContent({ products }: { products: Product[] }) {
           <dt className="text-olive/75">Subtotal</dt>
           <dd className="m-0 text-right">{money(cart.subtotal)}</dd>
           <dt className="text-olive/75">US shipping</dt>
-          <dd className="m-0 text-right text-olive/60">
+          <dd className="m-0 text-right text-olive/80">
             {cart.shipping ? money(cart.shipping) : "Complimentary"}
           </dd>
         </dl>
@@ -70,11 +70,11 @@ export function CartContent({ products }: { products: Product[] }) {
             </Link>
           </Button>
         )}
-        <p className="mt-5 mb-0 flex items-center justify-center gap-2 text-[10px] text-olive/65">
+        <p className="mt-5 mb-0 flex items-center justify-center gap-2 text-[10px] text-olive/80">
           <LockKeyhole size={12} />
           Secure Stripe test checkout
         </p>
-        <p className="mt-6 mb-0 text-[10px] leading-5 text-olive/60">
+        <p className="mt-6 mb-0 text-[10px] leading-5 text-olive/80">
           Prices and availability are confirmed when you check out. Your bag doesn’t reserve stock.
         </p>
       </aside>

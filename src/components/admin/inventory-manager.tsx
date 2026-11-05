@@ -58,15 +58,15 @@ function AdjustmentForm({
     <form onSubmit={handleSubmit(submit)} noValidate className="mt-6 space-y-5">
       <dl className="grid grid-cols-3 gap-3 border-y border-olive/15 py-5 text-center">
         <div>
-          <dt className="mb-2 text-[9px] text-olive/55">On hand</dt>
+          <dt className="mb-2 text-[9px] text-olive/80">On hand</dt>
           <dd className="m-0 text-xl tabular-nums">{product.stock}</dd>
         </div>
         <div>
-          <dt className="mb-2 text-[9px] text-olive/55">Reserved</dt>
+          <dt className="mb-2 text-[9px] text-olive/80">Reserved</dt>
           <dd className="m-0 text-xl tabular-nums">{product.reserved}</dd>
         </div>
         <div>
-          <dt className="mb-2 text-[9px] text-olive/55">After adjustment</dt>
+          <dt className="mb-2 text-[9px] text-olive/80">After adjustment</dt>
           <dd className="m-0 text-xl tabular-nums">{projected}</dd>
         </div>
       </dl>
@@ -83,7 +83,7 @@ function AdjustmentForm({
           aria-describedby="inventory-delta-help"
           {...register("delta", { valueAsNumber: true })}
         />
-        <p id="inventory-delta-help" className="mt-2 mb-0 text-[10px] leading-5 text-olive/65">
+        <p id="inventory-delta-help" className="mt-2 mb-0 text-[10px] leading-5 text-olive/80">
           Use a positive number for received stock, or a negative number for removed stock.
         </p>
         {errors.delta && (
@@ -124,7 +124,7 @@ function AdjustmentForm({
       >
         {isSubmitting ? "Applying…" : "Apply stock adjustment"}
       </Button>
-      <p className="mb-0 text-[10px] leading-5 text-olive/55">
+      <p className="mb-0 text-[10px] leading-5 text-olive/80">
         This adjustment is recorded in the inventory history.
       </p>
     </form>
@@ -158,7 +158,7 @@ export function InventoryManager({
             <label htmlFor="inventory-search" className="sr-only">
               Search inventory
             </label>
-            <Search size={15} className="absolute left-3 top-3.5 text-olive/50" />
+            <Search size={15} className="absolute left-3 top-3.5 text-olive/80" />
             <input
               id="inventory-search"
               type="search"
@@ -178,9 +178,14 @@ export function InventoryManager({
             Low stock only
           </label>
         </div>
-        <div className="relative overflow-x-auto" role="region" aria-label="Inventory stock" tabIndex={0}>
+        <div
+          className="relative overflow-x-auto"
+          role="region"
+          aria-label="Inventory stock"
+          tabIndex={0}
+        >
           <table className="w-full min-w-[650px] border-collapse text-left text-xs">
-            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/55 uppercase">
+            <thead className="border-b border-olive/10 bg-sand/15 text-[9px] tracking-wider text-olive/80 uppercase">
               <tr>
                 <th className="px-5 py-3.5 font-medium">Product</th>
                 <th className="px-4 py-3.5 font-medium">Status</th>
@@ -200,7 +205,7 @@ export function InventoryManager({
                     <ProductStatus status={product.status} />
                   </td>
                   <td className="px-4 py-5 text-right tabular-nums">{product.stock}</td>
-                  <td className="px-4 py-5 text-right tabular-nums text-olive/55">
+                  <td className="px-4 py-5 text-right tabular-nums text-olive/80">
                     {product.reserved}
                   </td>
                   <td
@@ -223,7 +228,7 @@ export function InventoryManager({
             </tbody>
           </table>
           {filtered.length === 0 && (
-            <p className="mb-0 py-14 text-center text-xs text-olive/60">
+            <p className="mb-0 py-14 text-center text-xs text-olive/80">
               No inventory matches these filters.
             </p>
           )}
@@ -232,7 +237,7 @@ export function InventoryManager({
       <section className="mt-8 min-w-0 border border-olive/10 bg-ivory">
         <div className="border-b border-olive/10 px-5 py-5">
           <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">Inventory history</h2>
-          <p className="mb-0 text-[10px] text-olive/55">
+          <p className="mb-0 text-[10px] text-olive/80">
             Recent adjustments with their recorded reasons. Times shown in UTC.
           </p>
         </div>
@@ -244,7 +249,7 @@ export function InventoryManager({
             tabIndex={0}
           >
             <table className="w-full min-w-[650px] border-collapse text-left text-xs">
-              <thead className="border-b border-olive/10 text-[9px] tracking-wider text-olive/55 uppercase">
+              <thead className="border-b border-olive/10 text-[9px] tracking-wider text-olive/80 uppercase">
                 <tr>
                   <th className="px-5 py-3 font-medium">When</th>
                   <th className="px-4 py-3 font-medium">Product</th>
@@ -256,7 +261,7 @@ export function InventoryManager({
               <tbody className="divide-y divide-olive/10">
                 {history.map((entry) => (
                   <tr key={entry.id}>
-                    <td className="whitespace-nowrap px-5 py-4 text-[10px] text-olive/65">
+                    <td className="whitespace-nowrap px-5 py-4 text-[10px] text-olive/80">
                       {new Intl.DateTimeFormat("en-US", {
                         dateStyle: "medium",
                         timeStyle: "short",
@@ -276,7 +281,7 @@ export function InventoryManager({
                     <td className="whitespace-nowrap px-4 py-4 text-right tabular-nums">
                       {String(entry.details.before ?? "—")} → {String(entry.details.after ?? "—")}
                     </td>
-                    <td className="px-5 py-4 text-olive/65">
+                    <td className="px-5 py-4 text-olive/80">
                       {String(entry.details.reason ?? "—")}
                     </td>
                   </tr>
@@ -285,7 +290,7 @@ export function InventoryManager({
             </table>
           </div>
         ) : (
-          <p className="mb-0 px-5 py-10 text-xs text-olive/60">
+          <p className="mb-0 px-5 py-10 text-xs text-olive/80">
             No inventory adjustments have been recorded.
           </p>
         )}
@@ -302,7 +307,7 @@ export function InventoryManager({
             <Dialog.Title className="mb-2 pr-7 font-sans text-xl font-medium">
               Adjust inventory
             </Dialog.Title>
-            <Dialog.Description className="mb-0 text-xs leading-6 text-olive/65">
+            <Dialog.Description className="mb-0 text-xs leading-6 text-olive/80">
               {selected?.name}
             </Dialog.Description>
             <Dialog.Close asChild>

@@ -34,7 +34,7 @@ export function PaymentBadge({ status }: { status: PaymentStatus }) {
             ? "bg-champagne/25 text-[#775a32]"
             : status === "failed"
               ? "bg-[#8c4b32]/10 text-[#8c4b32]"
-              : "bg-olive/5 text-olive/60",
+              : "bg-olive/5 text-olive/80",
       )}
     >
       {status === "paid" && <Check size={10} />}
@@ -44,7 +44,7 @@ export function PaymentBadge({ status }: { status: PaymentStatus }) {
 }
 export function FulfillmentBadge({ status }: { status: FulfillmentStatus }) {
   return (
-    <span className="inline-flex rounded-full border border-olive/15 px-2.5 py-1 text-[9px] text-olive/65">
+    <span className="inline-flex rounded-full border border-olive/15 px-2.5 py-1 text-[9px] text-olive/80">
       {fulfillmentLabels[status]}
     </span>
   );

@@ -52,7 +52,7 @@ export function CartLines({
                     {money(product.price * quantity)}
                   </span>
                 </div>
-                <p className="mb-4 text-[10px] text-olive/65">
+                <p className="mb-4 text-[10px] text-olive/80">
                   {product.size} <span className="mx-2">·</span> {money(product.price)} each
                 </p>
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -67,7 +67,7 @@ export function CartLines({
                     type="button"
                     onClick={() => remove(productId)}
                     aria-label={`Remove ${product.name} from bag`}
-                    className="py-2 text-[10px] text-olive/65 underline underline-offset-4 hover:text-olive"
+                    className="py-2 text-[10px] text-olive/80 underline underline-offset-4 hover:text-olive"
                   >
                     Remove
                   </button>
@@ -85,7 +85,7 @@ export function CartLines({
             <div className="flex flex-1 items-center justify-between gap-5">
               <div>
                 <p className="mb-2 font-display text-2xl">An essential is unavailable.</p>
-                <p className="mb-0 text-xs text-olive/65">Please remove it before continuing.</p>
+                <p className="mb-0 text-xs text-olive/80">Please remove it before continuing.</p>
               </div>
               <button
                 type="button"

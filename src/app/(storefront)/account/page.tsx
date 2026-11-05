@@ -24,7 +24,7 @@ export default async function AccountPage() {
         <h1 className="mb-4 text-[60px] sm:text-[76px]">
           Hello, <em>{profile.name.split(" ")[0] || "you"}.</em>
         </h1>
-        <p className="mb-0 text-xs leading-7 text-olive/70">
+        <p className="mb-0 text-xs leading-7 text-olive/80">
           A little less to keep track of. A little more time for you.
         </p>
       </div>

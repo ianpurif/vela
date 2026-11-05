@@ -15,11 +15,11 @@ export function AdminPageHeading({
   return (
     <div className="mb-8 flex flex-col justify-between gap-5 border-b border-olive/15 pb-7 sm:flex-row sm:items-end">
       <div>
-        <p className="eyebrow mb-3 text-olive/60">{eyebrow}</p>
+        <p className="eyebrow mb-3 text-olive/80">{eyebrow}</p>
         <h1 className="mb-3 font-sans text-[28px] font-medium leading-tight tracking-[-.04em] sm:text-[34px]">
           {title}
         </h1>
-        <p className="mb-0 max-w-xl text-xs leading-6 text-olive/65">{description}</p>
+        <p className="mb-0 max-w-xl text-xs leading-6 text-olive/80">{description}</p>
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
@@ -35,7 +35,7 @@ export function ProductStatus({ status }: { status: "draft" | "published" | "arc
           ? "bg-sage/15 text-olive"
           : status === "draft"
             ? "bg-champagne/25 text-[#775a32]"
-            : "bg-olive/5 text-olive/60",
+            : "bg-olive/5 text-olive/80",
       )}
     >
       <span

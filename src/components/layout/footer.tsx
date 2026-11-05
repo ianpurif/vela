@@ -17,7 +17,7 @@ export function Footer() {
           </Link>
         </div>
         <div>
-          <h3 className="eyebrow mb-6 text-ivory/55">Discover</h3>
+          <h3 className="eyebrow mb-6 text-ivory/80">Discover</h3>
           <div className="flex flex-col items-start gap-4 text-xs">
             <Link href="/shop">The collection</Link>
             <Link href="/shop?category=cleansers">Cleansers</Link>
@@ -27,7 +27,7 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <h3 className="eyebrow mb-6 text-ivory/55">Here to help</h3>
+          <h3 className="eyebrow mb-6 text-ivory/80">Here to help</h3>
           <div className="flex flex-col items-start gap-4 text-xs">
             <Link href="/contact">Contact us</Link>
             <Link href="/faq">Common questions</Link>
@@ -37,7 +37,7 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <h3 className="eyebrow mb-6 text-ivory/55">A closer look</h3>
+          <h3 className="eyebrow mb-6 text-ivory/80">A closer look</h3>
           <div className="flex flex-col items-start gap-4 text-xs">
             <Link href="/about">Our philosophy</Link>
             <Link href="/routine">The ritual finder</Link>

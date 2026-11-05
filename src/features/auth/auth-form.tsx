@@ -141,7 +141,7 @@ export function AuthForm({
             {!isRegistration && (
               <Link
                 href="/reset-password"
-                className="text-[10px] text-olive/65 underline underline-offset-4"
+                className="text-[10px] text-olive/80 underline underline-offset-4"
               >
                 Forgot password?
               </Link>
@@ -168,7 +168,7 @@ export function AuthForm({
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-olive/60"
+              className="absolute inset-y-0 right-0 flex w-12 items-center justify-center text-olive/80"
             >
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
@@ -179,7 +179,7 @@ export function AuthForm({
             </p>
           ) : (
             isRegistration && (
-              <p id="auth-password-hint" className="mt-2 mb-0 text-[10px] text-olive/65">
+              <p id="auth-password-hint" className="mt-2 mb-0 text-[10px] text-olive/80">
                 At least 8 characters. A longer phrase makes a good password.
               </p>
             )
@@ -224,7 +224,7 @@ export function AuthForm({
           )}
         </Button>
       </form>
-      <div className="my-6 flex items-center gap-4 text-[10px] text-olive/55">
+      <div className="my-6 flex items-center gap-4 text-[10px] text-olive/80">
         <span className="h-px flex-1 bg-olive/15" />
         or
         <span className="h-px flex-1 bg-olive/15" />
@@ -245,7 +245,7 @@ export function AuthForm({
         )}
         Continue with Google
       </Button>
-      <p className="mt-7 mb-0 text-center text-xs text-olive/70">
+      <p className="mt-7 mb-0 text-center text-xs text-olive/80">
         {isRegistration ? "Already have a ritual?" : "New to VELA?"}{" "}
         <Link
           href={`${isRegistration ? "/sign-in" : "/register"}?returnTo=${encodeURIComponent(destination)}`}
@@ -255,7 +255,7 @@ export function AuthForm({
         </Link>
       </p>
       {isRegistration && (
-        <p className="mt-6 mb-0 text-center text-[10px] leading-5 text-olive/60">
+        <p className="mt-6 mb-0 text-center text-[10px] leading-5 text-olive/80">
           By creating an account, you agree to our{" "}
           <Link href="/terms" className="underline underline-offset-2">
             Terms

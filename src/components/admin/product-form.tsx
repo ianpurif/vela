@@ -112,7 +112,7 @@ function Field({
         </p>
       )}
       {hint && !error && (
-        <p id={`product-${name}-hint`} className="mt-2 mb-0 text-[10px] leading-5 text-olive/55">
+        <p id={`product-${name}-hint`} className="mt-2 mb-0 text-[10px] leading-5 text-olive/80">
           {hint}
         </p>
       )}
@@ -364,7 +364,7 @@ export function ProductForm({
                 <option value="published">Published</option>
                 <option value="archived">Archived</option>
               </select>
-              <p className="mt-2 mb-0 text-[10px] leading-5 text-olive/55">
+              <p className="mt-2 mb-0 text-[10px] leading-5 text-olive/80">
                 Only published products appear in the store. Archived products remain in order
                 records.
               </p>
@@ -411,7 +411,7 @@ export function ProductForm({
                 className="field text-xs"
                 {...register("rank", { valueAsNumber: true })}
               />
-              <p className="mt-2 mb-0 text-[10px] text-olive/55">
+              <p className="mt-2 mb-0 text-[10px] text-olive/80">
                 Lower numbers appear first within the edit.
               </p>
               {errors.rank && (
@@ -430,11 +430,11 @@ export function ProductForm({
             {product ? (
               <>
                 <dl className="mb-4 grid grid-cols-2 gap-y-3 text-xs">
-                  <dt className="text-olive/60">On hand</dt>
+                  <dt className="text-olive/80">On hand</dt>
                   <dd className="m-0 text-right tabular-nums">{product.stock}</dd>
-                  <dt className="text-olive/60">Reserved</dt>
+                  <dt className="text-olive/80">Reserved</dt>
                   <dd className="m-0 text-right tabular-nums">{product.reserved}</dd>
-                  <dt className="text-olive/60">Available</dt>
+                  <dt className="text-olive/80">Available</dt>
                   <dd className="m-0 text-right tabular-nums">
                     {product.stock - product.reserved}
                   </dd>
@@ -444,7 +444,7 @@ export function ProductForm({
                 </Link>
               </>
             ) : (
-              <p className="mb-0 text-xs leading-6 text-olive/65">
+              <p className="mb-0 text-xs leading-6 text-olive/80">
                 New products start with zero stock. Add inventory after creating this product.
               </p>
             )}
@@ -464,14 +464,14 @@ export function ProductForm({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link
             href="/admin/products"
-            className="inline-flex items-center gap-2 text-xs text-olive/65"
+            className="inline-flex items-center gap-2 text-xs text-olive/80"
           >
             <ArrowLeft size={13} />
             Back to products
           </Link>
           <div className="flex items-center gap-4">
             {isDirty && (
-              <span className="hidden text-[10px] text-olive/55 sm:inline">Unsaved changes</span>
+              <span className="hidden text-[10px] text-olive/80 sm:inline">Unsaved changes</span>
             )}
             <Button type="submit" disabled={isSubmitting || (!!product && !isDirty)}>
               <Save size={14} />

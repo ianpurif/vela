@@ -40,7 +40,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
           <section className="border border-olive/10 bg-ivory">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-olive/10 p-5">
               <h2 className="mb-0 font-sans text-sm font-medium tracking-normal">Order items</h2>
-              <span className="text-[10px] text-olive/55">
+              <span className="text-[10px] text-olive/80">
                 {order.lines.reduce((sum, line) => sum + line.quantity, 0)} items
               </span>
             </div>
@@ -51,7 +51,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
               tabIndex={0}
             >
               <table className="w-full min-w-[500px] border-collapse text-left text-xs">
-                <thead className="border-b border-olive/10 text-[9px] text-olive/55 uppercase">
+                <thead className="border-b border-olive/10 text-[9px] text-olive/80 uppercase">
                   <tr>
                     <th className="px-5 py-3 font-medium">Product</th>
                     <th className="px-4 py-3 text-right font-medium">Unit price</th>
@@ -88,11 +88,11 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
             </div>
             <dl className="ml-auto mb-0 max-w-[310px] space-y-3 px-5 py-6 text-xs">
               <div className="flex justify-between gap-5">
-                <dt className="text-olive/60">Subtotal</dt>
+                <dt className="text-olive/80">Subtotal</dt>
                 <dd className="m-0 tabular-nums">{money(order.subtotal)}</dd>
               </div>
               <div className="flex justify-between gap-5">
-                <dt className="text-olive/60">Shipping</dt>
+                <dt className="text-olive/80">Shipping</dt>
                 <dd className="m-0 tabular-nums">{money(order.shipping)}</dd>
               </div>
               <div className="flex justify-between gap-5 border-t border-olive/15 pt-4 font-semibold">
@@ -133,7 +133,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
                   {address.country}
                 </address>
               ) : (
-                <p className="mb-0 text-xs leading-6 text-olive/60">
+                <p className="mb-0 text-xs leading-6 text-olive/80">
                   A shipping address has not been confirmed for this order.
                 </p>
               )}
@@ -146,7 +146,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
               <h2 className="mb-0 font-sans text-sm font-medium tracking-normal">Payment</h2>
               <PaymentBadge status={order.paymentStatus} />
             </div>
-            <p className="mb-4 text-[11px] leading-6 text-olive/65">
+            <p className="mb-4 text-[11px] leading-6 text-olive/80">
               {order.paymentStatus === "paid"
                 ? "Payment was verified through Stripe. This test order is ready for fulfillment."
                 : order.paymentStatus === "pending"
@@ -154,21 +154,21 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
                   : "This checkout did not complete a verified payment. Fulfillment is unavailable."}
             </p>
             {order.paidAt && (
-              <p className="mb-4 text-[10px] leading-5 text-olive/60">
+              <p className="mb-4 text-[10px] leading-5 text-olive/80">
                 Verified {operationDate(order.paidAt)} UTC
               </p>
             )}
-            <p className="mb-0 border-t border-olive/10 pt-4 text-[9px] tracking-wider text-olive/55 uppercase">
+            <p className="mb-0 border-t border-olive/10 pt-4 text-[9px] tracking-wider text-olive/80 uppercase">
               Stripe test mode
             </p>
           </section>
           <FulfillmentForm key={`${order.id}:${order.paymentStatus}`} order={order} />
           <section className="border border-olive/10 bg-ivory p-6">
             <h2 className="mb-4 font-sans text-sm font-medium tracking-normal">Order reference</h2>
-            <p className="mb-3 break-all font-mono text-[10px] leading-6 text-olive/65">
+            <p className="mb-3 break-all font-mono text-[10px] leading-6 text-olive/80">
               {order.id}
             </p>
-            <p className="mb-0 text-[10px] leading-5 text-olive/55">
+            <p className="mb-0 text-[10px] leading-5 text-olive/80">
               Updated {operationDate(order.updatedAt)} UTC
             </p>
           </section>

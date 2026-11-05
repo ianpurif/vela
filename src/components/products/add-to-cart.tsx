@@ -44,13 +44,7 @@ export function AddToCart({
       </button>
     );
   return (
-    <Button
-      type="button"
-      disabled={!allowed}
-      onClick={handleAdd}
-      className="w-full flex-1"
-      aria-label={`${label}: ${product.name}`}
-    >
+    <Button type="button" disabled={!allowed} onClick={handleAdd} className="w-full flex-1">
       <ShoppingBag size={15} strokeWidth={1.4} />
       {label}
       {allowed && (
@@ -58,6 +52,7 @@ export function AddToCart({
           {money(product.price * quantity)}
         </span>
       )}
+      <span className="sr-only">for {product.name}</span>
     </Button>
   );
 }

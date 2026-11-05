@@ -8,12 +8,13 @@ import { cloudinaryDeliveryUrl } from "@/lib/cloudinary/delivery";
 export function ProductCard({ product, className }: { product: Product; className?: string }) {
   const image = product.images[0];
   const available = product.stock - product.reserved > 0;
+  const badge = !available ? "Currently unavailable" : product.featured ? "The VELA edit" : "";
   return (
     <article className={cn("group min-w-0", className)}>
       <Link
         href={`/products/${product.slug}`}
         className="relative block aspect-[4/5] overflow-hidden bg-sand/55"
-        aria-label={`Discover ${product.name}`}
+        aria-label={`${badge ? `${badge}. ` : ""}A closer look at ${product.name}${!image ? ", VELA" : ""}`}
       >
         {image ? (
           <Image
@@ -44,15 +45,15 @@ export function ProductCard({ product, className }: { product: Product; classNam
       </Link>
       <div className="flex items-start justify-between gap-3 pt-5">
         <div className="min-w-0">
-          <p className="mb-2 text-[9px] tracking-[.16em] text-olive/65 uppercase">
+          <p className="mb-2 text-[9px] tracking-[.16em] text-olive/80 uppercase">
             {product.category.replaceAll("-", " ")} <span className="px-1">/</span> {product.size}
           </p>
           <h3 className="mb-1 font-display text-[26px] leading-tight tracking-[-.02em] sm:text-[30px]">
-            <Link href={`/products/${product.slug}`} className="hover:text-olive/70">
+            <Link href={`/products/${product.slug}`} className="hover:text-olive/80">
               {product.name}
             </Link>
           </h3>
-          <p className="mb-3 text-[11px] leading-relaxed text-olive/70">{product.subtitle}</p>
+          <p className="mb-3 text-[11px] leading-relaxed text-olive/80">{product.subtitle}</p>
           <p className="mb-0 text-xs font-medium">{money(product.price)}</p>
         </div>
         <AddToCart product={product} compact />

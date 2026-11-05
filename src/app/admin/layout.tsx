@@ -27,7 +27,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <LockKeyhole size={30} strokeWidth={1.2} className="mb-6 text-sage" />
         <p className="eyebrow mb-4">Store administration</p>
         <h1 className="mb-5 text-5xl">Administrator access required.</h1>
-        <p className="mb-8 text-sm leading-7 text-olive/70">
+        <p className="mb-8 text-sm leading-7 text-olive/80">
           This area is reserved for VELA store administrators. Your customer account is ready for
           you.
         </p>

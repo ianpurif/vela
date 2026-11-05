@@ -178,7 +178,7 @@ export function ProfileForm({ profile }: { profile: UserProfile }) {
       <section>
         <div className="mb-6 flex items-center justify-between">
           <h2 className="mb-0 text-4xl">Your details.</h2>
-          <span className="eyebrow text-olive/45">01</span>
+          <span className="eyebrow text-olive/80">01</span>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
@@ -209,25 +209,25 @@ export function ProfileForm({ profile }: { profile: UserProfile }) {
               type="email"
               value={profile.email}
               readOnly
-              className="field bg-olive/[.025] text-olive/65"
+              className="field bg-olive/[.025] text-olive/80"
             />
-            <p className="mt-2 mb-0 text-[10px] text-olive/55">Your sign-in email</p>
+            <p className="mt-2 mb-0 text-[10px] text-olive/80">Your sign-in email</p>
           </div>
         </div>
       </section>
       <section className="border-t border-olive/15 pt-8">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="mb-0 text-4xl">A place for your ritual.</h2>
-          <span className="eyebrow text-olive/45">02</span>
+          <span className="eyebrow text-olive/80">02</span>
         </div>
-        <p className="mb-6 text-xs leading-6 text-olive/65">
+        <p className="mb-6 text-xs leading-6 text-olive/80">
           Keep up to five delivery addresses in your account. Availability of delivery is confirmed
           at checkout.
         </p>
         {fields.length === 0 && (
           <div className="mb-6 flex items-center gap-4 border border-dashed border-olive/25 p-6">
             <MapPin size={20} strokeWidth={1.2} className="text-sage" />
-            <p className="mb-0 text-xs text-olive/65">No addresses saved yet.</p>
+            <p className="mb-0 text-xs text-olive/80">No addresses saved yet.</p>
           </div>
         )}
         <div className="space-y-6">
@@ -249,7 +249,7 @@ export function ProfileForm({ profile }: { profile: UserProfile }) {
                   remove(index);
                   setSaved(false);
                 }}
-                className="mt-5 inline-flex items-center gap-2 py-2 text-[10px] text-olive/70 underline underline-offset-4"
+                className="mt-5 inline-flex items-center gap-2 py-2 text-[10px] text-olive/80 underline underline-offset-4"
               >
                 <Trash2 size={12} />
                 Remove address {index + 1}
@@ -299,7 +299,7 @@ export function ProfileForm({ profile }: { profile: UserProfile }) {
             Your details are saved.
           </p>
         )}
-        {isDirty && <p className="mb-0 text-[10px] text-olive/60">You have unsaved changes.</p>}
+        {isDirty && <p className="mb-0 text-[10px] text-olive/80">You have unsaved changes.</p>}
       </div>
     </form>
   );

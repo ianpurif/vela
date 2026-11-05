@@ -56,7 +56,7 @@ export function FulfillmentForm({ order }: { order: Order }) {
         <FulfillmentBadge status={savedOrder.fulfillmentStatus} />
       </div>
       {savedOrder.paymentStatus !== "paid" ? (
-        <p className="mb-0 text-xs leading-6 text-olive/65">
+        <p className="mb-0 text-xs leading-6 text-olive/80">
           Fulfillment becomes available after Stripe confirms payment. This order has not been
           verified as paid.
         </p>
@@ -67,7 +67,7 @@ export function FulfillmentForm({ order }: { order: Order }) {
           aria-label="Update order fulfillment"
           className="space-y-5"
         >
-          <p className="mb-0 text-[11px] leading-6 text-olive/65">
+          <p className="mb-0 text-[11px] leading-6 text-olive/80">
             Move through each step in order. A tracking number is required for shipping and
             delivery; it can be corrected at the current step.
           </p>
@@ -128,7 +128,7 @@ export function FulfillmentForm({ order }: { order: Order }) {
             ) : (
               <p
                 id="tracking-number-hint"
-                className="mt-2 mb-0 text-[10px] leading-5 text-olive/55"
+                className="mt-2 mb-0 text-[10px] leading-5 text-olive/80"
               >
                 Enter the carrier’s tracking reference, up to 100 characters.
               </p>

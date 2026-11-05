@@ -60,9 +60,6 @@
   summary {
     outline-offset: 5px;
   }
-  :focus-visible {
-    outline: 2px solid #343d31;
-  }
   h1,
   h2,
   h3,
@@ -81,6 +78,12 @@
   select {
     border-radius: 0;
   }
+}
+/* A light inner ring and dark outer ring stay visible on either brand surface. */
+:where(a, button, input:not(.sr-only), select, textarea, summary, [tabindex="0"]):focus-visible {
+  outline: 2px solid #343d31;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #f7f3ed;
 }
 .wrap {
   width: min(100% - 96px, 1440px);
@@ -115,7 +118,7 @@
 .field {
   display: block;
   width: 100%;
-  border: 1px solid #343d3133;
+  border: 1px solid var(--field-border, #343d3199);
   background: transparent;
   padding: 14px 16px;
   font: inherit;

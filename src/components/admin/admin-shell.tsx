@@ -101,7 +101,7 @@ export function AdminShell({
         >
           VELA
         </Link>
-        <p className="mb-8 px-4 text-[9px] tracking-[.2em] text-ivory/45 uppercase">
+        <p className="mb-8 px-4 text-[9px] tracking-[.2em] text-ivory/80 uppercase">
           Store administration
         </p>
         <AdminNav />
@@ -178,9 +178,9 @@ export function AdminShell({
                 </Dialog.Content>
               </Dialog.Portal>
             </Dialog.Root>
-            <p className="mb-0 text-xs text-olive/55">
+            <p className="mb-0 text-xs text-olive/80">
               <span className="hidden sm:inline">
-                Store <span className="mx-2 text-olive/30">/</span>
+                Store <span className="mx-2 text-olive/80">/</span>
               </span>
               <span className="font-medium text-olive">{section}</span>
             </p>
@@ -189,14 +189,11 @@ export function AdminShell({
             <span className="rounded-full border border-champagne/70 bg-champagne/15 px-3 py-1.5 text-[9px] tracking-wider uppercase">
               Test store
             </span>
-            <Link
-              href="/account"
-              className="flex items-center gap-2"
-              aria-label="Your administrator account"
-            >
+            <Link href="/account" className="flex items-center gap-2">
+              <span className="sr-only">Your administrator account: </span>
               <div className="hidden max-w-[180px] sm:block">
                 <p className="mb-1 truncate text-[11px] font-medium">{name || "Administrator"}</p>
-                <p className="mb-0 truncate text-[9px] text-olive/55">{email}</p>
+                <p className="mb-0 truncate text-[9px] text-olive/80">{email}</p>
               </div>
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sand/70">
                 <UserRound size={16} strokeWidth={1.4} />

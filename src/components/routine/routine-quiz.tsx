@@ -102,7 +102,7 @@ function QuestionPanel({
                     className={cn(
                       "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center border",
                       question.field === "concerns" ? "rounded-none" : "rounded-full",
-                      selected ? "border-olive bg-olive text-ivory" : "border-olive/30",
+                      selected ? "border-olive bg-olive text-ivory" : "border-olive/60",
                     )}
                     aria-hidden="true"
                   >

@@ -37,7 +37,7 @@ test.describe("local checkout and stored confirmation", () => {
       200,
     );
     await page.goto("/products/first-light-serum");
-    await page.getByRole("button", { name: "Add to bag: First Light Serum", exact: true }).click();
+    await page.getByRole("button", { name: /Add to bag.*First Light Serum/ }).click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.keyboard.press("Escape");
     await page.goto("/checkout");

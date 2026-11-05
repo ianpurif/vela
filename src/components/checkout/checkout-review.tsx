@@ -62,7 +62,7 @@ export function CheckoutReview({
   }
   if (!ready)
     return (
-      <p role="status" className="min-h-64 py-20 text-center text-xs text-olive/60">
+      <p role="status" className="min-h-64 py-20 text-center text-xs text-olive/80">
         Preparing your ritual…
       </p>
     );
@@ -85,11 +85,11 @@ export function CheckoutReview({
           </span>
           <div>
             <h2 className="mb-3 font-display text-4xl">A place for your ritual.</h2>
-            <p className="mb-3 text-xs leading-6 text-olive/70">
+            <p className="mb-3 text-xs leading-6 text-olive/80">
               You’re signed in as <strong className="font-medium text-olive">{email}</strong>.
             </p>
             {emailVerified ? (
-              <p className="mb-0 inline-flex items-center gap-2 text-[10px] text-olive/65">
+              <p className="mb-0 inline-flex items-center gap-2 text-[10px] text-olive/80">
                 <Check size={13} className="text-sage" />
                 Email verified
               </p>
@@ -111,11 +111,11 @@ export function CheckoutReview({
           </span>
           <div>
             <h2 className="mb-3 font-display text-4xl">One thoughtful last step.</h2>
-            <p className="mb-5 max-w-lg text-xs leading-7 text-olive/70">
+            <p className="mb-5 max-w-lg text-xs leading-7 text-olive/80">
               Review your essentials. We’ll confirm current prices and reserve available stock
               before you continue to Stripe.
             </p>
-            <ul className="m-0 list-none space-y-3 p-0 text-[11px] text-olive/65">
+            <ul className="m-0 list-none space-y-3 p-0 text-[11px] text-olive/80">
               <li className="flex items-center gap-3">
                 <LockKeyhole size={14} strokeWidth={1.4} />
                 Card details stay with Stripe.
@@ -155,7 +155,7 @@ export function CheckoutReview({
                 <p className="mb-2 font-display text-[23px] leading-tight">
                   {product?.name || "Unavailable essential"}
                 </p>
-                <p className="mb-0 text-[10px] text-olive/65">Quantity {quantity}</p>
+                <p className="mb-0 text-[10px] text-olive/80">Quantity {quantity}</p>
               </div>
               <span className="text-xs tabular-nums">
                 {product ? money(product.price * quantity) : "—"}
@@ -164,9 +164,9 @@ export function CheckoutReview({
           ))}
         </ul>
         <dl className="mt-5 mb-6 grid grid-cols-2 gap-y-4 border-t border-olive/20 pt-6 text-xs">
-          <dt className="text-olive/65">Subtotal</dt>
+          <dt className="text-olive/80">Subtotal</dt>
           <dd className="m-0 text-right">{money(cart.subtotal)}</dd>
-          <dt className="text-olive/65">US shipping</dt>
+          <dt className="text-olive/80">US shipping</dt>
           <dd className="m-0 text-right">
             {cart.shipping ? money(cart.shipping) : "Complimentary"}
           </dd>
@@ -225,7 +225,7 @@ export function CheckoutReview({
             )}
           </Button>
         )}
-        <p className="mt-5 mb-0 text-center text-[9px] leading-5 text-olive/55">
+        <p className="mt-5 mb-0 text-center text-[9px] leading-5 text-olive/80">
           By continuing, you agree to our{" "}
           <Link href="/terms" className="underline underline-offset-2">
             Terms

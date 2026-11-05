@@ -38,19 +38,19 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           <h2 className="mb-5 font-sans text-sm font-medium tracking-normal">Account details</h2>
           <dl className="mb-0 space-y-5 text-xs">
             <div>
-              <dt className="mb-2 text-[10px] text-olive/55">Name</dt>
+              <dt className="mb-2 text-[10px] text-olive/80">Name</dt>
               <dd className="m-0">{profile.name}</dd>
             </div>
             <div>
-              <dt className="mb-2 text-[10px] text-olive/55">Email</dt>
+              <dt className="mb-2 text-[10px] text-olive/80">Email</dt>
               <dd className="m-0 break-all">{profile.email}</dd>
             </div>
             <div>
-              <dt className="mb-2 text-[10px] text-olive/55">Joined (UTC)</dt>
+              <dt className="mb-2 text-[10px] text-olive/80">Joined (UTC)</dt>
               <dd className="m-0 text-[11px]">{operationDate(profile.createdAt)}</dd>
             </div>
             <div>
-              <dt className="mb-2 text-[10px] text-olive/55">Profile updated (UTC)</dt>
+              <dt className="mb-2 text-[10px] text-olive/80">Profile updated (UTC)</dt>
               <dd className="m-0 text-[11px]">{operationDate(profile.updatedAt)}</dd>
             </div>
           </dl>
@@ -61,7 +61,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             <div className="grid gap-4 sm:grid-cols-2">
               {profile.addresses.map((address, index) => (
                 <div key={address.id} className="border border-olive/15 p-4">
-                  <p className="mb-3 text-[9px] tracking-wider text-olive/50 uppercase">
+                  <p className="mb-3 text-[9px] tracking-wider text-olive/80 uppercase">
                     Address {index + 1}
                   </p>
                   <address className="text-xs not-italic leading-7 text-olive/75">
@@ -83,7 +83,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
               ))}
             </div>
           ) : (
-            <p className="mb-0 text-xs leading-6 text-olive/60">
+            <p className="mb-0 text-xs leading-6 text-olive/80">
               This customer hasn’t saved any addresses.
             </p>
           )}
@@ -92,7 +92,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
       <section className="min-w-0 border border-olive/10 bg-ivory">
         <div className="border-b border-olive/10 px-5 py-5">
           <h2 className="mb-2 font-sans text-sm font-medium tracking-normal">Customer orders</h2>
-          <p className="mb-0 text-[10px] text-olive/55">
+          <p className="mb-0 text-[10px] text-olive/80">
             Recent orders recorded for this customer. Payment and fulfillment remain separate.
           </p>
         </div>
