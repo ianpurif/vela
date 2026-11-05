@@ -69,6 +69,21 @@ export function api(handler: (request: Request) => Promise<Response>) {
           { error: "Please check the supplied information.", fields: z.flattenError(error) },
           { status: 400 },
         );
+      if (
+        error instanceof Error &&
+        "code" in error &&
+        (error.code === 9 || error.code === "FAILED_PRECONDITION") &&
+        /requires an index|index.{0,100}(?:building|not ready)/i.test(error.message)
+      ) {
+        console.error("VELA database index is unavailable:", error.message);
+        return Response.json(
+          {
+            error: "The service is temporarily unavailable. Please try again shortly.",
+            code: "DATABASE_INDEX_NOT_READY",
+          },
+          { status: 503, headers: { "Retry-After": "60" } },
+        );
+      }
       console.error(
         "VELA request failed:",
         error instanceof Error ? error.message : "Unknown error",

@@ -291,7 +291,7 @@ async function reconcileOrder(
 
 export async function reconcileReservations(
   store: CommerceStore = firestoreStore,
-  gateway: PaymentGateway = getPaymentGateway(),
+  gateway?: PaymentGateway,
 ) {
   const reservations = await store.list<InventoryReservation>(
     "inventoryReservations",
@@ -302,11 +302,13 @@ export async function reconcileReservations(
     { orderBy: "reconcileAfter", limit: 50 },
   );
   const result = { inspected: reservations.length, released: 0, awaitingWebhook: 0, errors: 0 };
+  if (!reservations.length) return result;
+  const paymentGateway = gateway ?? getPaymentGateway();
   for (const reservation of reservations) {
     try {
       const order = await store.get<Order>("orders", reservation.orderId);
       if (!order) throw new Error("Reservation order is missing.");
-      const updated = await reconcileOrder(order, store, gateway);
+      const updated = await reconcileOrder(order, store, paymentGateway);
       if (updated.paymentStatus === "expired") result.released++;
       else if (updated.paymentStatus === "pending") result.awaitingWebhook++;
     } catch (error) {
