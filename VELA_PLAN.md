@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **0 — discovery and architecture**. Started 2026-11-05 (Asia/Manila).
+Current phase: **1 — foundation and design system**. Started 2026-11-05 (Asia/Manila).
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Node 22.16, npm 10.9, Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -20,8 +20,8 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 
 | Phase | Dependencies | Objectives / acceptance | State |
 | --- | --- | --- | --- |
-| 0 Discovery | none | Inspect every image, define architecture, create instructions and phase ledger; separate architecture commit | in progress |
-| 1 Foundation | 0 | Compatible stack, design tokens, reusable primitives, responsive navigation/layout/errors; server starts, typecheck/lint | pending |
+| 0 Discovery | none | Inspect every image, define architecture, create instructions and phase ledger; separate architecture commit | complete |
+| 1 Foundation | 0 | Compatible stack, design tokens, reusable primitives, responsive navigation/layout/errors; server starts, typecheck/lint | in progress |
 | 2 Storefront | 1 | Supplied imagery, home/catalog/search/filter/sort/details/cart; catalog and persistence checks, mobile QA | pending |
 | 3 Firebase/auth | 2 | Repository-backed Firestore, secure sessions, registration/Google/reset/verification/profile/addresses, seed/rules/indexes; emulator isolation checks | pending |
 | 4 Admin | 3 | Claim-gated dashboard, product CRUD/categories/inventory, bootstrap CLI/audits; persistence and unauthorized-access checks | pending |
@@ -51,3 +51,7 @@ Commit hashes are recorded after each logical unit in subsequent ledger updates.
 ## Next steps
 
 Finish asset audit and dependency verification, commit discovery, initialize the application, and validate the foundation before catalog work.
+
+- Phase 0: f64af38 architecture/instructions; 43f146c complete image audit and optimized copies (92% smaller). All 20 images decoded and visually reviewed.
+- Package compatibility verified against npm metadata and official documentation; React 19 / Fiber 9, Next 16 / Tailwind 4, Firebase 12 / rules testing 5 fit Node 22.16 and Java 21.
+

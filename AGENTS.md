@@ -10,3 +10,13 @@
 - Use supplied imagery, accessible HTML, responsive layouts, reduced-motion fallbacks, and restrained editorial styling. No invented reviews, certifications, or medical claims.
 - Parallel agents may work on independent, explicitly assigned file scopes. The primary agent owns commits and phase acceptance.
 - Update `VELA_PLAN.md` with evidence and remaining work. External verification is pending until exercised against configured services.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
