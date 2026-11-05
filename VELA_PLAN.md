@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **4 — admin foundation**. Started 2026-11-05 (Asia/Manila).
+Current phase: **5 — Cloudinary media**. Started 2026-11-05 (Asia/Manila).
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Node 22.16, npm 10.9, Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -24,8 +24,8 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 | 1 Foundation | 0 | Compatible stack, design tokens, reusable primitives, responsive navigation/layout/errors; server starts, typecheck/lint | complete |
 | 2 Storefront | 1 | Supplied imagery, home/catalog/search/filter/sort/details/cart; catalog and persistence checks, mobile QA | complete |
 | 3 Firebase/auth | 2 | Repository-backed Firestore, secure sessions, registration/Google/reset/verification/profile/addresses, seed/rules/indexes; emulator isolation checks | complete |
-| 4 Admin | 3 | Claim-gated dashboard, product CRUD/categories/inventory, bootstrap CLI/audits; persistence and unauthorized-access checks | in progress |
-| 5 Media | 4 | Signed Cloudinary uploads/gallery/remove/import; authorization, validation and reference protection tests | pending |
+| 4 Admin | 3 | Claim-gated dashboard, product CRUD/categories/inventory, bootstrap CLI/audits; persistence and unauthorized-access checks | complete |
+| 5 Media | 4 | Signed Cloudinary uploads/gallery/remove/import; authorization, validation and reference protection tests | in progress |
 | 6 Payments | 5 | Persistent cart, authoritative totals, orders/reservations, test-only checkout/webhooks/recovery; concurrency/idempotency/signature tests | pending |
 | 7 Operations | 6 | Customer order history, admin fulfillment/customers/content/analytics; ownership and separate payment state checks | pending |
 | 8 Personalization | 7 | Deterministic quiz/routine-to-cart, support/policy pages, contact/newsletter persistence; functional links/forms | pending |
@@ -61,3 +61,6 @@ Finish asset audit and dependency verification, commit discovery, initialize the
 - Security dependency maintenance: da6f65a targeted transport/tool patches; production npm audit reports zero vulnerabilities. Development-only Firebase CLI and lint transitive advisories remain under review.
 
 - Phase 3: c0973f8 Firebase rules/indexes/emulators/bootstrap; e7182de Firestore repositories and secure sessions. Seed created 11 catalog/content docs without overwriting existing data. All 17 emulator rules tests, seven configuration/security unit tests, one API session/ownership browser test, and four desktop/mobile account journeys passed. Auth forms include Google/reset/verification; external Google and delivered email remain pending credentials. Security review fixes: bounded request streaming, configuration checks before Admin cache, invalid-slug 404.
+
+- Phase 4: d6c0902 audited catalog/category/inventory services and atomic test adapter. Sixteen focused mutation/transaction tests passed, plus emulator API create/publish/archive and role checks. Desktop and mobile admin edit/stock workflows passed. Fixed a hidden table label escaping its scroll container on mobile; action cells now remain visible with larger tap areas. Typecheck/lint clean.
+- Additional auth validation: e7b7980 exercises actual emulator verification/reset codes and Google popup sign-in; all three scenarios passed. 7c59364 fixes CSS layer precedence and removes global smooth scrolling.
