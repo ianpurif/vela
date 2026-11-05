@@ -5,6 +5,15 @@
 Current phase: **11 complete locally — implementation and finalization finished**. Phases 0–11 completed across 2026-11-05–06 (Asia/Manila). Credential-dependent external verification remains pending and is explicitly listed below.
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Initial runtime was Node 22.16/npm 10.9; the host later changed to Node 24.22.2/npm 11.19.1 and checks continue to pass. Java 21 and Git are available; Blender is not on PATH.
 
+## Production runtime hotfix — 2026-11-06
+
+- Production target: `https://velaglow.vercel.app`, Firebase project `vela-essentials`. The user configured real environment values and an external cron-job.org GET every five minutes with bearer authentication. That scheduler, its secret, route authorization, environment files and security rules are unchanged.
+- Reproduced `firebase-admin@14.5.0` → `jwks-rsa@4.1.0` → `jose@6.2.15` failing at import with `ERR_REQUIRE_ESM` when `require(ESM)` is disabled. Exact scoped override to `jose@5.10.0` resolves CommonJS loading while preserving the Admin/JWKS versions and the separate development jose 6 consumer. No bundling change is needed.
+- Code and regression tests are in commit `442f92f`, which was committed/pushed during the investigation; existing user history was preserved. The Vercel production overview identifies that Git commit as its ready deployment, and live unauthenticated/incorrect-bearer recovery requests now return 401 instead of crashing during import.
+- Checks passed: 365 unit tests across 17 files (including both new strict CommonJS cases), 24 emulator tests, TypeScript, ESLint, focused formatting, production build, full/production npm audits with zero findings, a fresh production-only npm ci, and 11 desktop/mobile storefront/account/admin browser journeys (one deliberate duplicate skip). The built server runs with `--no-experimental-require-module`; public pages return 200 and local cron checks return 401/401/200 for missing/wrong/correct credentials. Both affected deployment traces contain CommonJS jose files and no jose webapi files. Evidence is in ignored `.local/firebase-runtime-smoke.json`.
+- Live follow-up exposed independent Firestore initialization gaps: zero deployed composite indexes and missing homepage settings/promotions. The existing seed script created 12 missing catalog/content records in the intended project and preserved all existing records. Actual catalog/recovery queries require the already committed indexes. Creation was denied to the service account (`PERMISSION_DENIED`), and no Firebase CLI operator is signed in. No IAM permissions were changed. The exact operator deployment command is in `docs/INDEXES.md`.
+- Remaining blocker: an authorized Firebase operator must deploy `firestore.indexes.json`, wait for readiness, and repeat the live homepage and authenticated recovery checks. Production HTTP success for those two requests is not yet claimed. Browser automation stopped because its safety check could not reliably determine the current Chrome URL; no further browser actions were taken.
+
 ## Architecture and invariants
 
 - Next.js App Router with storefront, auth, account, admin, and API boundaries. Shared product, profile, cart, order, reservation, and content contracts.
@@ -83,7 +92,7 @@ Git history is the authoritative complete commit list, including acceptance/ledg
 
 ## Known issues / external verification
 
-- No external Firebase, Cloudinary, Stripe or Vercel credentials supplied. Hosted authentication/Google/email delivery, real Cloudinary uploads/deletion, actual Stripe test payments/webhooks and deployment remain unverified. Local Firebase emulators are actually exercised.
+- Initial release verification used emulators without external credentials. The user subsequently configured `.env`/Vercel and deployed the site; the runtime hotfix status above supersedes the earlier deployment status. Hosted authentication/Google/email delivery, real Cloudinary media operations and Stripe test purchases remain unverified until exercised separately.
 - Supplied labels sometimes differ from catalog names. Accurate HTML names are used; Clear Day Milk uses a neutral illustration because its source photo has unsupported SPF claims.
 - Full and production npm audits are clean. Exact development overrides and their compatibility checks are documented in `docs/DEPENDENCIES.md`.
 - Local release checks are complete. Physical-device performance, field Core Web Vitals and screen-reader narration remain unmeasured; the local desktop probe recorded one long main-thread task, as disclosed in `docs/QUALITY.md`.
@@ -91,4 +100,4 @@ Git history is the authoritative complete commit list, including acceptance/ledg
 
 ## Next steps
 
-For local use, follow `README.md`: start the Firebase emulators, seed `demo-vela`, then run the application. For external verification, configure real Firebase/Cloudinary credentials and Stripe test keys from `.env.example`, deploy Firestore rules/indexes, assign the initial administrator, import product media, exercise actual test Checkout/webhooks/recovery, and deploy to Vercel with a compatible scheduler. Follow the observed-result checklist in `docs/DEPLOYMENT.md`; keep each external status pending until the corresponding check is actually performed.
+Deploy the committed Firestore indexes as an authorized operator to unblock the remaining production requests; preserve cron-job.org and its existing bearer secret. Then follow the hosted acceptance checklist in `docs/DEPLOYMENT.md`. For local use, follow `README.md`; `.env.local` remains the explicit emulator configuration and takes precedence over `.env` in Next.js. Keep each external verification status pending until actually observed.

@@ -1,6 +1,6 @@
 # Environment and deployment runbook
 
-Local implementation and emulator verification are complete. The steps below require the developer's own accounts and credentials; they have **not** been executed against external services. Keep Stripe in sandbox/test mode throughout.
+Local implementation and emulator verification are complete. The production target is `https://velaglow.vercel.app`, using Firebase project `vela-essentials`. The 2026-11-06 runtime hotfix is deployed, and missing catalog/content records have been seeded. Hosted composite indexes still need deployment by an authorized operator; see [INDEXES.md](INDEXES.md). Other provider acceptance checks below remain pending unless explicitly recorded. Keep Stripe in sandbox/test mode throughout.
 
 ## 1. Choose an environment
 
@@ -87,25 +87,13 @@ Publish the reviewed repository to the intended Git remote, then import it into 
 
 Add the real values from `.env.example` to the intended Vercel environment, keeping the emulator flag false and all emulator hosts absent. `NEXT_PUBLIC_APP_URL` must be the actual stable HTTPS origin where that environment will be used. Configure preview environments with their own matching origin and test data/services; an unrelated preview URL will fail the application's same-origin checks. Add the deployed hostname to Firebase's authorized domains. Redeploy after environment changes.
 
-Configure reservation recovery **at least every five minutes**. Generate a random `CRON_SECRET` of at least 32 characters without whitespace, store it securely, and set it in Vercel. An example local generation command is:
+Production reservation recovery uses the existing **cron-job.org** job every **five minutes**:
 
-```powershell
-node -e "process.stdout.write(require('node:crypto').randomBytes(32).toString('hex'))"
-```
+- Method: `GET`
+- URL: `https://velaglow.vercel.app/api/cron/reservations`
+- Header: `Authorization: Bearer <CRON_SECRET>`, using the existing secret configured in Vercel and `.env`.
 
-For a Vercel plan supporting that frequency, add this root `vercel.json` and deploy:
-
-```json
-{
-  "crons": [
-    { "path": "/api/cron/reservations", "schedule": "*/5 * * * *" }
-  ]
-}
-```
-
-Vercel supplies `Authorization: Bearer <CRON_SECRET>` automatically. Secret changes take effect on a new deployment; inspect the first invocation's status afterward. [Vercel cron management](https://vercel.com/docs/cron-jobs/manage-cron-jobs).
-
-Vercel Hobby currently permits only daily cron execution, which does not meet this recovery interval; more frequent expressions fail deployment. Use a supporting plan or an external scheduler that sends an authenticated **GET** to `https://YOUR_DOMAIN/api/cron/reservations` every five minutes with that bearer header. Keep the scheduler secret out of URLs and repositories. The repository does not enable a schedule before a compatible scheduler is selected. [Current Vercel frequency limits](https://vercel.com/docs/cron-jobs/usage-and-pricing).
+Preserve that job and secret. The endpoint remains a Node.js route with constant-time bearer verification; missing or incorrect credentials return 401. No Vercel Cron schedule or `vercel.json` cron entry is required. Keep the secret out of URLs, logs and repositories. After index deployment, confirm an authenticated 200 response and check the cron-job.org execution history. The HTTP handler was exercised directly; the scheduler's own account/history has not been inspected.
 
 Recovery has a 60-second route duration and processes up to 50 due reservations per call. Monitor the response and function logs for errors/backlog. Administrators can manually invoke recovery in the orders workspace. Provider uncertainty intentionally retains holds; correct configuration or replay a missing signed event instead of manually reducing reserved stock. Confirm the hosted webhook and scheduler are reachable through the deployment's access controls.
 
@@ -120,8 +108,8 @@ Record actual results for the configured environment before claiming these integ
 | Administrator | Verified bootstrap claim, unauthorized denial, catalog/stock/content changes, correct customer isolation | Local browser-tested; external pending |
 | Cloudinary | Signed upload, gallery persistence, replacement/reorder, responsive image delivery, reference-safe deletion/retry | Fixture-tested; provider pending |
 | Stripe test mode | VELA-created success/decline/cancel/expiry, signed webhook delivery/replay, one stock deduction, owned order history | SDK signature/service tests passed; provider pending |
-| Recovery scheduler | Correct bearer authentication, successful scheduled logs, verified expired holds released, uncertain outcomes retained | Service tests passed; hosted scheduler pending |
-| Vercel | Successful build, exact-origin account/admin/checkout journeys, webhook reachability, cron logs, no browser secrets | Not deployed |
+| Recovery scheduler | Correct bearer authentication, successful scheduled logs, verified expired holds released, uncertain outcomes retained | cron-job.org preserved; live invalid bearer 401 verified; authenticated recovery awaiting indexes |
+| Vercel | Successful build, exact-origin account/admin/checkout journeys, webhook reachability, cron logs, no browser secrets | Hotfix deployed at velaglow.vercel.app; full hosted acceptance pending |
 | Devices/accessibility | Real desktop/mobile scrolling, keyboard and screen-reader navigation, representative performance | Chromium/axe checked; hardware and field checks pending |
 
 Newsletter signups are stored as pending and contact messages appear in the administrator support inbox. No outbound marketing or support-email delivery service is implemented. The policies and catalog describe a fictional test store. [QUALITY.md](QUALITY.md) contains the executed local checks and known measurement limits.

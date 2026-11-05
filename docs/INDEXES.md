@@ -2,7 +2,16 @@
 
 Reviewed on 2026-11-06 against every Firestore collection query in `src/server/repositories`, `src/server/services`, and `scripts`. All eight composite index shapes used by current application reads are present in `firestore.indexes.json`. Its ten definitions contain no duplicates; no correction was required. `firebase.json` points to this file, and `fieldOverrides` remains empty.
 
-This is a source/configuration review. No hosted index was deployed or observed building. The [Firestore emulator does not enforce compound index requirements](https://firebase.google.com/docs/emulator-suite/connect_firestore#indexes), so passing emulator tests does not verify hosted index availability.
+The initial review covered source/configuration only. During the 2026-11-06 production hotfix, `vela-essentials` was inspected and had **zero hosted composite indexes**. Its actual published-catalog (`status`, `rank`) and recovery (`status`, `reconcileAfter`) queries returned `FAILED_PRECONDITION` requiring indexes. The [Firestore emulator does not enforce compound index requirements](https://firebase.google.com/docs/emulator-suite/connect_firestore#indexes), so passing emulator tests does not verify hosted index availability.
+
+Creating the checked-in definitions with the configured application service account returned `PERMISSION_DENIED`; no index was created. The local Firebase CLI has no authorized operator account. An operator with existing index-management permission must run:
+
+```powershell
+npx firebase login
+npx firebase deploy --only firestore:indexes --project vela-essentials
+```
+
+Wait until all ten definitions are ready, then verify the homepage and the cron-job.org authenticated recovery request. The application service account does not need broader runtime permissions merely to deploy indexes; use an authorized operator. Existing environment values, security rules and scheduler configuration were not changed. The existing seed utility created 12 missing catalog/content records without overwriting existing documents.
 
 ## Ordering and cursors
 

@@ -8,6 +8,18 @@ Both `npm audit --json` and `npm audit --omit=dev --json` completed successfully
 
 The direct Firebase, Next.js, ESLint, and TypeScript packages retain their existing pinned versions. In particular, the application remains on Firebase client `12.19.0`, Firebase Admin `14.5.0`, Firebase CLI `15.35.0`, Next.js/config `16.4.5`, ESLint `9.39.5`, and TypeScript `5.9.3`. The audit's suggested downgrades to Firebase CLI 13 and Next.js config 15 were not applied.
 
+## Production CommonJS compatibility
+
+The installed `firebase-admin@14.5.0` → `jwks-rsa@4.1.0` → `jose@6.2.15` chain reproduced the deployed `ERR_REQUIRE_ESM` during `require('firebase-admin/auth')` when Node's `require(ESM)` interop was disabled. `jwks-rsa/src/utils.js` synchronously requires jose, while jose 6 provides only ESM. Next.js automatically externalizes Firebase Admin, so a successful build or normal Node 24 startup can conceal this runtime failure. See the [upstream packaging issue](https://github.com/auth0/node-jwks-rsa/issues/507).
+
+The exact override `jwks-rsa@4.1.0` → `jose@5.10.0` supplies jose's [CommonJS export](https://github.com/panva/jose/blob/v5.10.0/package.json). It preserves Firebase Admin and jwks-rsa versions, leaves the Firebase CLI/MCP consumer on jose 6, and requires no application bundling or authentication changes. The lockfile contains the nested production dependency and marks the separate jose 6 installation as development-only. Both npm audits remain clear.
+
+`tests/firebase-runtime.test.ts` starts actual CommonJS child processes with `--no-experimental-require-module`. Both cases failed before the fix and passed afterward: Firebase Auth/Firestore/App Check loading and RSA/EC JWK-to-PEM conversion through Firebase's actual dependency. Generated signatures verify with the converted keys; altered payloads fail verification. The tests make no network requests.
+
+Verification also passed after a fresh `npm ci --omit=dev --ignore-scripts` in an isolated directory. The production build's homepage and reservation-route traces include 83 CommonJS jose files each and no jose webapi files. The built server, started with `require(ESM)` disabled against local Firebase emulators, returned 200 for the homepage/catalog/product, 401 for missing/incorrect cron bearer credentials, and 200 with zero recovery errors for the correct local test credential. No real provider credentials or environment files were changed.
+
+Run the regression with `npx vitest run tests/firebase-runtime.test.ts`. When updating jwks-rsa, verify the upstream loading fix before removing the override; retain the strict CommonJS test even if the default Node runtime loads ESM through `require()` successfully.
+
 ## Targeted development overrides
 
 Firebase CLI `15.35.0` and typescript-eslint `8.72.1` were already the latest published versions when checked. Their dependency ranges did not include all security fixes, so the following exact, limited overrides are used. These cross transitive major versions; compatibility was checked against the APIs their actual parents call.
