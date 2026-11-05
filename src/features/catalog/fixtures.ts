@@ -1,4 +1,5 @@
 import type { Category, Product, ProductImage, SiteContent } from "@/types/commerce";
+import { initialHomeContent } from "@/features/content/home";
 
 const image = (name: string, alt: string, width = 1254, height = 1254): ProductImage => ({
   src: `/images/${name}.webp`,
@@ -234,15 +235,7 @@ export const demoProducts: Product[] = [
   },
 ];
 export const defaultContent: SiteContent = {
+  ...initialHomeContent,
   id: "home",
-  announcement: "A little care, delivered. Complimentary US shipping on orders $75+",
-  heroEyebrow: "Considered skincare. Everyday rituals.",
-  heroTitle: "Good skin.",
-  heroItalic: "A softer pace.",
-  heroDescription:
-    "Thoughtfully made essentials. Beautifully simple rituals. A moment to come back to yourself.",
-  promotionTitle: "Your skin. Your rhythm.",
-  promotionText: "A few thoughtful questions. A ritual that feels like you.",
-  featuredCategory: "",
   updatedAt: 1793836800000,
 };

@@ -2,7 +2,8 @@ import { parseArgs } from "node:util";
 import { deleteApp } from "firebase-admin/app";
 import type { DocumentData, Firestore } from "firebase-admin/firestore";
 import type { Auth, UserRecord } from "firebase-admin/auth";
-import { demoCategories, demoProducts, defaultContent } from "../src/features/catalog/fixtures";
+import { demoCategories, demoProducts } from "../src/features/catalog/fixtures";
+import { initialHomeContent, resolveHomeContent } from "../src/features/content/home";
 import { getScriptAdmin } from "./firebase-script-admin";
 
 /** create() and the preceding read share a transaction, preserving concurrent edits. */
@@ -12,6 +13,48 @@ async function createMissing(db: Firestore, path: string, data: DocumentData) {
     if ((await transaction.get(ref)).exists) return false;
     transaction.create(ref, data);
     return true;
+  });
+}
+
+/** Repair only absent editorial fields; preserve edits and reject invalid existing values. */
+async function initializeHomeContent(db: Firestore) {
+  return db.runTransaction(async (transaction) => {
+    const settingsRef = db.doc("settings/home");
+    const promotionRef = db.doc("promotions/home");
+    const [settingsSnapshot, promotionSnapshot] = await transaction.getAll(
+      settingsRef,
+      promotionRef,
+    );
+    const previousSettings = settingsSnapshot.data() ?? {};
+    const previousPromotion = promotionSnapshot.data() ?? {};
+    const { promotionTitle, promotionText, ...fields } = initialHomeContent;
+    const settingsDefaults = { id: "home", ...fields };
+    const promotionDefaults = {
+      id: "home",
+      title: previousSettings.promotionTitle ?? promotionTitle,
+      text: previousSettings.promotionText ?? promotionText,
+    };
+    const settingsMissing =
+      previousSettings.updatedAt === undefined ||
+      Object.keys(settingsDefaults).some((key) => previousSettings[key] === undefined);
+    const promotionMissing =
+      previousPromotion.updatedAt === undefined ||
+      Object.keys(promotionDefaults).some((key) => previousPromotion[key] === undefined);
+    const now = Date.now();
+    const settings = {
+      ...settingsDefaults,
+      ...previousSettings,
+      updatedAt: settingsMissing ? now : previousSettings.updatedAt,
+    };
+    const promotion = {
+      ...promotionDefaults,
+      ...previousPromotion,
+      updatedAt: promotionMissing ? now : previousPromotion.updatedAt,
+    };
+    resolveHomeContent(settings, promotion);
+    if (settingsMissing) transaction.set(settingsRef, settings, { merge: true });
+    if (promotionMissing) transaction.set(promotionRef, promotion, { merge: true });
+    return Number(settingsMissing) + Number(promotionMissing);
   });
 }
 
@@ -46,7 +89,10 @@ async function seedProfile(db: Firestore, user: UserRecord, now: number) {
 
 async function main() {
   const { values } = parseArgs({
-    options: { project: { type: "string" } },
+    options: {
+      project: { type: "string" },
+      "content-only": { type: "boolean", default: false },
+    },
     strict: true,
     allowPositionals: false,
   });
@@ -54,7 +100,7 @@ async function main() {
   try {
     const now = Date.now();
     let created = 0;
-    for (const product of demoProducts) {
+    for (const product of values["content-only"] ? [] : demoProducts) {
       if (
         await createMissing(db, `products/${product.id}`, {
           ...product,
@@ -64,31 +110,12 @@ async function main() {
       )
         created += 1;
     }
-    for (const category of demoCategories) {
+    for (const category of values["content-only"] ? [] : demoCategories) {
       if (await createMissing(db, `categories/${category.id}`, category)) created += 1;
     }
-    const { promotionTitle, promotionText, ...homeSettings } = defaultContent;
-    if (await createMissing(db, "settings/home", { ...homeSettings, updatedAt: now })) {
-      created += 1;
-    }
-    const existingSettings = (await db.doc("settings/home").get()).data();
-    if (
-      await createMissing(db, "promotions/home", {
-        id: "home",
-        title:
-          typeof existingSettings?.promotionTitle === "string"
-            ? existingSettings.promotionTitle
-            : promotionTitle,
-        text:
-          typeof existingSettings?.promotionText === "string"
-            ? existingSettings.promotionText
-            : promotionText,
-        updatedAt: now,
-      })
-    )
-      created += 1;
+    created += await initializeHomeContent(db);
 
-    if (emulator) {
+    if (emulator && !values["content-only"]) {
       // This branch is reachable only after strict host/project/VERCEL validation.
       const customer = await createEmulatorUser(
         auth,
@@ -113,7 +140,9 @@ async function main() {
       await seedProfile(db, admin.user, now);
       console.info("Local fixture accounts are available; see docs/FIREBASE.md.");
     }
-    console.info(`Seeded ${created} missing catalog/content documents in ${projectId}.`);
+    console.info(
+      `Initialized ${created} missing or incomplete catalog/content documents in ${projectId}.`,
+    );
     console.info("Existing products, categories, content, profiles, and passwords were preserved.");
   } finally {
     await deleteApp(app);

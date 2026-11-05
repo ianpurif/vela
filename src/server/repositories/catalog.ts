@@ -1,7 +1,8 @@
 import "server-only";
 import { demoCategories, demoProducts, defaultContent } from "@/features/catalog/fixtures";
-import type { Category, HomepagePromotion, Product, SiteContent } from "@/types/commerce";
+import type { Category, Product, SiteContent } from "@/types/commerce";
 import { AppError } from "@/lib/errors";
+import { resolveHomeContent } from "@/features/content/home";
 import { firestoreStore } from "./firestore-store";
 import { slugSchema } from "@/lib/validation/commerce";
 import type { CommerceStore } from "./store";
@@ -9,23 +10,18 @@ import type { CommerceStore } from "./store";
 /** Public homepage projection; promotion documents themselves remain server-only. */
 export async function readHomeContent(store: CommerceStore = firestoreStore): Promise<SiteContent> {
   const [settings, promotion] = await Promise.all([
-    store.get<
-      Omit<SiteContent, "promotionTitle" | "promotionText"> &
-        Partial<Pick<SiteContent, "promotionTitle" | "promotionText">>
-    >("settings", "home"),
-    store.get<HomepagePromotion>("promotions", "home"),
+    store.get<unknown>("settings", "home"),
+    store.get<unknown>("promotions", "home"),
   ]);
-  const promotionTitle = promotion?.title ?? settings?.promotionTitle;
-  const promotionText = promotion?.text ?? settings?.promotionText;
-  if (!settings || typeof promotionTitle !== "string" || typeof promotionText !== "string") {
-    throw new AppError(503, "Homepage content has not been configured.", "CONTENT_UNAVAILABLE");
+  try {
+    return resolveHomeContent(settings, promotion);
+  } catch {
+    throw new AppError(
+      503,
+      "Homepage content is missing or invalid. Initialize it or save it in administration.",
+      "CONTENT_UNAVAILABLE",
+    );
   }
-  return {
-    ...settings,
-    promotionTitle,
-    promotionText,
-    updatedAt: Math.max(settings.updatedAt, promotion?.updatedAt ?? 0),
-  };
 }
 
 export interface CatalogRepository {

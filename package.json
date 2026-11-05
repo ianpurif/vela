@@ -17,6 +17,7 @@
     "format:check": "prettier --check src",
     "emulators": "firebase emulators:start --project demo-vela --only auth,firestore",
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
+    "content:init": "tsx --env-file=.env scripts/seed.ts --content-only",
     "admin:grant": "tsx --env-file=.env.local scripts/grant-admin.ts"
   },
   "dependencies": {
