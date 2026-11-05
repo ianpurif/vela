@@ -36,6 +36,8 @@ async function seedProfile(db: Firestore, user: UserRecord, now: number) {
     id: user.uid,
     email: user.email ?? "",
     name: user.displayName ?? "",
+    searchEmail: (user.email ?? "").normalize("NFKC").trim().toLowerCase(),
+    searchName: (user.displayName ?? "").normalize("NFKC").trim().toLowerCase(),
     addresses: [],
     createdAt: now,
     updatedAt: now,
@@ -65,9 +67,26 @@ async function main() {
     for (const category of demoCategories) {
       if (await createMissing(db, `categories/${category.id}`, category)) created += 1;
     }
-    if (await createMissing(db, "settings/home", { ...defaultContent, updatedAt: now })) {
+    const { promotionTitle, promotionText, ...homeSettings } = defaultContent;
+    if (await createMissing(db, "settings/home", { ...homeSettings, updatedAt: now })) {
       created += 1;
     }
+    const existingSettings = (await db.doc("settings/home").get()).data();
+    if (
+      await createMissing(db, "promotions/home", {
+        id: "home",
+        title:
+          typeof existingSettings?.promotionTitle === "string"
+            ? existingSettings.promotionTitle
+            : promotionTitle,
+        text:
+          typeof existingSettings?.promotionText === "string"
+            ? existingSettings.promotionText
+            : promotionText,
+        updatedAt: now,
+      })
+    )
+      created += 1;
 
     if (emulator) {
       // This branch is reachable only after strict host/project/VERCEL validation.

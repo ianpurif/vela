@@ -1,9 +1,32 @@
 import "server-only";
 import { demoCategories, demoProducts, defaultContent } from "@/features/catalog/fixtures";
-import type { Category, Product, SiteContent } from "@/types/commerce";
+import type { Category, HomepagePromotion, Product, SiteContent } from "@/types/commerce";
 import { AppError } from "@/lib/errors";
 import { firestoreStore } from "./firestore-store";
 import { slugSchema } from "@/lib/validation/commerce";
+import type { CommerceStore } from "./store";
+
+/** Public homepage projection; promotion documents themselves remain server-only. */
+export async function readHomeContent(store: CommerceStore = firestoreStore): Promise<SiteContent> {
+  const [settings, promotion] = await Promise.all([
+    store.get<
+      Omit<SiteContent, "promotionTitle" | "promotionText"> &
+        Partial<Pick<SiteContent, "promotionTitle" | "promotionText">>
+    >("settings", "home"),
+    store.get<HomepagePromotion>("promotions", "home"),
+  ]);
+  const promotionTitle = promotion?.title ?? settings?.promotionTitle;
+  const promotionText = promotion?.text ?? settings?.promotionText;
+  if (!settings || typeof promotionTitle !== "string" || typeof promotionText !== "string") {
+    throw new AppError(503, "Homepage content has not been configured.", "CONTENT_UNAVAILABLE");
+  }
+  return {
+    ...settings,
+    promotionTitle,
+    promotionText,
+    updatedAt: Math.max(settings.updatedAt, promotion?.updatedAt ?? 0),
+  };
+}
 
 export interface CatalogRepository {
   list(): Promise<Product[]>;
@@ -35,7 +58,7 @@ export function getCatalogRepository(): CatalogRepository {
       categories: () =>
         firestoreStore.list<Category>("categories", [], { orderBy: "rank", limit: 50 }),
       async content() {
-        return (await firestoreStore.get<SiteContent>("settings", "home")) || defaultContent;
+        return readHomeContent();
       },
     };
   throw new AppError(

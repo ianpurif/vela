@@ -48,6 +48,8 @@ export type UserProfile = {
   id: string;
   email: string;
   name: string;
+  searchName?: string;
+  searchEmail?: string;
   addresses: Address[];
   createdAt: number;
   updatedAt: number;
@@ -113,6 +115,7 @@ export type SiteContent = {
   featuredCategory: string;
   updatedAt: number;
 };
+export type HomepagePromotion = { id: "home"; title: string; text: string; updatedAt: number };
 export type MediaAsset = {
   id: string;
   publicId: string;
