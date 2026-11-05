@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  MessageSquare,
   Package,
   ChartNoAxesCombined,
   FilePenLine,
@@ -32,6 +33,7 @@ const links = [
   { href: "/admin/customers", label: "Customers", icon: UsersRound },
   { href: "/admin/content", label: "Content", icon: FilePenLine },
   { href: "/admin/analytics", label: "Analytics", icon: ChartNoAxesCombined },
+  { href: "/admin/support", label: "Support", icon: MessageSquare },
 ];
 
 function AdminNav({ onNavigate }: { onNavigate?: () => void }) {
