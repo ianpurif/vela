@@ -71,6 +71,32 @@ async function main() {
       },
     }));
     checks.push({
+      name: "Firebase Authentication production domain",
+      async run() {
+        const application = new URL(process.env.NEXT_PUBLIC_APP_URL ?? "");
+        const response = await fetch(
+          `https://identitytoolkit.googleapis.com/v1/projects?key=${encodeURIComponent(process.env.NEXT_PUBLIC_FIREBASE_API_KEY!)}`,
+          {
+            headers: { Referer: `${application.origin}/` },
+            signal: AbortSignal.timeout(15000),
+          },
+        );
+        if (!response.ok)
+          throw new Error(`Firebase Auth configuration returned ${response.status}.`);
+        const configuration = (await response.json()) as {
+          projectId?: string;
+          authorizedDomains?: string[];
+        };
+        const appProjectNumber = process.env.NEXT_PUBLIC_FIREBASE_APP_ID?.split(":")[1];
+        if (configuration.projectId !== project && configuration.projectId !== appProjectNumber) {
+          throw new Error("The Firebase web API key belongs to a different project.");
+        }
+        if (!configuration.authorizedDomains?.includes(application.hostname)) {
+          throw new Error(`Authorize ${application.hostname} in Firebase Authentication settings.`);
+        }
+      },
+    });
+    checks.push({
       name: "persisted homepage settings and promotion",
       async run() {
         const [settings, promotion] = await db.getAll(
@@ -134,7 +160,7 @@ async function main() {
       );
     }
     console.info(
-      `Production database ready: ${checks.length} checks passed in ${project}. No data was written.`,
+      `Production runtime ready: ${checks.length} checks passed in ${project}. No data was written.`,
     );
   } finally {
     await deleteApp(app);
