@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, Droplets, Leaf, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/products/product-card";
+import { NewsletterForm } from "@/components/support/newsletter-form";
 import { getCatalogRepository } from "@/server/repositories/catalog";
 
 export default async function Home() {
@@ -218,6 +219,25 @@ export default async function Home() {
         <Link href="/shop" className="text-link mt-6">
           Make it your ritual <ArrowUpRight size={15} />
         </Link>
+      </section>
+      <section className="border-t border-olive/15 bg-sand/35">
+        <div className="wrap grid items-start gap-10 py-16 md:grid-cols-2 md:gap-24 md:py-20">
+          <div>
+            <p className="eyebrow mb-5 text-olive/80">A little letter, now and then</p>
+            <h2 className="section-title mb-6">
+              Stay a little
+              <br />
+              <em>closer.</em>
+            </h2>
+            <p className="max-w-sm text-sm leading-7 text-olive/80">
+              Save your interest in future collection notes and thoughtful everyday rituals.
+              Newsletter delivery is not enabled in this test store.
+            </p>
+          </div>
+          <div className="md:pt-6">
+            <NewsletterForm />
+          </div>
+        </div>
       </section>
     </main>
   );

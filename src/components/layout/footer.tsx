@@ -41,6 +41,7 @@ export function Footer() {
           <div className="flex flex-col items-start gap-4 text-xs">
             <Link href="/about">Our philosophy</Link>
             <Link href="/routine">The ritual finder</Link>
+            <Link href="/newsletter">Newsletter preferences</Link>
             <Link href="/privacy">Privacy policy</Link>
             <Link href="/terms">Terms of use</Link>
           </div>
