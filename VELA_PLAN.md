@@ -2,7 +2,7 @@
 
 ## Current state
 
-Current phase: **11 — Environment configuration and finalization**. Started 2026-11-05 (Asia/Manila); continuing 2026-11-06.
+Current phase: **11 complete locally — implementation and finalization finished**. Phases 0–11 completed across 2026-11-05–06 (Asia/Manila). Credential-dependent external verification remains pending and is explicitly listed below.
 Repository initially contained only 20 supplied PNG images. No application, Git repository, parent AGENTS.md, or credentials were present. Initial runtime was Node 22.16/npm 10.9; the host later changed to Node 24.22.2/npm 11.19.1 and checks continue to pass. Java 21 and Git are available; Blender is not on PATH.
 
 ## Architecture and invariants
@@ -31,7 +31,7 @@ Repository initially contained only 20 supplied PNG images. No application, Git 
 | 8 Personalization | 7 | Deterministic quiz/routine-to-cart, support/policy pages, contact/newsletter persistence; functional links/forms | complete |
 | 9 Cinematic | 8 | GSAP scroll story, lazy R3F/Drei procedural or GLB scene, Motion UI; static/reduced-motion/mobile fallbacks | complete |
 | 10 Quality | 9 | Typecheck/lint/unit/integration/Playwright/rules/webhook/build; accessibility/security/responsive review and fixes | complete locally |
-| 11 Finalization | 10 | Complete env examples, setup/deployment/runbook, final report and clean incremental history; explicitly list external verification gaps | in progress |
+| 11 Finalization | 10 | Complete env examples, setup/deployment/runbook, final report and clean incremental history; explicitly list external verification gaps | complete locally; external configuration pending |
 
 ## Completed tasks and validation
 
@@ -60,6 +60,8 @@ The requested Next.js/Vercel target takes precedence over Sites hosting. Paralle
 
 Phase 10 acceptance: all 363 unit tests, 24 emulator rules/transaction tests, full ESLint/TypeScript/formatting, and the production build passed. Against `next start`, 10 accessibility journeys (72 clean scans) and 30 additional customer/admin/cinematic journeys passed; 10 viewport-specific duplicates were intentionally skipped. A focused navigation-hover check passed after its correction. Strict application origins and malformed UTF-8 handling were repaired; audit findings are zero for both full and production dependencies. All current Firestore query/index shapes were reviewed. Local LCP was 264/136 ms and CLS 0.00258/0 for desktop/mobile; one 447 ms desktop main-thread task remains a target-hardware profiling consideration. Details and measurement limits are recorded in `docs/QUALITY.md`.
 
+Phase 11 acceptance: `.env.example` documents all 21 configuration variables actually read by application/CLI code (18 active external values and three commented local-only hosts), with no missing or unused variables. Placeholder values contain no real credentials; the cron and Stripe placeholders fail their credential guards until replaced. Local and external setup commands, initial admin assignment, import/backfill dry runs, signed test webhooks, Vercel configuration, and compatible five-minute recovery scheduling are documented in `README.md` and `docs/DEPLOYMENT.md`. Independent review corrected Cloudinary API-key visibility wording. Node is pinned to the verified 24.x major so Vercel cannot select an untested newer major from an open-ended engine range. `npm ci --dry-run --ignore-scripts --no-audit` passed; package/lock engine metadata, documentation links, environment coverage, recorded commit references, staged whitespace and ignored credential/build paths were checked. No external account, credential, Git remote or deployment was created. The owned local preview and emulator processes were stopped after validation.
+
 ## Commits grouped by phase
 
 | Phase | Commits |
@@ -74,9 +76,10 @@ Phase 10 acceptance: all 363 unit tests, 24 emulator rules/transaction tests, fu
 | 7 | 2b9a74c owned order pagination; 00e705f operations services; dbf04c9 customer history; c04cb14 admin operations UI; 6706abb development compilation fix |
 | 8 | 6911474 support privacy rules; aae9b8f routine matching/cart; 98f1d4f support persistence; 8aa55a1 quiz UI; 708920b customer care/forms; 240d69c support inbox; ca008cb browser journeys |
 | 9 | df79e7c editorial/navigation motion; b5a325e deterministic poses; d537177 lazy product story/fallbacks; 984c6fd rendering/browser tests |
-| 10 | d2b643b dependency fixes; 73005b7 index review; 0010e0a request/origin security; a5f5b6b SEO/landmarks; 86d8142 accessibility fixes; d6c3790 accessibility tests; ee94cf4 generated declaration hygiene |
+| 10 | d2b643b dependency fixes; 73005b7 index review; 0010e0a request/origin security; a5f5b6b SEO/landmarks; 86d8142 accessibility fixes; d6c3790 accessibility tests; ee94cf4 generated declaration hygiene; 5afede2 release evidence |
+| 11 | 66ca6b2 verified deployment runtime; 3239893 environment/setup/external verification runbook |
 
-Git history is the authoritative complete commit list. Each phase's final commit is recorded by the following ledger update.
+Git history is the authoritative complete commit list, including acceptance/ledger commits. The final ledger update records all preceding implementation and runbook work.
 
 ## Known issues / external verification
 
@@ -84,7 +87,8 @@ Git history is the authoritative complete commit list. Each phase's final commit
 - Supplied labels sometimes differ from catalog names. Accurate HTML names are used; Clear Day Milk uses a neutral illustration because its source photo has unsupported SPF claims.
 - Full and production npm audits are clean. Exact development overrides and their compatibility checks are documented in `docs/DEPENDENCIES.md`.
 - Local release checks are complete. Physical-device performance, field Core Web Vitals and screen-reader narration remain unmeasured; the local desktop probe recorded one long main-thread task, as disclosed in `docs/QUALITY.md`.
+- Newsletter signup/preferences and contact storage work; newsletter sending and outbound support email are not implemented. Signups remain pending and contact messages are reviewed in the administrator inbox.
 
 ## Next steps
 
-Finalize `.env.example`, local setup and Vercel deployment instructions, service verification steps and the final report. Keep real credentials out of Git and preserve the explicit distinction between implemented integrations and externally verified behavior.
+For local use, follow `README.md`: start the Firebase emulators, seed `demo-vela`, then run the application. For external verification, configure real Firebase/Cloudinary credentials and Stripe test keys from `.env.example`, deploy Firestore rules/indexes, assign the initial administrator, import product media, exercise actual test Checkout/webhooks/recovery, and deploy to Vercel with a compatible scheduler. Follow the observed-result checklist in `docs/DEPLOYMENT.md`; keep each external status pending until the corresponding check is actually performed.
