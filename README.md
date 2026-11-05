@@ -2,7 +2,7 @@
 
 **A better ritual for everyday skin.** A fictional luxury skincare store with six products, an editorial storefront, customer accounts, an administrator workspace, and Stripe **test payments only**.
 
-The implementation is complete locally through phases 0–11. Hosted Firebase/Google/email, Cloudinary uploads, Stripe test transactions/webhook delivery, and Vercel deployment still require the developer's credentials and external verification. See [the setup and deployment runbook](docs/DEPLOYMENT.md).
+The implementation is complete through phases 0–11 and deployed at [velaglow.vercel.app](https://velaglow.vercel.app). Production pages, Firestore queries, authenticated recovery, Firebase's production authentication domain, Cloudinary credentials and Stripe test webhook configuration were verified on 2026-11-06. Full email delivery, media upload and purchase acceptance remain separate checks. See [the setup and deployment runbook](docs/DEPLOYMENT.md).
 
 ## Start locally
 
@@ -77,11 +77,20 @@ Remove-Item Env:PLAYWRIGHT_BASE_URL
 
 The browser suites create local fixture records and expect missing external Stripe/Cloudinary configuration. Run them against the isolated emulator setup, then use the runbook's acceptance checks for configured providers. `VELA_E2E_EMULATOR` and `PLAYWRIGHT_BASE_URL` are test controls, not deployment variables.
 
-Final results: **363 unit tests, 24 emulator tests, 40 applicable browser journeys, and 72 clean axe scans**; ten project-specific browser cases intentionally skipped. TypeScript, ESLint, formatting, production build, and both dependency audits passed. [QUALITY.md](docs/QUALITY.md) records evidence and limits, including the observed desktop long task and unmeasured physical-device/field performance.
+Recorded checks: **365 unit tests, 24 emulator tests, 40 applicable browser journeys, and 72 clean axe scans**; ten project-specific browser cases intentionally skipped. The later production audit adds real runtime/API checks plus desktop/mobile page review. TypeScript, ESLint, formatting, production build, and both dependency audits passed. [QUALITY.md](docs/QUALITY.md) distinguishes the executed checks and limits, including the observed local desktop long task and unmeasured physical-device/field performance.
 
 ## Configuration and project guide
 
-[`.env.example`](.env.example) lists every external-service variable and documents optional local emulator settings. Configure Firebase, Google sign-in, Admin credentials, rules/indexes, an initial administrator, Cloudinary, Stripe test webhooks, and Vercel using [DEPLOYMENT.md](docs/DEPLOYMENT.md). No deployment or external provider verification has been performed.
+[`.env.example`](.env.example) lists every external-service variable and documents optional local emulator settings. Production CLI commands use ignored `.env`; local Next.js uses `.env.local` with higher precedence. Keep those environments explicit.
+
+```powershell
+# Read-only checks against the configured production project.
+npm run verify:production -- --project vela-essentials
+# Initialize only missing editorial configuration, preserving existing edits.
+npm run content:init -- --project vela-essentials
+```
+
+Vercel builds automatically run the readiness command before compiling: all declared composite indexes must be usable, persisted homepage content/catalog must validate, and the configured Firebase web app must authorize the deployment hostname. Indexes still building fail the build before an unhealthy release is promoted. The production reservation scheduler is the existing cron-job.org GET every five minutes with its bearer header; no Vercel Cron is configured. See [DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 | Area | Reference |
 | --- | --- |

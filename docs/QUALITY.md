@@ -9,7 +9,7 @@ Verified locally on 2026-11-06 (Asia/Manila), using Node 24.22.2, npm 11.19.1, J
 | TypeScript | Passed, including generated Next.js route declarations |
 | Whole-project ESLint | Passed |
 | Source Prettier check | Passed |
-| Vitest unit/service/UI tests | 363 passed across 16 files |
+| Vitest unit/service/UI tests | 365 passed across 17 files, including the strict CommonJS runtime regression |
 | Firestore emulator rules/transactions | 24 passed across 2 files, rerun after emulator restart |
 | Production build | Passed; all routes compiled and static metadata generated |
 | Production accessibility journeys | 10 passed; 72 page/state axe scans clear |
@@ -21,6 +21,18 @@ Verified locally on 2026-11-06 (Asia/Manila), using Node 24.22.2, npm 11.19.1, J
 The 40 applicable browser journeys cover customer registration, sessions, profile/address persistence, emulator verification/reset/Google popup flows, role and ownership enforcement, administrator catalog/inventory/media/operations, checkout retry and stored-state behavior, contact/newsletter privacy, routine matching, cart persistence, and real rendered cinematic behavior. The ten skips avoid repeating server-only identity/security checks across viewports or running desktop-only 3D cases on mobile; they are not failed or unimplemented journeys.
 
 Payment tests use the official Stripe SDK's generated signatures and controlled provider fixtures. They verify amounts, test-mode enforcement, duplicate/out-of-order events, stock concurrency, cancellation and reservation recovery. They do not prove actual Stripe API or webhook delivery. Media tests similarly exercise authorization, provider-metadata validation and reference protection without claiming a real Cloudinary upload.
+
+## Production stabilization audit — 2026-11-06
+
+The deployed `vela-essentials` database now has all ten declared composite indexes in READY state. Actual catalog/recovery queries and both persisted homepage documents were inspected directly. `npm run verify:production -- --project vela-essentials` passed 13 read-only runtime checks, including index usability, content/catalog validation and Firebase's authorized authentication domain. The Vercel prebuild path was also exercised against real hosted data with CommonJS/ESM interop disabled. A local build, whole-project lint/typecheck/formatting and all 365 existing unit tests passed after the changes; no new test files or mocks were added.
+
+Live HTTP checks covered public, account/admin redirects, metadata and API authorization/validation boundaries. The homepage, shop, product, routine and supporting pages returned 200 without the error boundary. Authenticated reservation recovery returned 200 with `{ inspected: 0, released: 0, awaitingWebhook: 0, errors: 0 }`; missing/incorrect bearer credentials were rejected. Sixteen public pages were loaded in desktop Chromium and six were checked again at a mobile viewport, with no page exceptions, console errors, broken loaded images or horizontal overflow. Unknown product/routes returned 404, unsigned Stripe webhooks returned 400, and cross-origin session requests returned 403. Direct unauthenticated Firestore REST reads returned 200 for published catalog/home settings and 403 for promotions, users, orders, reservations, webhook receipts and audit logs. Evidence is in ignored `.local/production-route-audit.json`, `.local/production-final-http.json` and `.local/production-browser-audit/`.
+
+A real unsupported compound query was used to verify the API's `DATABASE_INDEX_NOT_READY` response: 503 plus `Retry-After: 60`, without leaking the provider's index-creation URL to the caller. The real empty reservation queue was checked without initializing a Stripe gateway; nonempty recovery still requires provider reconciliation and retains existing inventory/payment safeguards. No alternate query/data fallback was introduced.
+
+The audit found and corrected a separate Firebase Auth configuration issue: `velaglow.vercel.app` was absent from the authorized OAuth domains. That exact domain was added, existing domains were preserved, and Email/Password and Google provider enablement were verified. Stripe's test key was accepted and its enabled snapshot webhook matched API version `2026-10-28.endive` plus the four expected Checkout events. Cloudinary's authenticated ping succeeded. These configuration checks do not claim completed purchases, upload/deletion or delivered-email workflows. No customers, orders, support submissions or marketing signups were created in production. Content-only initialization made zero writes because the existing records were complete.
+
+The code fixes were pushed to `main` through `e6a641c`. Vercel reported a successful deployment at [the release dashboard](https://vercel.com/sacredmind2002gmailcoms-projects/velaglow/ESZhDhEvm6Wjzmm3iLMtDyrdP9tf), and the deployed public/recovery/security checks above passed afterward.
 
 ## Local performance observations
 
@@ -55,4 +67,4 @@ Ignored local evidence is available at:
 
 ## Verification still requiring external setup
 
-Hosted Firebase/Google/email behavior and deployed rules/indexes, real Cloudinary uploads/deletions, Stripe test Checkout plus delivered webhooks/recovery, and Vercel deployment/scheduling remain unverified because credentials were not supplied. Newsletter email delivery is intentionally not implemented: signups remain pending and support messages are stored for administrator review. See [the setup runbook](DEPLOYMENT.md) before external verification.
+The production stabilization audit above supersedes the initial credential-free status for deployment, index readiness, content reads, authentication configuration, provider credentials and the recovery endpoint. Full signed-in hosted journeys, delivered verification/reset email, Cloudinary upload/deletion, actual Stripe test purchases/webhook deliveries, and cron-job.org account execution history remain separate acceptance work. Newsletter delivery is intentionally not implemented: signups remain pending and support messages are stored for administrator review. See [the setup runbook](DEPLOYMENT.md).

@@ -35,6 +35,10 @@ Older minimatch 3, 5, and 6 consumers are unchanged. A global minimatch override
 
 The previous production overrides remain in place: `gaxios@7.1.3` → `7.3.1`, `google-gax@5.0.8` → `rimraf@6.1.4`, and Firebase Firestore → `@grpc/grpc-js@1.13.7`. The lockfile review confirmed that no unrelated direct dependency was upgraded during this remediation.
 
+## Build environment loading
+
+The production readiness command also declares `@next/env@16.4.5` directly as a development dependency, matching Next.js exactly. That version was already installed transitively; no additional resolved package or runtime upgrade was introduced. It loads the same environment precedence during Vercel's prebuild check. Both dependency audits remain clear after this change.
+
 ## Accessibility tooling
 
 `@axe-core/playwright` is pinned as a development dependency at `4.14.0`. Its published Node requirement is `>=22.12.0`, its Playwright peer requirement is `playwright-core >=1.0.0`, and its axe engine dependency is `~4.14.0`; the project's declared Node baseline and Playwright `1.64.1` satisfy these ranges.

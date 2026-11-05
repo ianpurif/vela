@@ -11,7 +11,9 @@ npx firebase login
 npx firebase deploy --only firestore:indexes --project vela-essentials
 ```
 
-Wait until all ten definitions are ready, then verify the homepage and the cron-job.org authenticated recovery request. The application service account does not need broader runtime permissions merely to deploy indexes; use an authorized operator. Existing environment values, security rules and scheduler configuration were not changed. The existing seed utility created 12 missing catalog/content records without overwriting existing documents.
+The operator subsequently deployed the definitions. On the latest 2026-11-06 check, all ten indexes reported READY, the real catalog/recovery queries succeeded, and the production homepage and authenticated recovery endpoint returned 200. The earlier permission limitation is resolved operationally without granting broader permissions to the application service account. Existing environment values, security rules and cron-job.org configuration remain unchanged.
+
+`npm run verify:production -- --project vela-essentials` now executes real readiness queries for all declared indexes and validates the stored homepage/catalog and Firebase authentication domain. The same check runs before Vercel builds. An index definition existing in configuration is not enough: its query must succeed after backfill. No scan fallback, alternate data source or fabricated result is used while an index is unavailable. Runtime API index failures return retryable 503 responses.
 
 ## Ordering and cursors
 
@@ -67,6 +69,6 @@ All remaining Firestore reads are document-ID lookups, including product detail,
 - Analytics independently bounds created-order and paid-order windows at 1,000 records each, bounds products at 1,000, and exposes conservative truncation flags when a bound is reached. Reservation reconciliation processes 50 due records per invocation.
 - Default indexing also indexes long non-query content. Exempting large descriptions, support message bodies, or audit detail maps could reduce index storage later; it is not required to make the current queries valid, and no exemptions were changed here.
 
-## Hosted acceptance still required
+## Hosted verification
 
-For a configured hosted project, deploy the checked-in definitions using an explicit project target, wait for their builds to finish, and exercise the mapped queries against that database, including combined order filters and cursor pages. Check that no prior console-only exemptions disabled the automatic indexes listed above. Follow the [Firebase index management instructions](https://firebase.google.com/docs/firestore/query-data/indexing); missing-index errors or Query Explain results from the actual database remain the final verification. No hosted acceptance is claimed by this document.
+For future hosted projects or index changes, deploy the checked-in definitions using an explicit project target, wait for their builds to finish, and run the production verifier. Check that no console-only exemptions disabled the automatic indexes listed above. Follow the [Firebase index management instructions](https://firebase.google.com/docs/firestore/query-data/indexing); actual query success remains the final verification. Current `vela-essentials` readiness is verified above; signed-in customer/admin acceptance remains distinct from index availability.

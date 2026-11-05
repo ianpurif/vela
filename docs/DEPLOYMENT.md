@@ -1,6 +1,6 @@
 # Environment and deployment runbook
 
-Local implementation and emulator verification are complete. The production target is `https://velaglow.vercel.app`, using Firebase project `vela-essentials`. The 2026-11-06 runtime hotfix is deployed, and missing catalog/content records have been seeded. Hosted composite indexes still need deployment by an authorized operator; see [INDEXES.md](INDEXES.md). Other provider acceptance checks below remain pending unless explicitly recorded. Keep Stripe in sandbox/test mode throughout.
+The production target is `https://velaglow.vercel.app`, using Firebase project `vela-essentials`. All ten composite indexes are READY, persisted homepage configuration validates, and live homepage/catalog/recovery checks pass. Firebase Authentication now authorizes the production hostname while preserving its original domains; Email/Password and Google providers are enabled. The scoped CommonJS dependency fix remains in place. Keep Stripe in sandbox/test mode throughout.
 
 ## 1. Choose an environment
 
@@ -8,10 +8,10 @@ For credential-free development, follow [README.md](../README.md) with `.env.emu
 
 ```powershell
 # Fresh configuration only. Preserve any existing local configuration first.
-Copy-Item .env.example .env.local
+Copy-Item .env.example .env
 ```
 
-Replace every placeholder. Keep `.env.local` ignored. Do not add service-account JSON or provider secrets to Git, `public/`, browser code, or `NEXT_PUBLIC_*` variables. The Firebase web configuration and Cloudinary cloud name are intentionally browser-visible. Cloudinary's API key is configured server-side but returned as a public identifier in signed upload fields. Admin credentials, the Cloudinary API secret, Stripe secrets and the cron secret remain server-only.
+Replace every placeholder only for a new installation; preserve the current configured values. Keep `.env` and `.env.local` ignored. Production CLI examples use `.env`, while Next.js gives `.env.local` higher precedence locally. To run the local app against external services, ensure its local override also selects that intended environment. Vercel uses its configured environment settings. Do not add service-account JSON or provider secrets to Git, `public/`, browser code, or `NEXT_PUBLIC_*` variables. The Firebase web configuration and Cloudinary cloud name are intentionally browser-visible. Cloudinary's API key is configured server-side but returned as a public identifier in signed upload fields. Admin credentials, the Cloudinary API secret, Stripe secrets and the cron secret remain server-only.
 
 Use `VELA_DATA_MODE=firebase`, `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=false`, and remove `FIREBASE_AUTH_EMULATOR_HOST`, `FIRESTORE_EMULATOR_HOST`, and `NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_URL` entirely. Ensure old shell variables do not override the file. Set `NEXT_PUBLIC_APP_URL` to the exact origin used in the browser: `http://127.0.0.1:3000` for local testing or the real HTTPS domain externally, with no path/query/fragment. An incorrect origin blocks protected mutations and creates incorrect return URLs.
 
@@ -22,22 +22,24 @@ Restart the server after changing configuration. Rebuild for changes to `NEXT_PU
 1. Create/select the intended Firebase project, register a web application, and create the default Cloud Firestore database in the intended region. Copy all six web config fields into `NEXT_PUBLIC_FIREBASE_*` exactly as shown by Firebase; do not guess the storage bucket suffix.
 2. Enable **Email/Password** and **Google** under Authentication's sign-in providers. Configure the Google support email and authorized domains for the application's local hostname and actual deployed domain. Keep the Firebase-provided `authDomain` unless you have configured a custom authentication domain and its OAuth handler. See [Firebase's Google sign-in setup](https://firebase.google.com/docs/auth/web/google-signin).
 3. Configure verification and password-reset email templates. VELA uses Firebase's email action handler with continuation URLs ending in `/account` and `/sign-in` on the current application origin; authorize those domains. Verify delivered emails rather than assuming emulator actions prove delivery.
-4. Obtain a service account for the same project with permission to use Firebase Auth Admin and Firestore. Set `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY`. The project ID must match the web configuration. In `.env.local`, quote the PEM; actual newlines or escaped `\n` are supported. In Vercel, paste the value without surrounding dotenv quotes.
+4. Obtain a service account for the same project with permission to use Firebase Auth Admin and Firestore. Set `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY`. The project ID must match the web configuration. In `.env`, quote the PEM; actual newlines or escaped `\n` are supported. In Vercel, paste the value without surrounding dotenv quotes.
 
-Authenticate the Firebase CLI as a project operator, then deploy rules/indexes and seed missing catalog/content:
+For a new project, authenticate the Firebase CLI as an operator and deploy rules/indexes. Wait for index builds to finish before verifying runtime readiness:
 
 ```powershell
 npx firebase login
 npx firebase deploy --only "firestore:rules,firestore:indexes" --project YOUR_PROJECT_ID
-npm run seed -- --project YOUR_PROJECT_ID
+npx tsx --env-file=.env scripts/seed.ts --project YOUR_PROJECT_ID
 ```
 
-Always supply `--project`; the repository's default is intentionally `demo-vela`. Wait until indexes report ready. The seed preserves existing data and creates six products, four categories, `settings/home`, and `promotions/home`. It creates no real-project users or test orders. See [FIREBASE.md](FIREBASE.md) and [the index/query review](INDEXES.md).
+Always supply `--project`; `.firebaserc` currently selects `vela-essentials`, while the emulator command explicitly selects isolated `demo-vela`. The full seed is for initial catalog setup and creates missing products/categories as well as editorial configuration. For an existing catalog, use `npm run content:init -- --project YOUR_PROJECT_ID`: it initializes only absent homepage fields/documents, preserves edits, and creates no products, orders or users. Invalid existing values are rejected before either content document is written. See [FIREBASE.md](FIREBASE.md) and [the index/query review](INDEXES.md).
+
+Run `npm run verify:production -- --project YOUR_PROJECT_ID` before release. It performs read-only queries against every declared composite index, validates homepage/catalog records, and checks the Firebase web project's authentication domain. `npm run build` automatically performs these checks on Vercel using Next.js environment precedence. It fails on missing/building indexes or invalid configuration rather than deploying a server that can only fail at runtime. Local builds remain available without hosted credentials; the explicit verification command loads `.env` and requires a matching target project.
 
 Register the intended administrator, verify their email, and inspect their Firebase UID. Grant the server-checked custom claim:
 
 ```powershell
-npm run admin:grant -- --project YOUR_PROJECT_ID --uid FIREBASE_USER_UID
+npx tsx --env-file=.env scripts/grant-admin.ts --project YOUR_PROJECT_ID --uid FIREBASE_USER_UID
 ```
 
 Alternatively pass `--email` instead of `--uid`. The command rejects disabled/unverified users, preserves other claims, revokes existing sessions and writes an audit record. Sign in again and open `/admin`. There is no public role-assignment flow.
@@ -45,9 +47,9 @@ Alternatively pass `--email` instead of `--uid`. The command rejects disabled/un
 For profiles created before indexed customer search was introduced, inspect the backfill before applying it:
 
 ```powershell
-npx tsx --env-file=.env.local scripts/backfill-customer-search.ts --project YOUR_PROJECT_ID
+npx tsx --env-file=.env scripts/backfill-customer-search.ts --project YOUR_PROJECT_ID
 # After reviewing the dry-run count:
-npx tsx --env-file=.env.local scripts/backfill-customer-search.ts --project YOUR_PROJECT_ID --apply
+npx tsx --env-file=.env scripts/backfill-customer-search.ts --project YOUR_PROJECT_ID --apply
 ```
 
 ## 3. Cloudinary media
@@ -57,9 +59,9 @@ Select a Cloudinary product environment. Set `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
 First inspect the local-gallery import:
 
 ```powershell
-npx tsx --env-file=.env.local scripts/import-media.ts --project YOUR_PROJECT_ID
+npx tsx --env-file=.env scripts/import-media.ts --project YOUR_PROJECT_ID
 # After reviewing the listed product/gallery sources:
-npx tsx --env-file=.env.local scripts/import-media.ts --project YOUR_PROJECT_ID --apply
+npx tsx --env-file=.env scripts/import-media.ts --project YOUR_PROJECT_ID --apply
 ```
 
 The first command validates existing local source files without uploading. Apply uploads those assets and transactionally updates current product galleries/reference metadata. Existing cloud images and unrelated product fields are preserved. Originals remain in `images/`. Verify the administrator's upload, multiple-image gallery, reorder, replacement and removal controls, then inspect optimized storefront delivery. Referenced assets must refuse deletion; detached unreferenced assets may be explicitly deleted. See [MEDIA.md](MEDIA.md) for retry and orphan cleanup behavior.
@@ -93,7 +95,7 @@ Production reservation recovery uses the existing **cron-job.org** job every **f
 - URL: `https://velaglow.vercel.app/api/cron/reservations`
 - Header: `Authorization: Bearer <CRON_SECRET>`, using the existing secret configured in Vercel and `.env`.
 
-Preserve that job and secret. The endpoint remains a Node.js route with constant-time bearer verification; missing or incorrect credentials return 401. No Vercel Cron schedule or `vercel.json` cron entry is required. Keep the secret out of URLs, logs and repositories. After index deployment, confirm an authenticated 200 response and check the cron-job.org execution history. The HTTP handler was exercised directly; the scheduler's own account/history has not been inspected.
+Preserve that job and secret. The endpoint remains a Node.js route with constant-time bearer verification; missing or incorrect credentials return 401. No Vercel Cron schedule or `vercel.json` cron entry is required. Keep the secret out of URLs, logs and repositories. The live authenticated route returned 200 with zero recovery errors; the scheduler's own account/history has not been inspected. An empty queue returns zero counts without initializing Stripe; a nonempty queue still requires verified provider reconciliation. An unavailable composite index returns 503 with `DATABASE_INDEX_NOT_READY` and `Retry-After: 60`, never a success response or inventory release.
 
 Recovery has a 60-second route duration and processes up to 50 due reservations per call. Monitor the response and function logs for errors/backlog. Administrators can manually invoke recovery in the orders workspace. Provider uncertainty intentionally retains holds; correct configuration or replay a missing signed event instead of manually reducing reserved stock. Confirm the hosted webhook and scheduler are reachable through the deployment's access controls.
 
@@ -103,13 +105,13 @@ Record actual results for the configured environment before claiming these integ
 
 | Integration | Required observed behavior | Current status |
 | --- | --- | --- |
-| Firebase Auth | Register, delivered verification/reset email, Google popup, fresh session, logout/revocation | Emulator-tested; external pending |
-| Firestore | Seed/catalog persistence; deployed rules deny direct writes/cross-customer reads; all indexed queries succeed | Emulator-tested; deployed rules/indexes pending |
+| Firebase Auth | Register, delivered verification/reset email, Google popup, fresh session, logout/revocation | Production domain and enabled providers verified; full delivered-email/login acceptance pending |
+| Firestore | Seed/catalog persistence; deployed rules deny direct writes/cross-customer reads; all indexed queries succeed | Hosted index/catalog/content reads passed; emulator rule/isolation checks previously passed |
 | Administrator | Verified bootstrap claim, unauthorized denial, catalog/stock/content changes, correct customer isolation | Local browser-tested; external pending |
-| Cloudinary | Signed upload, gallery persistence, replacement/reorder, responsive image delivery, reference-safe deletion/retry | Fixture-tested; provider pending |
-| Stripe test mode | VELA-created success/decline/cancel/expiry, signed webhook delivery/replay, one stock deduction, owned order history | SDK signature/service tests passed; provider pending |
-| Recovery scheduler | Correct bearer authentication, successful scheduled logs, verified expired holds released, uncertain outcomes retained | cron-job.org preserved; live invalid bearer 401 verified; authenticated recovery awaiting indexes |
-| Vercel | Successful build, exact-origin account/admin/checkout journeys, webhook reachability, cron logs, no browser secrets | Hotfix deployed at velaglow.vercel.app; full hosted acceptance pending |
+| Cloudinary | Signed upload, gallery persistence, replacement/reorder, responsive image delivery, reference-safe deletion/retry | Authenticated provider ping passed; uploads/deletions not performed in this audit |
+| Stripe test mode | VELA-created success/decline/cancel/expiry, signed webhook delivery/replay, one stock deduction, owned order history | Test key accepted; enabled snapshot webhook matches SDK API version/four event types; purchases not created in this audit |
+| Recovery scheduler | Correct bearer authentication, successful scheduled logs, verified expired holds released, uncertain outcomes retained | cron-job.org preserved; live bearer 401/200 verified, zero recovery errors |
+| Vercel | Successful build, exact-origin account/admin/checkout journeys, webhook reachability, cron logs, no browser secrets | Public routes, browser runtime and API authorization boundaries verified; full signed-in hosted acceptance remains separate |
 | Devices/accessibility | Real desktop/mobile scrolling, keyboard and screen-reader navigation, representative performance | Chromium/axe checked; hardware and field checks pending |
 
 Newsletter signups are stored as pending and contact messages appear in the administrator support inbox. No outbound marketing or support-email delivery service is implemented. The policies and catalog describe a fictional test store. [QUALITY.md](QUALITY.md) contains the executed local checks and known measurement limits.

@@ -4,7 +4,7 @@ VELA stores products, categories, user profiles, orders, reservations, and opera
 
 ## Local emulators
 
-Use Node 24.x and Java 21. The repository's default Firebase project is the isolated `demo-vela` project. All emulator listeners bind to `127.0.0.1`: Authentication 9099, Firestore 8080, UI 4000, and emulator hub 4400. `singleProjectMode: false` permits the separate `demo-vela-rules` test namespace; it does not expose listeners publicly.
+Use Node 24.x and Java 21. The emulator command explicitly targets isolated `demo-vela`, even though `.firebaserc` now selects production project `vela-essentials`. All emulator listeners bind to `127.0.0.1`: Authentication 9099, Firestore 8080, UI 4000, and emulator hub 4400. `singleProjectMode: false` permits the separate `demo-vela-rules` test namespace; it does not expose listeners publicly.
 
 Copy [`.env.emulator.example`](../.env.emulator.example) to ignored `.env.local` for a fresh local setup, as described in [README.md](../README.md). The CLI scripts require these values:
 
@@ -26,7 +26,7 @@ With matching values in ignored `.env.local`, seed in a second terminal:
 npm run seed -- --project demo-vela
 ```
 
-Seeding creates six products, four categories, `settings/home`, and `promotions/home` (12 catalog/content documents) only if each document does not exist. Each check/create is transactional. Re-running the script preserves edited product descriptions, prices, inventory, categories, and homepage content. Timestamps use server-generated Unix milliseconds, matching the shared domain contract. Seed does not fabricate orders or revenue.
+Full seeding creates six products, four categories, `settings/home`, and `promotions/home` (12 catalog/content documents). Existing product/category documents are never replaced. Editorial initialization fills only absent fields, preserves valid edits, validates both records before writing, and runs in one transaction. Timestamps use server-generated Unix milliseconds, matching the shared domain contract. Seed does not fabricate orders or revenue. On an existing production catalog, use `npm run content:init -- --project vela-essentials` with `.env`; it creates no products, users, orders or other sample data. The latest production run made zero writes because configuration was already complete.
 
 The strict emulator configuration additionally creates these **local-only** users:
 
@@ -55,7 +55,7 @@ The rules suite clears only `demo-vela-rules`, not the application's emulator da
 
 ```powershell
 npx firebase deploy --only "firestore:rules,firestore:indexes" --project YOUR_PROJECT_ID
-npm run seed -- --project YOUR_PROJECT_ID
+npx tsx --env-file=.env scripts/seed.ts --project YOUR_PROJECT_ID
 ```
 
 Allow indexes to finish building before testing queries. The emulator does not enforce all production composite index requirements. The seed command requires its `--project` value to match `FIREBASE_PROJECT_ID` and uses the configured service account. Real-project seeding creates missing catalog/content documents only and no users. Supplied local image paths work immediately; the Cloudinary import utility subsequently migrates product galleries.
@@ -65,9 +65,9 @@ Allow indexes to finish building before testing queries. The emulator does not e
 Register the intended account through Firebase, complete email verification, and inspect its UID/email in the Firebase console. This CLI is the only bootstrap path; there is no public admin registration endpoint:
 
 ```powershell
-npm run admin:grant -- --project YOUR_PROJECT_ID --uid FIREBASE_USER_UID
+npx tsx --env-file=.env scripts/grant-admin.ts --project YOUR_PROJECT_ID --uid FIREBASE_USER_UID
 # Or identify the existing account by email:
-npm run admin:grant -- --project YOUR_PROJECT_ID --email administrator@example.com
+npx tsx --env-file=.env scripts/grant-admin.ts --project YOUR_PROJECT_ID --email administrator@example.com
 ```
 
 Exactly one identifier is required. The CLI checks the explicit/configured project match, rejects disabled or unverified accounts, preserves other custom claims, assigns `admin: true`, revokes existing refresh/session tokens, and records an audit event. Sign in again after assignment. If the final audit write fails after the claim succeeds, inspect the account and rerun the command to record the action; the grant is idempotent.
