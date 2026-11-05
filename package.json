@@ -53,6 +53,7 @@
     "zustand": "5.0.16"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@firebase/rules-unit-testing": "5.0.2",
     "@playwright/test": "1.64.1",
     "@testing-library/dom": "10.4.2",
@@ -80,6 +81,16 @@
     },
     "@firebase/firestore": {
       "@grpc/grpc-js": "1.13.7"
+    },
+    "@google-cloud/pubsub@5.3.1": {
+      "@opentelemetry/core": "2.8.0"
+    },
+    "gaxios@6.7.1": {
+      "uuid": "11.1.1"
+    },
+    "glob@10.5.0": "14.0.3",
+    "@typescript-eslint/typescript-estree@8.72.1": {
+      "minimatch": "11.0.4"
     }
   }
 }
