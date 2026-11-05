@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InformationPage } from "@/components/support/information-page";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/returns" },
   title: "Returns & care",
   description: "Cancellation and support for VELA test orders.",
 };

@@ -6,6 +6,7 @@ import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING } from "@/features/cart/pric
 import { money } from "@/lib/utils";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/faq" },
   title: "Common questions",
   description: "A little clarity on VELA products, routines, accounts, and test orders.",
 };

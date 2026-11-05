@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { getApplicationUrl } from "@/server/application-url";
 import "./globals.css";
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  metadataBase: getApplicationUrl(),
   title: { default: "VELA — A better ritual for everyday skin", template: "%s | VELA" },
   description:
     "Thoughtfully made skincare. Discover a quieter kind of beauty with VELA's considered daily essentials.",

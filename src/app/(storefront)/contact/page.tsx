@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { ContactForm } from "@/components/support/contact-form";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact us",
   description:
     "Questions about the VELA test store? Leave a note or find an answer in customer care.",

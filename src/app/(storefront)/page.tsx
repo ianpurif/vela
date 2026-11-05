@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, Droplets, Leaf, Sun } from "lucide-react";
@@ -7,6 +8,8 @@ import { NewsletterForm } from "@/components/support/newsletter-form";
 import { HomeMotion } from "@/components/animation/home-motion";
 import { ProductStory } from "@/components/animation/product-story";
 import { getCatalogRepository } from "@/server/repositories/catalog";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const repo = getCatalogRepository();
@@ -72,7 +75,7 @@ export default async function Home() {
             src="/images/hero-ritual.webp"
             alt="Warm sunlight, botanical shadows, and a quiet skincare moment"
             fill
-            priority
+            preload
             sizes="(max-width: 768px) 100vw, 60vw"
             className="object-cover object-[62%_center]"
           />

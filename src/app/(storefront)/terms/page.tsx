@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InformationPage } from "@/components/support/information-page";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/terms" },
   title: "Terms of use",
   description: "The scope and limits of the fictional VELA test storefront.",
 };

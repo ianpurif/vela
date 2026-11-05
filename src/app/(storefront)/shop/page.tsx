@@ -9,6 +9,7 @@ import { filterProducts, parseCatalogFilters, type SearchValues } from "@/featur
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/shop" },
   title: "The essentials",
   description:
     "Thoughtful skincare for an everyday ritual. Explore VELA cleansers, serums, creams, oils and essences.",
@@ -25,7 +26,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
   const filters = parseCatalogFilters(values);
   const visible = filterProducts(products, filters);
   return (
-    <>
+    <main id="main">
       <section className="border-b border-olive/10 bg-sand/30">
         <div className="wrap grid gap-8 py-12 md:grid-cols-[1fr_.7fr] md:items-center md:py-16">
           <div>
@@ -78,6 +79,6 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
           </Link>
         </div>
       </section>
-    </>
+    </main>
   );
 }

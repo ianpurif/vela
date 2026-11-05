@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function CartPage() {
   const products = await getCatalogRepository().list();
   return (
-    <section className="wrap py-12 pb-20 md:py-16 md:pb-28">
+    <main id="main" className="wrap py-12 pb-20 md:py-16 md:pb-28">
       <div className="mb-10 md:mb-14">
         <p className="eyebrow mb-5">A moment for yourself</p>
         <h1 className="mb-0 text-[64px] sm:text-[84px]">
@@ -20,6 +20,6 @@ export default async function CartPage() {
         </h1>
       </div>
       <CartContent products={products} />
-    </section>
+    </main>
   );
 }

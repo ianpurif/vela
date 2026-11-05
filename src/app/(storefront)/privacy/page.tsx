@@ -3,6 +3,7 @@ import Link from "next/link";
 import { InformationPage } from "@/components/support/information-page";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: "Privacy policy",
   description:
     "What the VELA test store records, where it is used, and how to contact the administrator.",

@@ -5,6 +5,7 @@ import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING } from "@/features/cart/pric
 import { money } from "@/lib/utils";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/shipping" },
   title: "Shipping & delivery",
   description:
     "Understand US address support, shipping totals, and simulated fulfillment in the VELA test store.",

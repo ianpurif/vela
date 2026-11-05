@@ -3,6 +3,7 @@ import { RoutineQuiz } from "@/components/routine/routine-quiz";
 import { getCatalogRepository } from "@/server/repositories/catalog";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/routine" },
   title: "Find your ritual",
   description:
     "Five thoughtful questions. Discover a considered skincare routine from VELA’s current collection, with a reason for every step.",

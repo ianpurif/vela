@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, ChevronDown, Check } from "lucide-react";
@@ -10,17 +11,20 @@ import { money } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 export const dynamic = "force-dynamic";
+const getProduct = cache((slug: string) => getCatalogRepository().getBySlug(slug));
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getCatalogRepository().getBySlug(slug);
+  const product = await getProduct(slug);
   if (!product || product.status !== "published") return { title: "Essential not found" };
   return {
     title: product.name,
+    alternates: { canonical: `/products/${product.slug}` },
     description: product.description,
     openGraph: {
       title: `${product.name} | VELA`,
       description: product.subtitle,
+      url: `/products/${product.slug}`,
       images: product.images[0] ? [{ url: product.images[0].src, alt: product.images[0].alt }] : [],
     },
   };
@@ -29,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const repository = getCatalogRepository();
-  const product = await repository.getBySlug(slug);
+  const product = await getProduct(slug);
   if (!product || product.status !== "published") notFound();
   const allProducts = await repository.list();
   const related = allProducts
@@ -42,7 +46,7 @@ export default async function ProductPage({ params }: Props) {
     )
     .slice(0, 3);
   return (
-    <>
+    <main id="main">
       <section className="wrap pb-16 pt-7 md:pb-24 md:pt-9">
         <Link
           href="/shop"
@@ -150,6 +154,6 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </section>
       )}
-    </>
+    </main>
   );
 }

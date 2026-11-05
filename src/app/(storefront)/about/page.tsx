@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about" },
   title: "Our philosophy",
   description: "A considered collection. A quieter daily ritual. Discover the idea behind VELA.",
 };
